@@ -104,9 +104,7 @@ export class Results implements OnInit {
     },
   };
 
-  public lineData = computed<ChartConfiguration<'line'>['data']>(() =>
-    this.mapResultsToLineData()
-  );
+  public lineData = computed<ChartConfiguration<'line'>['data']>(() => this.mapResultsToLineData());
 
   public ngOnInit(): void {
     const resultId = window.localStorage.getItem('testResultId');
@@ -118,9 +116,7 @@ export class Results implements OnInit {
   }
 
   private mapResultsToLineData(): ChartConfiguration<'line'>['data'] {
-    const labels = this.results().map((r) =>
-      new Date(r.date).toLocaleDateString()
-    );
+    const labels = this.results().map((r) => new Date(r.date).toLocaleDateString());
     const score = this.results().map((r) => r.score);
     const time = this.results().map((r) => r.timeSpent);
 
@@ -177,9 +173,7 @@ export class Results implements OnInit {
     const result = this.results() || [];
 
     const scores = result.map((r) => r.score);
-    const avgScore = Math.round(
-      scores.reduce((a, b) => a + b, 0) / scores.length
-    );
+    const avgScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
     const currentScore = result.at(-1)?.score ?? 0;
     const maxScore = Math.max(0, ...scores);
     const minScore = Math.min(...scores);
