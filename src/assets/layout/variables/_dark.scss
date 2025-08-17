@@ -1,0 +1,10 @@
+:root[class*="app-dark"] {
+  --surface-ground: var(--p-surface-950);
+  --code-background: var(--p-surface-800);
+  --code-color: var(--p-surface-100);
+
+  --fancy-border: hsl(from var(--surface-card) h s l / 1);
+  --fancy-border-top: hsl(from var(--surface-card) h s l / 0.75);
+
+  --fancy-background: hsl(from var(--surface-card) h s l / 0.25);
+}

@@ -1,0 +1,10 @@
+:root {
+  --surface-ground: var(--p-surface-100);
+  --code-background: var(--p-surface-900);
+  --code-color: var(--p-surface-200);
+
+  --fancy-border: hsl(from var(--p-primary-100) h s l / 0.75);
+  --fancy-border-top: hsl(from var(--p-primary-100) h s l / 0.5);
+
+  --fancy-background: hsl(from var(--surface-card) h s l / 0.25);
+}
