@@ -98,8 +98,10 @@ export class Results implements OnInit {
         },
         title: {
           display: true,
-          text: 'Time (sec)',
+          text: 'Time (min)',
         },
+        suggestedMin: 5,
+        suggestedMax: 30,
       },
     },
   };
@@ -118,7 +120,7 @@ export class Results implements OnInit {
   private mapResultsToLineData(): ChartConfiguration<'line'>['data'] {
     const labels = this.results().map((r) => new Date(r.date).toLocaleDateString());
     const score = this.results().map((r) => r.score);
-    const time = this.results().map((r) => r.timeSpent);
+    const time = this.results().map((r) => Math.ceil(r.timeSpent / 60));
 
     return {
       labels: labels,
@@ -130,7 +132,7 @@ export class Results implements OnInit {
           yAxisID: 'y',
         },
         {
-          label: 'Completion Time (sec)',
+          label: 'Completion Time (min)',
           data: time,
           borderColor: 'green',
           yAxisID: 'y1',
@@ -186,7 +188,7 @@ export class Results implements OnInit {
       highest: maxScore,
       lowest: minScore,
       totalTests: result.length,
-      averageTime: Math.ceil(avgTime / 60),
+      averageTime: avgTime,
     };
 
     return stats;
