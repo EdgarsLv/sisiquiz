@@ -1,0 +1,17 @@
+<div class="layout-wrapper layout-overlay magicpattern">
+  <app-header />
+  @if (loader$ | async) {
+  <p-progressbar
+    mode="indeterminate"
+    class="fixed top-[54px] z-50 h-1 w-full"
+  />
+  }
+
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <router-outlet />
+    </div>
+    <app-footer />
+  </div>
+  <div class="layout-mask animate-fadein"></div>
+</div>

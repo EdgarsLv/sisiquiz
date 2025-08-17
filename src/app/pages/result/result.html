@@ -1,0 +1,17 @@
+<div class="section h-svh-adjusted flex justify-center items-center">
+  <div class="fancy flex flex-col text-center sm:p-10! xl:p-20! relative">
+    @if (showShare()) {
+    <p-button
+      [raised]="true"
+      icon="pi pi-share-alt"
+      class="absolute top-0 right-0 p-4"
+      (click)="share()"
+      size="large"
+    />
+    }
+
+    <h3>Score: {{ result()?.score }}</h3>
+    <h3>Time spent: {{ timeSpent() }}min</h3>
+    <h3>Completion date: {{ result()?.date | date : "dd.MM.yyyy" }}</h3>
+  </div>
+</div>

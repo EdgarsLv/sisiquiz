@@ -1,0 +1,7 @@
+.section {
+    margin-inline: 10%;
+
+    @media (max-width: 900px) {
+        margin-inline: 0;
+    }
+}

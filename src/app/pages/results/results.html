@@ -1,0 +1,120 @@
+<div class="section">
+  <div class="fancy flex justify-between items-center">
+    <div>
+      <h4>Your IQ Test results</h4>
+      <p class="text-muted-color font-semibold">{{ user()?.displayName }}</p>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <p-avatar [image]="user()?.photoURL || ''" size="xlarge" />
+    </div>
+  </div>
+
+  @if (resultId()) {
+  <div class="fancy flex justify-between items-center">
+    <h5 class="mb-0!">Show off your result!</h5>
+    <p-button
+      label="Preview & Share"
+      severity="primary"
+      [raised]="true"
+      (onClick)="goToShareScreen()"
+    />
+  </div>
+  }
+
+  <div class="grid lg:grid-cols-6 gap-4 sm:grid-cols-3">
+    <app-stats-widget
+      text="Current score"
+      [score]="stats().currentScore"
+      icon="pi pi-lightbulb"
+    />
+    <app-stats-widget
+      text="Highest score"
+      [score]="stats().highest"
+      twClass="text-amber-500"
+      icon="pi pi-trophy"
+    />
+    <app-stats-widget
+      text="Average score"
+      [score]="stats().average"
+      twClass="text-teal-500"
+      icon="pi pi-chart-bar"
+    />
+    <app-stats-widget
+      text="Lowest score"
+      [score]="stats().lowest"
+      twClass="text-red-500"
+      icon="pi pi-chart-line"
+    />
+    <app-stats-widget
+      text="Tests taken"
+      [score]="stats().totalTests"
+      twClass="text-indigo-500"
+      icon="pi pi-calendar-times"
+    />
+    <app-stats-widget
+      text="Average (min)"
+      [score]="stats().averageTime"
+      twClass="text-purple-500"
+      icon="pi pi-stopwatch"
+    />
+  </div>
+
+  <div class="fancy relative mt-8">
+    <canvas
+      baseChart
+      [data]="lineData()"
+      [options]="lineOptions"
+      [type]="'line'"
+    >
+    </canvas>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="fancy mb-0!">
+      <h4>Score interpretation</h4>
+
+      <div class="flex justify-between mb-1">
+        <span>130+ (Exceptional)</span>
+        <span [style.color]="'purple'">2%</span>
+      </div>
+      <div class="flex justify-between mb-1">
+        <span>115-129 (Above Average)</span>
+        <span [style.color]="'blue'">16%</span>
+      </div>
+      <div class="flex justify-between mb-1">
+        <span>100-114 (Average)</span>
+        <span [style.color]="'green'">50%</span>
+      </div>
+      <div class="flex justify-between mb-1">
+        <span>85-99 (Below Average)</span>
+        <span [style.color]="'orange'">16%</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Below 85 (Low)</span>
+        <span [style.color]="'red'">16%</span>
+      </div>
+    </div>
+
+    <div class="fancy mt-5 md:mt-0">
+      <h4>Your Statistics</h4>
+
+      <div class="flex justify-between mb-2">
+        <span>Current level:</span>
+        <span class="font-bold" [style.color]="getScoreLevel(stats()!.average)">
+          {{ curretLevel() }}
+        </span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <span>Score range:</span>
+        <span class="font-bold"
+          >{{ stats().lowest }} - {{ stats().highest }}</span
+        >
+      </div>
+      <div class="flex justify-between mb-2">
+        <span>Consistency:</span>
+        <span class="font-bold"> {{ consistency() }} </span>
+      </div>
+    </div>
+  </div>
+</div>

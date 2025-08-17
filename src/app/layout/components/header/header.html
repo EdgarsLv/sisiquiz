@@ -1,0 +1,112 @@
+<div class="layout-topbar">
+  <div class="layout-topbar-logo-container">
+    <a class="layout-topbar-logo" routerLink="/">
+      <app-logo [size]="36" />
+
+      <h3 class="font-semibold m-0!">SisiQuiz</h3>
+    </a>
+  </div>
+
+  <div class="flex items-center ml-auto gap-x-2">
+    <!-- <div class="flex font-semibold items-center">
+      @if (!authService.authUser()) {
+      <a
+        pButton
+        size="small"
+        severity="success"
+        [outlined]="true"
+        icon="pi pi-sign-in"
+        routerLink="login"
+        label="Sign In"
+      ></a>
+      }
+    </div> -->
+
+    <p-button
+      (click)="toggleDarkMode()"
+      [outlined]="true"
+      severity="secondary"
+      size="small"
+      [icon]="isDark ? 'pi pi-moon' : 'pi pi-sun'"
+    />
+    <p-popover #op>
+      <div class="flex flex-col w-[12rem]">
+        <a
+          pRipple
+          routerLink="/"
+          class="flex items-center p-3 hover:bg-emphasis cursor-pointer"
+          (click)="close()"
+        >
+          <span class="pi pi-home"></span>
+          <span class="ml-3">Home</span>
+        </a>
+        <div class="border-b border-slate-500 my-2"></div>
+
+        <a
+          pRipple
+          class="flex items-center p-3 hover:bg-emphasis cursor-pointer"
+          routerLink="profile"
+          (click)="close()"
+        >
+          <span class="pi pi-user-edit"></span>
+          <span class="ml-3">Profile</span>
+          @if (!isAuthenticated()) {
+          <span class="ml-auto text-muted-color">
+            <i class="pi pi-lock"></i>
+          </span>
+          }
+        </a>
+
+        <!-- NAVIGATION -->
+        @for (item of items; track $index) {
+        <a
+          pRipple
+          class="flex items-center p-3 hover:bg-emphasis cursor-pointer"
+          [routerLink]="item.link"
+          (click)="close()"
+        >
+          <span [class]="item.icon"></span>
+          <span class="ml-3">{{ item.label }}</span>
+          @if (!isAuthenticatedWithProfile()) {
+          <span class="ml-auto text-muted-color">
+            <i class="pi pi-lock"></i>
+          </span>
+          }
+        </a>
+        }
+
+        <!-- ACTIONS -->
+        @if (authService.authUser()) {
+        <div class="border-t border-slate-500 my-2"></div>
+        <a
+          pRipple
+          class="flex items-center text-red-400 p-3 cursor-pointer"
+          (click)="signOut()"
+          (click)="close()"
+        >
+          <span class="pi pi-sign-out"></span>
+          <span class="ml-3">Sign Out</span>
+        </a>
+        }@else {
+        <div class="border-t border-slate-500 my-2"></div>
+        <a
+          pRipple
+          routerLink="login"
+          class="flex items-center text-green-400 p-3 cursor-pointer"
+          (click)="close()"
+        >
+          <span class="pi pi-sign-in"></span>
+          <span class="ml-2">Sign In</span>
+        </a>
+        }
+      </div>
+    </p-popover>
+
+    <p-button
+      (onClick)="toggle($event)"
+      [outlined]="true"
+      severity="contrast"
+      icon="pi pi-bars"
+    />
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="flex justify-center items-center min-h-svh-adjusted">
+  <div class="fancy md:w-1/2 xl:w-1/3 w-full xl:p-10!">
+    <div class="text-center mb-8">
+      <div class="flex justify-center mb-4">
+        <app-logo [size]="44" />
+      </div>
+      <div
+        class="text-surface-900 dark:text-surface-0 text-3xl font-semibold mb-4"
+      >
+        <h2>Enter your profile information.</h2>
+      </div>
+      <p class="text-muted-color font-medium">
+        Your age and gender will only be used anonymously to generate overall
+        user statistics shown in interactive charts.
+      </p>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="w-full mb-8">
+        <label
+          for="age"
+          class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
+          >Age</label
+        >
+        <p-inputnumber
+          inputId="age"
+          formControlName="age"
+          [showButtons]="true"
+          class="w-full mb-1"
+          [invalid]="isInvalid('age')"
+        />
+        @if (isInvalid('age')) {
+        <p-message severity="error" size="small" variant="simple"
+          >Age must be between 18 to 99</p-message
+        >
+        }
+      </div>
+
+      <div class="flex flex-wrap gap-4 mb-1">
+        <div class="flex items-center gap-2">
+          <p-radiobutton
+            formControlName="gender"
+            name="gender"
+            inputId="male"
+            value="male"
+            [invalid]="isInvalid('gender')"
+          />
+          <label for="male"> Male </label>
+        </div>
+        <div class="flex items-center gap-2">
+          <p-radiobutton
+            formControlName="gender"
+            name="gender"
+            inputId="female"
+            value="female"
+            [invalid]="isInvalid('gender')"
+          />
+          <label for="female"> Female </label>
+        </div>
+      </div>
+
+      @if (isInvalid('gender')) {
+      <p-message severity="error" size="small" variant="simple">
+        Gender must be selected.
+      </p-message>
+      }
+
+      <div class="mt-8">
+        <p-button
+          [disabled]="isSubmiting()"
+          type="submit"
+          label="Save"
+          styleClass="w-full"
+        />
+      </div>
+    </form>
+  </div>
+</div>
