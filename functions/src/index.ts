@@ -1,32 +1,81 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+import { setGlobalOptions } from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
+import * as admin from 'firebase-admin';
+import { generateOgImage } from './utils/generateOgImage';
 
-import {setGlobalOptions} from "firebase-functions";
-import {onRequest} from "firebase-functions/https";
-import * as logger from "firebase-functions/logger";
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
 setGlobalOptions({ maxInstances: 10 });
 
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+admin.initializeApp();
+const db = admin.firestore();
+
+exports.createNewUserDocument = functions
+  .runWith({ maxInstances: 10 })
+  .auth.user()
+  .onCreate(async (user) => {
+    const userRef = db.collection('users').doc(user.uid);
+
+    try {
+      await userRef.set({
+        email: user.email,
+        displayName: user.displayName || null,
+        photoURL: user.photoURL || null,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+      console.log(`User document created for ${user.uid}`);
+    } catch (error) {
+      console.error(`Error creating user document for ${user.uid}:`, error);
+    }
+  });
+
+exports.onTestCompleted = functions
+  .runWith({ maxInstances: 10 })
+  .firestore.document('users/{userId}/testResults/{testId}')
+  .onCreate(async (snapshot, context) => {
+    const { userId, testId } = context.params;
+    const testResultData = snapshot.data();
+
+    const userRef = db.doc(`users/${userId}`);
+    const userSnap = await userRef.get();
+
+    if (!userSnap.exists) return;
+
+    const userData = userSnap.data();
+
+    const statData = {
+      timeSpent: testResultData.timeSpent,
+      score: testResultData.score,
+      date: testResultData.date,
+      age: userData?.age,
+      gender: userData?.gender,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    };
+
+    await db.collection('statistics').doc(testId).set(statData);
+  });
+
+exports.createOgImage = functions
+  .runWith({ memory: '1GB', timeoutSeconds: 60, maxInstances: 10 })
+  .firestore.document('statistics/{id}')
+  .onCreate(async (snapshot, context) => {
+    const resultData = snapshot.data() as any;
+    const resultId = context.params.id;
+
+    if (!resultData || !resultId) return;
+
+    // Generate image
+    const imageBuffer = await generateOgImage(resultData);
+    if (!imageBuffer || !(imageBuffer instanceof Buffer)) {
+      throw new Error('Failed to generate image buffer.');
+    }
+
+    // Upload to Firebase Storage
+    const file = admin.storage().bucket().file(`og-images/${resultId}.png`);
+
+    await file.save(imageBuffer, {
+      contentType: 'image/png',
+      public: true,
+      metadata: {
+        cacheControl: 'public, max-age=31536000',
+      },
+    });
+  });
