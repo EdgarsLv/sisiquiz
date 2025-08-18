@@ -32,9 +32,7 @@ export class Test {
 
   public questions = signal<Questions[]>(questions);
   public currentQuestion = signal<number>(0);
-  public question = computed<Questions>(
-    () => this.questions()[this.currentQuestion()]
-  );
+  public question = computed<Questions>(() => this.questions()[this.currentQuestion()]);
   public questionOptions = computed(() => this.question().options);
   public answers = signal<Record<number, number>>({ 0: 0 });
   public timeLeft = signal<number>(1800);
@@ -104,19 +102,14 @@ export class Test {
         correct++;
         // Weight questions by difficulty
         const points =
-          question.difficulty === 'easy'
-            ? 1
-            : question.difficulty === 'medium'
-            ? 2
-            : 3;
+          question.difficulty === 'easy' ? 1 : question.difficulty === 'medium' ? 2 : 3;
         totalPoints += points;
       }
     });
 
     // Calculate IQ score (scaled to typical IQ range)
     const maxPoints = this.questions().reduce(
-      (sum, q) =>
-        sum + (q.difficulty === 'easy' ? 1 : q.difficulty === 'medium' ? 2 : 3),
+      (sum, q) => sum + (q.difficulty === 'easy' ? 1 : q.difficulty === 'medium' ? 2 : 3),
       0
     );
 
@@ -144,10 +137,10 @@ export class Test {
       date: new Date().toISOString(),
     };
 
-    this.saveTestResult(result);
+    // this.saveTestResult(result);
   }
 
-  private saveTestResult(result: TTestResult): void {
+  public saveTestResult(result: TTestResult): void {
     const userId = this.authService.authUser()!.uid;
     const coleclectionRef = collection(db, `users/${userId}/testResults`);
 
@@ -316,8 +309,7 @@ const questions = [
   {
     id: 17,
     type: 'logic',
-    question:
-      'If some cats are dogs and all dogs are animals, then some cats are definitely:',
+    question: 'If some cats are dogs and all dogs are animals, then some cats are definitely:',
     options: ['Animals', 'Not animals', 'Wild', 'Domestic'],
     correct: 0,
     difficulty: 'medium',

@@ -23,6 +23,7 @@ export type TTestResult = {
   score: number;
   timeSpent: number;
   date: string;
+  id: string;
 };
 
 const defaultStats: TestStats = {
@@ -62,8 +63,9 @@ export class Results implements OnInit {
   public curretLevel = computed(() => this.getCurrentLevel());
   public consistency = computed(() => this.getConsistency());
 
-  public resultId = signal<string | null>(null);
   public results = signal<TTestResult[]>([]);
+
+  public lastResultId = computed(() => this.results().at(-1)?.id || null);
 
   public user = this.authService.authUser;
 
@@ -109,9 +111,6 @@ export class Results implements OnInit {
   public lineData = computed<ChartConfiguration<'line'>['data']>(() => this.mapResultsToLineData());
 
   public ngOnInit(): void {
-    const resultId = window.localStorage.getItem('testResultId');
-    this.resultId.set(resultId);
-
     this.activatedRoute.data.subscribe((data) => {
       this.results.set(data['data'] || []);
     });
@@ -142,7 +141,7 @@ export class Results implements OnInit {
   }
 
   public goToShareScreen(): void {
-    this.router.navigate(['/result', this.resultId()]);
+    this.router.navigate(['/result', this.lastResultId()]);
   }
 
   public timeInMinutes(result: TTestResult): number {

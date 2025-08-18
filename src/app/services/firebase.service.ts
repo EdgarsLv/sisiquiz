@@ -58,7 +58,10 @@ export class FirebaseService {
       const q = orderField ? query(ref, orderBy(orderField, direction)) : ref;
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map((doc) => doc.data());
+      return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
     } finally {
       this.loader.hide();
     }

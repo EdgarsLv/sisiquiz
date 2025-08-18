@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  @if (resultId()) {
+  @if (lastResultId()) {
   <div class="fancy flex justify-between items-center">
     <h5 class="mb-0!">Show off your result!</h5>
     <p-button
@@ -23,11 +23,7 @@
   }
 
   <div class="grid lg:grid-cols-6 gap-4 sm:grid-cols-3">
-    <app-stats-widget
-      text="Current score"
-      [score]="stats().currentScore"
-      icon="pi pi-lightbulb"
-    />
+    <app-stats-widget text="Current score" [score]="stats().currentScore" icon="pi pi-lightbulb" />
     <app-stats-widget
       text="Highest score"
       [score]="stats().highest"
@@ -61,13 +57,7 @@
   </div>
 
   <div class="fancy relative mt-8">
-    <canvas
-      baseChart
-      [data]="lineData()"
-      [options]="lineOptions"
-      [type]="'line'"
-    >
-    </canvas>
+    <canvas baseChart [data]="lineData()" [options]="lineOptions" [type]="'line'"> </canvas>
   </div>
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -107,9 +97,7 @@
       </div>
       <div class="flex justify-between mb-2">
         <span>Score range:</span>
-        <span class="font-bold"
-          >{{ stats().lowest }} - {{ stats().highest }}</span
-        >
+        <span class="font-bold">{{ stats().lowest }} - {{ stats().highest }}</span>
       </div>
       <div class="flex justify-between mb-2">
         <span>Consistency:</span>

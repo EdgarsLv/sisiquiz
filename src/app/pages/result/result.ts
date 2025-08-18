@@ -1,13 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  OnInit,
-  PLATFORM_ID,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -39,10 +31,7 @@ export class Result implements OnInit {
   public paramId = signal<string | null>(null);
 
   public showShare = computed<boolean>(
-    () =>
-      this.resultId() != null &&
-      this.paramId() != null &&
-      this.resultId() === this.paramId()
+    () => this.resultId() != null && this.paramId() != null && this.resultId() === this.paramId()
   );
 
   public ngOnInit(): void {
@@ -88,7 +77,15 @@ export class Result implements OnInit {
     this.meta.updateTag({ name: 'twitter:image', content: this.image() });
   }
 
-  share() {
+  public copyUrl(): void {
+    const shareUrl = window.location.href;
+
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      alert('Link copied to clipboard!');
+    });
+  }
+
+  public shareUrl() {
     const shareUrl = window.location.href;
 
     if (navigator.share) {
