@@ -19,7 +19,9 @@ const provider = new GoogleAuthProvider();
 type UserProfile = {
   age: number;
   gender: 'male' | 'female';
+  testTakenAt?: string;
 };
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,15 +39,13 @@ export class AuthService {
         switchMap((authUser) => {
           if (!authUser) return of(null);
           return from(getDoc(doc(db, 'users', authUser.uid))).pipe(
-            map((docSnap) =>
-              docSnap.exists() ? (docSnap.data() as UserProfile) : null
-            )
+            map((docSnap) => (docSnap.exists() ? (docSnap.data() as UserProfile) : null))
           );
         })
       )
       .subscribe((user) => {
         if (user && user?.age && user?.gender) {
-          this.profile.set({ age: user.age, gender: user.gender });
+          this.profile.set({ age: user.age, gender: user.gender, testTakenAt: user.testTakenAt });
         } else {
           this.profile.set(null);
         }

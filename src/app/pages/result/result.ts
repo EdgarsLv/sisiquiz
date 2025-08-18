@@ -1,5 +1,5 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -23,21 +23,19 @@ export class Result implements OnInit {
   private meta = inject(Meta);
   private title = inject(Title);
   private route = inject(ActivatedRoute);
-  private platformId = inject(PLATFORM_ID);
+  private location = inject(Location);
 
   public timeSpent = computed(() => Math.ceil(this.result()!.timeSpent / 60));
 
-  public resultId = signal<string | null>(null);
-  public paramId = signal<string | null>(null);
-
-  public showShare = computed<boolean>(
-    () => this.resultId() != null && this.paramId() != null && this.resultId() === this.paramId()
-  );
+  private paramId = signal<string | null>(null);
+  public showShare = signal<boolean>(false);
 
   public ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const resultId = window.localStorage.getItem('testResultId');
-      this.resultId.set(resultId);
+    const state = this.location.getState() as { owner?: boolean };
+    if (state?.owner) {
+      this.showShare.set(true);
+    } else {
+      this.showShare.set(false);
     }
 
     const id = this.route.snapshot.paramMap.get('id');

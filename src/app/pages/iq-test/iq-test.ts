@@ -6,7 +6,7 @@ import { interval, Subject, takeUntil, takeWhile, tap } from 'rxjs';
 import { FirebaseService } from '../../services/firebase.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { collection } from 'firebase/firestore';
+import { collection, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 
 type Questions = {
@@ -37,9 +37,7 @@ export class IqTest implements OnInit {
 
   public questions = signal<Questions[]>(questions);
   public currentQuestion = signal<number>(0);
-  public question = computed<Questions>(
-    () => this.questions()[this.currentQuestion()]
-  );
+  public question = computed<Questions>(() => this.questions()[this.currentQuestion()]);
   public questionOptions = computed(() => this.question().options);
   public answers = signal<Record<number, number>>({ 0: 0 });
   public progressValue = computed(() => {
@@ -78,15 +76,23 @@ export class IqTest implements OnInit {
     this.saveTestResult(result);
   }
 
-  private saveTestResult(result: TestResult): void {
-    const userId = this.authService.authUser()!.uid;
-    const coleclectionRef = collection(db, `users/${userId}/testResults`);
+  private async saveTestResult(result: TestResult): Promise<void> {
+    try {
+      const userId = this.authService.authUser()!.uid;
+      const resultRef = doc(collection(db, `users/${userId}/testResults`));
+      const userRef = doc(db, 'users', userId);
 
-    this.firebaseService
-      .add(coleclectionRef, result)
-      .then((resultId) => window.localStorage.setItem('testResultId', resultId))
-      .then(() => this.router.navigate(['/results']))
-      .catch(() => this.isLoading.set(false));
+      const batch = writeBatch(db);
+      batch.set(resultRef, result);
+      batch.update(userRef, { testTakenAt: result.date });
+
+      await this.firebaseService.commitBatch(batch);
+
+      this.router.navigate(['/results']);
+    } catch (err) {
+      console.error('Failed to save test result', err);
+      this.isLoading.set(false);
+    }
   }
 
   private calculateScore(): number {

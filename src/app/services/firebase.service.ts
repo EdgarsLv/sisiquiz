@@ -10,6 +10,7 @@ import {
   query,
   setDoc,
   updateDoc,
+  WriteBatch,
 } from 'firebase/firestore';
 import { getDownloadURL, StorageReference } from 'firebase/storage';
 
@@ -18,6 +19,15 @@ import { getDownloadURL, StorageReference } from 'firebase/storage';
 })
 export class FirebaseService {
   private loader = inject(LoaderService);
+
+  async commitBatch(batch: WriteBatch): Promise<void> {
+    this.loader.show();
+    try {
+      await batch.commit();
+    } finally {
+      this.loader.hide();
+    }
+  }
 
   async get<T>(ref: DocumentReference<T>): Promise<T | undefined> {
     this.loader.show();

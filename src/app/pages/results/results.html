@@ -34,7 +34,7 @@
       text="Average score"
       [score]="stats().average"
       twClass="text-teal-500"
-      icon="pi pi-chart-bar"
+      icon="pi pi-wave-pulse"
     />
     <app-stats-widget
       text="Lowest score"
@@ -56,7 +56,7 @@
     />
   </div>
 
-  <div class="fancy relative mt-8">
+  <div class="fancy relative mt-8 min-h-72">
     <canvas baseChart [data]="lineData()" [options]="lineOptions" [type]="'line'"> </canvas>
   </div>
 

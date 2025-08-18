@@ -78,6 +78,12 @@ export class Results implements OnInit {
     },
     plugins: {
       legend: { align: 'end' },
+      title: {
+        display: true,
+        text: 'Score timeline',
+        align: 'start',
+        font: { size: 21, family: '"Chakra Petch", sans-serif' },
+      },
     },
 
     scales: {
@@ -141,7 +147,7 @@ export class Results implements OnInit {
   }
 
   public goToShareScreen(): void {
-    this.router.navigate(['/result', this.lastResultId()]);
+    this.router.navigate(['/result', this.lastResultId()], { state: { owner: true } });
   }
 
   public timeInMinutes(result: TTestResult): number {
