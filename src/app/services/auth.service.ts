@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   User,
   onAuthStateChanged,
@@ -12,11 +12,11 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
-import { BehaviorSubject, from, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 const provider = new GoogleAuthProvider();
 
-type UserProfile = {
+export type UserProfile = {
   age: number;
   gender: 'male' | 'female';
   testTakenAt?: string;
@@ -33,30 +33,30 @@ export class AuthService {
 
   constructor() {
     auth.useDeviceLanguage();
-
-    this.user$
-      .pipe(
-        switchMap((authUser) => {
-          if (!authUser) return of(null);
-          return from(getDoc(doc(db, 'users', authUser.uid))).pipe(
-            map((docSnap) => (docSnap.exists() ? (docSnap.data() as UserProfile) : null))
-          );
-        })
-      )
-      .subscribe((user) => {
-        if (user && user?.age && user?.gender) {
-          this.profile.set({ age: user.age, gender: user.gender, testTakenAt: user.testTakenAt });
-        } else {
-          this.profile.set(null);
-        }
-      });
   }
 
   initAuth(): Promise<void> {
     return new Promise((resolve) => {
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         this.currentUser.next(user);
         this.authUser.set(user);
+
+        if (user) {
+          const userRef = doc(db, 'users', user.uid);
+          const snapshot = await getDoc(userRef);
+
+          if (snapshot.exists()) {
+            const profile = snapshot.data() as UserProfile;
+            this.profile.set({
+              age: profile.age,
+              gender: profile.gender,
+              testTakenAt: profile?.testTakenAt,
+            });
+          } else {
+            this.profile.set(null);
+          }
+        }
+
         resolve();
       });
     });

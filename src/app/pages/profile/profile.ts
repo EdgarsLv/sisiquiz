@@ -1,10 +1,5 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RadioButton } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -68,6 +63,7 @@ export class Profile {
       const userId = this.authService.authUser()!.uid;
       const age = this.profileForm.controls['age'].value;
       const sex = this.profileForm.controls['gender'].value;
+      const testTakenAt = this.authService.profile()?.testTakenAt;
 
       const userRef = doc(db, 'users', userId);
       await this.firebaseService.update(userRef, {
@@ -77,8 +73,8 @@ export class Profile {
 
       this.profileForm.reset();
       this.formSubmitted = false;
-      this.authService.profile.set({ age, gender: sex });
-      this.router.navigate(['iq-test']);
+      this.authService.profile.set({ age, gender: sex, testTakenAt });
+      this.router.navigate(['/']);
     }
   }
 }

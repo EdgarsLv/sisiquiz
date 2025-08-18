@@ -31,12 +31,9 @@ export class Result implements OnInit {
   public showShare = signal<boolean>(false);
 
   public ngOnInit(): void {
-    const state = this.location.getState() as { owner?: boolean };
-    if (state?.owner) {
-      this.showShare.set(true);
-    } else {
-      this.showShare.set(false);
-    }
+    const browserState = this.location.getState() as { owner?: boolean };
+    const isOwnerView = browserState?.owner === true;
+    this.showShare.set(isOwnerView);
 
     const id = this.route.snapshot.paramMap.get('id');
     this.paramId.set(id);
