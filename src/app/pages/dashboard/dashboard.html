@@ -7,15 +7,13 @@
   </div>
 
   <div class="fancy flex flex-col md:flex-row gap-5">
-    <div class="bg-primary rounded-sm text-white p-4 md:w-[200px] f-full">
+    <div class="bg-primary rounded-sm text-white p-4 md:w-[250px] f-full">
       <p class="text-2xl font-semibold">Choose test</p>
     </div>
 
-    <div class="flex flex-col gap-1 w-full">
+    <div class="flex flex-col gap-2 w-full">
       @for (item of items; track $index) {
-      <div
-        class="flex justify-between px-4 py-2 items-center border border-[var(--surface-border)] rounded-sm"
-      >
+      <div class="flex justify-between px-4 py-2 items-center rounded-sm shadow-sm">
         <p-avatar size="large" label="TO" />
 
         <div class="ml-4 mr-auto">
@@ -28,6 +26,7 @@
           icon="pi pi-arrow-right"
           iconPos="right"
           size="small"
+          (onClick)="navigateToIqTest()"
         />
       </div>
       }
