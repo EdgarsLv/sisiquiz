@@ -1,14 +1,43 @@
 <div class="section">
-  <div class="fancy">
-    <h2>SisiQuiz - Tests, Quizs...</h2>
-    <h4 class="text-muted-color-emphasis!">
-      Take IQ tests, personality quizzes, and more to test yourself and have fun!
-    </h4>
+  <div class="grid md:grid-cols-3 grid-cols-1 gap-x-8">
+    <div class="fancy">
+      <div><i class="pi pi-stopwatch text-5xl text-purple-500"></i></div>
+      <h4>Timed Assessment</h4>
+      <p class="text-muted-color-emphasis">
+        Complete 35 challenging questions in a structured time format
+      </p>
+    </div>
+
+    <div class="fancy">
+      <div><i class="pi pi-chart-bar text-5xl text-teal-500"></i></div>
+      <h4>Visual Analytics</h4>
+      <p class="text-muted-color-emphasis">Track your progress with interactive score graphs</p>
+    </div>
+
+    <div class="fancy mb-8!">
+      <div><i class="pi pi-objects-column text-5xl text-blue-500"></i></div>
+      <h4>Detailed Results</h4>
+      <p class="text-muted-color-emphasis">
+        Get comprehensive insights into your cognitive abilities
+      </p>
+    </div>
   </div>
 
+  @if (!canTakeTest() && init()) {
+  <div class="fancy">
+    <p-message severity="warn" variant="outlined">
+      <span>Test can be taken again in - </span>
+      <span class="font-semibold">{{ countdown() }}</span>
+    </p-message>
+  </div>
+  }
+
   <div class="fancy flex flex-col md:flex-row gap-5">
-    <div class="bg-primary rounded-sm text-white p-4 md:w-[250px] f-full">
-      <p class="text-2xl font-semibold">Choose test</p>
+    <div
+      class="rounded-sm shadow-sm flex justify-center items-center text-white p-4 md:w-[250px] f-full"
+    >
+      <!-- <p class="text-2xl font-semibold">Choose test</p> -->
+      <img src="assets/logo/thinking.svg" />
     </div>
 
     <div class="flex flex-col gap-2 w-full">

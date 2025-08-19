@@ -1,55 +1,16 @@
 <div class="section">
-  <div class="fancy text-center">
-    <h1>SisiQuiz - IQ Test</h1>
-    <h3 class="text-muted-color-emphasis! text-lg! sm:text-2xl! text-balance my-0!">
-      Discover your intellectual potential with our comprehensive IQ assessment
-    </h3>
-  </div>
-
-  <div class="grid md:grid-cols-3 grid-cols-1 gap-x-8">
-    <div class="fancy">
-      <div><i class="pi pi-stopwatch text-5xl text-purple-500"></i></div>
-      <h4>Timed Assessment</h4>
-      <p class="text-muted-color-emphasis">
-        Complete 35 challenging questions in a structured time format
-      </p>
-    </div>
-
-    <div class="fancy">
-      <div><i class="pi pi-chart-bar text-5xl text-teal-500"></i></div>
-      <h4>Visual Analytics</h4>
-      <p class="text-muted-color-emphasis">Track your progress with interactive score graphs</p>
-    </div>
-
-    <div class="fancy mb-8!">
-      <div><i class="pi pi-objects-column text-5xl text-blue-500"></i></div>
-      <h4>Detailed Results</h4>
-      <p class="text-muted-color-emphasis">
-        Get comprehensive insights into your cognitive abilities
-      </p>
-    </div>
+  <div class="fancy w-2/3">
+    <h2>SisiQuiz - Tests, Quizs...</h2>
+    <h4 class="text-muted-color-emphasis! text-lg! sm:text-2xl! my-0!">
+      Take IQ tests, personality quizzes, and more to test yourself and have fun!
+    </h4>
   </div>
 
   @if (!init()) {
   <!-- SPACING -->
   @if (user()) {
-  <div class="fancy flex flex-col gap-4 justify-center items-center mb-8">
-    <p-button
-      icon="pi pi-clock"
-      label="START IQ TEST"
-      severity="contrast"
-      (onClick)="startTest()"
-      [disabled]="!canTakeTest()"
-    />
-
-    @if (!canTakeTest()) {
-    <div>
-      <p-message severity="warn" variant="outlined">
-        <span>Test can be taken again in - </span>
-        <span class="font-semibold">{{ countdown() }}</span>
-      </p-message>
-    </div>
-    }
+  <div class="fancy items-center mb-8 w-max">
+    <p-button icon="pi pi-clock" label="VIEW TESTS" (onClick)="startTest()" />
   </div>
   }@else {
 
