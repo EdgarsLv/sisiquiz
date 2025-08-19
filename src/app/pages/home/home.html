@@ -30,6 +30,8 @@
     </div>
   </div>
 
+  @if (!init()) {
+  <!-- SPACING -->
   @if (user()) {
   <div class="fancy flex flex-col gap-4 justify-center items-center mb-8">
     <p-button
@@ -66,5 +68,9 @@
       Your test results will be available instantly after completing the test!
     </p>
   </div>
+  }
+  <!-- SPACING -->
+  }@else {
+  <div class="fancy flex justify-center">LOADING</div>
   }
 </div>

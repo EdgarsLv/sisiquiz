@@ -1,0 +1,36 @@
+<div class="section">
+  <div class="fancy">
+    <h2>SisiQuiz - Tests, Quizs...</h2>
+    <h4 class="text-muted-color-emphasis!">
+      Take IQ tests, personality quizzes, and more to test yourself and have fun!
+    </h4>
+  </div>
+
+  <div class="fancy flex flex-col md:flex-row gap-5">
+    <div class="bg-primary rounded-sm text-white p-4 md:w-[200px] f-full">
+      <p class="text-2xl font-semibold">Choose test</p>
+    </div>
+
+    <div class="flex flex-col gap-1 w-full">
+      @for (item of items; track $index) {
+      <div
+        class="flex justify-between px-4 py-2 items-center border border-[var(--surface-border)] rounded-sm"
+      >
+        <p-avatar size="large" label="TO" />
+
+        <div class="ml-4 mr-auto">
+          <p class="font-semibold text-lg">{{ item }}</p>
+        </div>
+
+        <p-button
+          label="Start now"
+          variant="outlined"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          size="small"
+        />
+      </div>
+      }
+    </div>
+  </div>
+</div>

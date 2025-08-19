@@ -1,12 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  computed,
-  Inject,
-  inject,
-  PLATFORM_ID,
-  ViewChild,
-} from '@angular/core';
+import { Component, computed, Inject, inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AuthService } from '../../../services/auth.service';
@@ -17,14 +10,7 @@ import { Logo } from '../../../components/logo/logo';
 
 @Component({
   selector: 'app-header',
-  imports: [
-    RouterModule,
-    CommonModule,
-    PopoverModule,
-    StyleClassModule,
-    ButtonModule,
-    Logo,
-  ],
+  imports: [RouterModule, CommonModule, PopoverModule, StyleClassModule, ButtonModule, Logo],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -32,9 +18,7 @@ export class Header {
   public authService = inject(AuthService);
   private router = inject(Router);
 
-  public isAuthenticated = computed<boolean>(
-    () => !!this.authService.authUser()
-  );
+  public isAuthenticated = computed<boolean>(() => !!this.authService.authUser());
   public isAuthenticatedWithProfile = computed<boolean>(
     () => !!this.authService.authUser() && !!this.authService.profile()
   );
@@ -68,11 +52,11 @@ export class Header {
 
   public ngOnInit() {
     this.items = [
-      // {
-      //   label: 'IQ Test',
-      //   icon: 'pi pi-clock',
-      //   link: 'test',
-      // },
+      {
+        label: 'Dashboard',
+        icon: 'pi pi-sparkles',
+        link: 'dashboard',
+      },
       {
         label: 'Start Test',
         icon: 'pi pi-clock',

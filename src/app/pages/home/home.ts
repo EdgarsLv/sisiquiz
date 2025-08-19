@@ -33,6 +33,7 @@ export class Home implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((time) => {
+        this.init.set(false);
         if (time?.testTakenAt) {
           const date = time.testTakenAt;
           this.timerId = setInterval(() => this.updateCountdown(date), 1000);

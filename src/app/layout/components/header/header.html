@@ -8,20 +8,6 @@
   </div>
 
   <div class="flex items-center ml-auto gap-x-2">
-    <!-- <div class="flex font-semibold items-center">
-      @if (!authService.authUser()) {
-      <a
-        pButton
-        size="small"
-        severity="success"
-        [outlined]="true"
-        icon="pi pi-sign-in"
-        routerLink="login"
-        label="Sign In"
-      ></a>
-      }
-    </div> -->
-
     <p-button
       (click)="toggleDarkMode()"
       [outlined]="true"
@@ -102,11 +88,6 @@
       </div>
     </p-popover>
 
-    <p-button
-      (onClick)="toggle($event)"
-      [outlined]="true"
-      severity="contrast"
-      icon="pi pi-bars"
-    />
+    <p-button (onClick)="toggle($event)" [outlined]="true" severity="contrast" icon="pi pi-bars" />
   </div>
 </div>
