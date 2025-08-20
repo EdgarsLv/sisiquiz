@@ -4,10 +4,11 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { HeroImage } from '../../components/hero-image/hero-image';
 
 @Component({
   selector: 'app-home',
-  imports: [ButtonModule],
+  imports: [ButtonModule, HeroImage],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

@@ -37,13 +37,17 @@
       class="rounded-sm shadow-sm flex justify-center items-center text-white p-4 md:w-[250px] f-full"
     >
       <!-- <p class="text-2xl font-semibold">Choose test</p> -->
-      <img src="assets/logo/thinking.svg" />
+      <img src="assets/logo/women.svg" />
     </div>
 
     <div class="flex flex-col gap-2 w-full">
       @for (item of items; track $index) {
       <div class="flex justify-between px-4 py-2 items-center rounded-sm shadow-sm">
-        <p-avatar size="large" label="TO" />
+        <p-avatar
+          class="dark:invert dark:brightness-200 dark:contrast-100"
+          image="assets/logo/brain.png"
+          size="large"
+        />
 
         <div class="ml-4 mr-auto">
           <p class="font-semibold text-lg">{{ item }}</p>
