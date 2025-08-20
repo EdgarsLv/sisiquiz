@@ -15,22 +15,22 @@ type AvailableTests = {
 
 const tests: AvailableTests[] = [
   {
-    icon: 'assets/logo/creative.svg',
+    icon: 'assets/logo/logic.svg',
     name: 'IQ Test',
     description: 'Challenge your brain with tricky logic and pattern puzzles.',
   },
   {
-    icon: 'assets/logo/creative.svg',
+    icon: 'assets/logo/lovelanguage.svg',
     name: 'Love Language Test',
     description: 'Find out how you love and want to be loved.',
   },
   {
-    icon: 'assets/logo/creative.svg',
+    icon: 'assets/logo/personality.svg',
     name: 'Sociotype Test',
     description: 'Discover your personality blueprint and connection style.',
   },
   {
-    icon: 'assets/logo/creative.svg',
+    icon: 'assets/logo/process.svg',
     name: 'Coming Soon',
     description: 'New tests are on the way—stay tuned!',
   },
