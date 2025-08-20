@@ -7,6 +7,35 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Message } from 'primeng/message';
 
+type AvailableTests = {
+  icon: string;
+  name: string;
+  description: string;
+};
+
+const tests: AvailableTests[] = [
+  {
+    icon: 'assets/logo/creative.svg',
+    name: 'IQ Test',
+    description: 'Challenge your brain with tricky logic and pattern puzzles.',
+  },
+  {
+    icon: 'assets/logo/creative.svg',
+    name: 'Love Language Test',
+    description: 'Find out how you love and want to be loved.',
+  },
+  {
+    icon: 'assets/logo/creative.svg',
+    name: 'Sociotype Test',
+    description: 'Discover your personality blueprint and connection style.',
+  },
+  {
+    icon: 'assets/logo/creative.svg',
+    name: 'Coming Soon',
+    description: 'New tests are on the way—stay tuned!',
+  },
+];
+
 @Component({
   selector: 'app-dashboard',
   imports: [Avatar, ButtonModule, Message],
@@ -22,7 +51,7 @@ export class Dashboard implements OnDestroy {
   public countdown = signal<string>('');
   private timerId: any;
 
-  public items = ['IQ Test', 'Sociotype Test', 'Love language test', 'Coming soon'];
+  public availableTests = signal<AvailableTests[]>(tests);
 
   private destroy$ = new Subject<void>();
 
