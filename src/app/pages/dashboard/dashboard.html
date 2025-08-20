@@ -2,23 +2,23 @@
   <div class="grid md:grid-cols-3 grid-cols-1 gap-x-8">
     <div class="fancy">
       <div><i class="pi pi-stopwatch text-5xl text-purple-500"></i></div>
-      <h4>Timed Assessment</h4>
+      <h4>Fun & Engaging</h4>
       <p class="text-muted-color-emphasis">
-        Complete 35 challenging questions in a structured time format
+        Explore a variety of quizzes designed to challenge, entertain, and inspire.
       </p>
     </div>
 
     <div class="fancy">
       <div><i class="pi pi-chart-bar text-5xl text-teal-500"></i></div>
-      <h4>Visual Analytics</h4>
-      <p class="text-muted-color-emphasis">Track your progress with interactive score graphs</p>
+      <h4>Track Your Progress</h4>
+      <p class="text-muted-color-emphasis">Track your scores and share results with friends.</p>
     </div>
 
     <div class="fancy mb-8!">
       <div><i class="pi pi-objects-column text-5xl text-blue-500"></i></div>
-      <h4>Detailed Results</h4>
+      <h4>Personalized Results</h4>
       <p class="text-muted-color-emphasis">
-        Get comprehensive insights into your cognitive abilities
+        Discover fun facts and insights about your personality and skills.
       </p>
     </div>
   </div>
@@ -33,15 +33,16 @@
   }
 
   <div class="fancy flex flex-col md:flex-row gap-5">
-    <div
-      class="rounded-sm shadow-sm flex justify-center items-center text-white p-4 md:w-[250px] f-full"
-    >
+    <div class="rounded-sm flex justify-center items-center text-white p-4 md:w-[250px] f-full">
       <img src="assets/logo/women.svg" />
     </div>
 
-    <div class="flex flex-col gap-2 w-full">
-      @for (test of availableTests(); track $index; let last = $last) {
-      <div class="flex justify-between px-4 py-2 items-center rounded-sm shadow-sm">
+    <div class="flex flex-col w-full">
+      @for (test of availableTests(); track $index; let last = $last; let first = $first) {
+      <div
+        class="flex justify-between border-b border-[var(--surface-border)] px-4 py-2 items-center hover:bg-[var(--surface-hover)]"
+        [class]="first ? 'border-t' : ''"
+      >
         <p-avatar [image]="test.icon" size="large" />
 
         <div class="ml-4 mr-auto">
