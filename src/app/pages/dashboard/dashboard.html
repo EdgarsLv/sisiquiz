@@ -42,8 +42,10 @@
           <path d="M7 16c.5-2 1.5-7 4-7 2 0 2 3 4 3 2.5 0 4.5-5 5-7" />
         </svg>
       </div>
-      <h4>Track Your Progress</h4>
-      <p class="text-muted-color-emphasis">Track your scores and share results with friends.</p>
+      <h4>Compare & Improve</h4>
+      <p class="text-muted-color-emphasis">
+        Share your results, challenge friends, and watch your progress over time.
+      </p>
     </div>
 
     <div class="fancy mb-8!">
@@ -80,7 +82,10 @@
   }
 
   <div class="fancy flex flex-col md:flex-row gap-5">
-    <div class="rounded-sm flex justify-center items-center text-white p-4 md:w-[250px] f-full">
+    <div
+      class="rounded-sm flex flex-col justify-center items-center text-white p-4 md:w-[250px] f-full"
+    >
+      <h4>Choose Test</h4>
       <img src="assets/logo/women.svg" />
     </div>
 
@@ -107,7 +112,7 @@
           icon="pi pi-arrow-right"
           iconPos="right"
           size="small"
-          (onClick)="navigateToIqTest()"
+          (onClick)="navigateToTest(test.link)"
         />
       </div>
       }

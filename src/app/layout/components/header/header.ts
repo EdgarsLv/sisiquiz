@@ -53,15 +53,15 @@ export class Header {
   public ngOnInit() {
     this.items = [
       {
-        label: 'Dashboard',
+        label: 'View Tests',
         icon: 'pi pi-sparkles',
-        link: 'dashboard',
+        link: 'test-list',
       },
-      {
-        label: 'Start Test',
-        icon: 'pi pi-clock',
-        link: 'iq-test',
-      },
+      // {
+      //   label: 'Start Test',
+      //   icon: 'pi pi-clock',
+      //   link: 'iq-test',
+      // },
       {
         label: 'View Results',
         icon: 'pi pi-chart-bar',

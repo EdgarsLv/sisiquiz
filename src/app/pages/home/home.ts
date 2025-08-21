@@ -34,7 +34,7 @@ export class Home implements OnDestroy {
   }
 
   public startTest(): void {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['test-list']);
   }
 
   public async loginWithGoogle(): Promise<void> {
