@@ -57,11 +57,11 @@ export class Header {
         icon: 'pi pi-sparkles',
         link: 'test-list',
       },
-      // {
-      //   label: 'Start Test',
-      //   icon: 'pi pi-clock',
-      //   link: 'iq-test',
-      // },
+      {
+        label: 'Start Test',
+        icon: 'pi pi-clock',
+        link: 'test',
+      },
       {
         label: 'View Results',
         icon: 'pi pi-chart-bar',

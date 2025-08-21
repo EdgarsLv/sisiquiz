@@ -35,6 +35,17 @@ export const routes: Routes = [
         canActivate: [authGuard, profileGuard],
       },
       {
+        path: 'love-test',
+        loadComponent: () => import('./pages/love-test/love-test').then((c) => c.LoveTest),
+        canActivate: [authGuard, profileGuard],
+      },
+      {
+        path: 'sociotype-test',
+        loadComponent: () =>
+          import('./pages/sociotype-test/sociotype-test').then((c) => c.SociotypeTest),
+        canActivate: [authGuard, profileGuard],
+      },
+      {
         path: 'result/:id',
         loadComponent: () => import('./pages/result/result').then((c) => c.Result),
         resolve: { result: resultResolver, image: imageResolver },

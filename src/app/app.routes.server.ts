@@ -18,6 +18,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'love-test',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'sociotype-test',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'result/:id',
     renderMode: RenderMode.Server,
   },
