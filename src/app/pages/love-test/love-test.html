@@ -71,7 +71,14 @@
         Next
       </p-button>
       }@else {
-      <p-button variant="outlined" severity="success"> Submit </p-button>
+      <p-button
+        variant="outlined"
+        severity="success"
+        (click)="handleSubmit()"
+        [disabled]="submitDisabled() || isLoading()"
+      >
+        Submit
+      </p-button>
       }
     </div>
   </div>

@@ -3,14 +3,14 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
 
-type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
+type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
 
 interface Question {
   id: number;
   text: string;
   options: {
     label: string;
-    value: Dichotomy;
+    value: LoveLanguage;
   }[];
 }
 
@@ -21,7 +21,7 @@ interface Question {
   styleUrl: './love-test.scss',
 })
 export class LoveTest {
-  public questions = signal<Question[]>(sociotypeQuestions);
+  public questions = signal<Question[]>(questions);
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
   public questionOptions = computed(() => this.question().options);
@@ -36,11 +36,11 @@ export class LoveTest {
     return total > 0 ? Math.round((answered / total) * 100) : 0;
   });
 
-  private selectedAnswers: (Dichotomy | null)[] = Array(sociotypeQuestions.length).fill(null);
+  private selectedAnswers: (LoveLanguage | null)[] = Array(questions.length).fill(null);
 
   public justSelected = false;
 
-  public handleAnswer(questionId: number, value: Dichotomy, answerIndex: number): void {
+  public handleAnswer(questionId: number, value: LoveLanguage, answerIndex: number): void {
     this.selectedAnswers[questionId - 1] = value;
 
     this.answers.update((prev) => ({
@@ -69,366 +69,408 @@ export class LoveTest {
       this.currentQuestion.set(this.currentQuestion() - 1);
     }
   };
+
+  public handleSubmit(): void {
+    // this.isLoading.set(true);
+
+    if (this.selectedAnswers.includes(null)) {
+      alert('Please answer all questions.');
+      return;
+    }
+
+    const result = calculateLoveLanguageResults(this.selectedAnswers);
+    console.log(result);
+
+    //     {
+    //   counts: { words: 8, acts: 5, gifts: 6, quality: 7, touch: 4 },
+    //   percentages: { words: 26.7, acts: 16.7, gifts: 20, quality: 23.3, touch: 13.3 },
+    //   topLanguages: ['words']
+    // }
+  }
+
+  //     private async saveTestResult(result: TestResult): Promise<void> {
+  //   try {
+  //     const userId = this.authService.authUser()!.uid;
+
+  //     const userRef = doc(db, 'users', userId);
+
+  //     await this.firebaseService.update(userRef, { sociotype: result });
+
+  //     this.router.navigate(['/results']);
+  //   } catch (err) {
+  //     console.error('Failed to save test result', err);
+  //     this.isLoading.set(false);
+  //   }
+  // }
 }
 
-const sociotypeQuestions: Question[] = [
-  // Extraversion (E) vs Introversion (I)
+function calculateLoveLanguageResults(answers: (LoveLanguage | null)[]) {
+  const counts: Record<LoveLanguage, number> = {
+    words: 0,
+    acts: 0,
+    gifts: 0,
+    quality: 0,
+    touch: 0,
+  };
+
+  const totalAnswered = answers.filter((ans) => ans !== null).length;
+
+  // Count how many times each language was selected
+  answers.forEach((ans) => {
+    if (ans) counts[ans]++;
+  });
+
+  // Calculate percentages
+  const percentages: Record<LoveLanguage, number> = {
+    words: (counts.words / totalAnswered) * 100,
+    acts: (counts.acts / totalAnswered) * 100,
+    gifts: (counts.gifts / totalAnswered) * 100,
+    quality: (counts.quality / totalAnswered) * 100,
+    touch: (counts.touch / totalAnswered) * 100,
+  };
+
+  // Find the highest count(s)
+  const maxCount = Math.max(...Object.values(counts));
+  const topLanguages = (Object.keys(counts) as LoveLanguage[]).filter(
+    (lang) => counts[lang] === maxCount
+  );
+
+  return {
+    counts,
+    percentages,
+    topLanguages, // could be multiple if tied
+  };
+}
+
+export const questions: Question[] = [
   {
     id: 1,
-    text: 'At social events, do you usually...',
+    text: 'You feel most loved when your partner:',
     options: [
-      { label: 'Talk to many people, including strangers', value: 'E' },
-      { label: 'Stick with close friends or leave early', value: 'I' },
+      { label: 'Tells you how much they appreciate you', value: 'words' },
+      { label: 'Helps you with tasks or chores', value: 'acts' },
+      { label: 'Gives you a thoughtful gift', value: 'gifts' },
+      { label: 'Spends quality time with you', value: 'quality' },
+      { label: 'Hugs or holds your hand', value: 'touch' },
     ],
   },
   {
     id: 2,
-    text: 'When working on a project, do you prefer...',
+    text: 'When you want to cheer up your partner, you:',
     options: [
-      { label: 'Group brainstorming sessions', value: 'E' },
-      { label: 'Quiet, independent work', value: 'I' },
+      { label: 'Write them a heartfelt note', value: 'words' },
+      { label: 'Do something helpful for them', value: 'acts' },
+      { label: 'Bring them a small gift', value: 'gifts' },
+      { label: 'Spend uninterrupted time together', value: 'quality' },
+      { label: 'Give them a comforting hug', value: 'touch' },
     ],
   },
   {
     id: 3,
-    text: 'You gain energy from...',
+    text: 'Your ideal way to celebrate special moments is:',
     options: [
-      { label: 'Being around people', value: 'E' },
-      { label: 'Spending time alone', value: 'I' },
+      { label: 'Exchanging loving words', value: 'words' },
+      { label: 'Doing a meaningful activity together', value: 'acts' },
+      { label: 'Giving or receiving gifts', value: 'gifts' },
+      { label: 'Having quality one-on-one time', value: 'quality' },
+      { label: 'Holding each other close', value: 'touch' },
     ],
   },
   {
     id: 4,
-    text: 'In conversations, you usually...',
+    text: 'You feel most appreciated when your partner:',
     options: [
-      { label: 'Jump in and share your thoughts quickly', value: 'E' },
-      { label: 'Listen carefully before speaking', value: 'I' },
+      { label: 'Compliments or encourages you verbally', value: 'words' },
+      { label: 'Performs acts of service for you', value: 'acts' },
+      { label: 'Gives you something thoughtful', value: 'gifts' },
+      { label: 'Focuses attention entirely on you', value: 'quality' },
+      { label: 'Touches you affectionately', value: 'touch' },
     ],
   },
   {
     id: 5,
-    text: 'When meeting new people, you usually feel...',
+    text: 'When you’re in conflict, you value your partner:',
     options: [
-      { label: 'Excited and curious', value: 'E' },
-      { label: 'Reserved or cautious', value: 'I' },
+      { label: 'Expressing their feelings clearly', value: 'words' },
+      { label: 'Helping solve the problem practically', value: 'acts' },
+      { label: 'Giving a peace offering gift', value: 'gifts' },
+      { label: 'Spending time to talk it through', value: 'quality' },
+      { label: 'Offering physical comfort', value: 'touch' },
     ],
   },
   {
     id: 6,
-    text: 'You’re more comfortable...',
+    text: 'You notice your partner’s love most when they:',
     options: [
-      { label: 'In a busy, active environment', value: 'E' },
-      { label: 'In a calm, quiet environment', value: 'I' },
+      { label: 'Say kind things about you', value: 'words' },
+      { label: 'Help with things you need', value: 'acts' },
+      { label: 'Give you thoughtful presents', value: 'gifts' },
+      { label: 'Plan time to be with you', value: 'quality' },
+      { label: 'Touch or hug you spontaneously', value: 'touch' },
     ],
   },
   {
     id: 7,
-    text: 'Do you usually...',
+    text: 'A perfect date for you is:',
     options: [
-      { label: 'Think out loud', value: 'E' },
-      { label: 'Think things through silently', value: 'I' },
+      { label: 'Sharing meaningful conversation', value: 'words' },
+      { label: 'Doing something helpful together', value: 'acts' },
+      { label: 'Exchanging gifts', value: 'gifts' },
+      { label: 'Spending uninterrupted time alone together', value: 'quality' },
+      { label: 'Holding hands or cuddling', value: 'touch' },
     ],
   },
   {
     id: 8,
-    text: 'People would describe you as...',
+    text: 'Your partner shows they care when they:',
     options: [
-      { label: 'Outgoing and energetic', value: 'E' },
-      { label: 'Thoughtful and reserved', value: 'I' },
+      { label: 'Give verbal praise', value: 'words' },
+      { label: 'Perform helpful acts', value: 'acts' },
+      { label: 'Give thoughtful gifts', value: 'gifts' },
+      { label: 'Make time to be with you', value: 'quality' },
+      { label: 'Offer physical affection', value: 'touch' },
     ],
   },
   {
     id: 9,
-    text: 'When you’re bored, you prefer...',
+    text: 'You feel most secure in a relationship when your partner:',
     options: [
-      { label: 'Finding someone to hang out with', value: 'E' },
-      { label: 'Doing something solo you enjoy', value: 'I' },
+      { label: 'Expresses love verbally', value: 'words' },
+      { label: 'Supports you through actions', value: 'acts' },
+      { label: 'Gives meaningful gifts', value: 'gifts' },
+      { label: 'Spends focused time with you', value: 'quality' },
+      { label: 'Touches you affectionately', value: 'touch' },
     ],
   },
   {
     id: 10,
-    text: 'Your focus tends to be...',
+    text: 'The way you celebrate achievements is best with:',
     options: [
-      { label: 'On the outer world', value: 'E' },
-      { label: 'On your inner world', value: 'I' },
+      { label: 'Words of recognition', value: 'words' },
+      { label: 'Acts of service to make life easier', value: 'acts' },
+      { label: 'A small reward or gift', value: 'gifts' },
+      { label: 'Time spent together celebrating', value: 'quality' },
+      { label: 'A congratulatory hug or touch', value: 'touch' },
     ],
   },
   {
     id: 11,
-    text: 'In a group project, you usually...',
+    text: 'You feel closest to your partner when they:',
     options: [
-      { label: 'Take the lead and coordinate', value: 'E' },
-      { label: 'Support quietly and do your part', value: 'I' },
+      { label: 'Tell you they love you', value: 'words' },
+      { label: 'Help with something important', value: 'acts' },
+      { label: 'Bring you a thoughtful present', value: 'gifts' },
+      { label: 'Spend meaningful time together', value: 'quality' },
+      { label: 'Hold or cuddle you', value: 'touch' },
     ],
   },
-
-  // Sensing (S) vs Intuition (N)
   {
     id: 12,
-    text: 'When learning something new, do you prefer...',
+    text: 'When you are stressed, you feel comforted by:',
     options: [
-      { label: 'Concrete facts and practical examples', value: 'S' },
-      { label: 'Patterns and abstract concepts', value: 'N' },
+      { label: 'Encouraging words', value: 'words' },
+      { label: 'Practical help or support', value: 'acts' },
+      { label: 'Receiving a small gift or token', value: 'gifts' },
+      { label: 'Undivided attention and presence', value: 'quality' },
+      { label: 'A warm hug or touch', value: 'touch' },
     ],
   },
   {
     id: 13,
-    text: 'When describing something, you usually...',
+    text: 'You know your partner loves you when they:',
     options: [
-      { label: 'Stick to what you saw/heard', value: 'S' },
-      { label: 'Add interpretations and possibilities', value: 'N' },
+      { label: 'Say loving things regularly', value: 'words' },
+      { label: 'Do kind things without being asked', value: 'acts' },
+      { label: 'Give you gifts that show thoughtfulness', value: 'gifts' },
+      { label: 'Spend time really listening to you', value: 'quality' },
+      { label: 'Touch or hug you often', value: 'touch' },
     ],
   },
   {
     id: 14,
-    text: 'Do you trust more...',
+    text: 'You feel most appreciated when your partner:',
     options: [
-      { label: 'Your five senses', value: 'S' },
-      { label: 'Your gut instincts', value: 'N' },
+      { label: 'Compliments your efforts', value: 'words' },
+      { label: 'Helps make life easier', value: 'acts' },
+      { label: 'Gives meaningful presents', value: 'gifts' },
+      { label: 'Plans special time for you both', value: 'quality' },
+      { label: 'Touches or cuddles you', value: 'touch' },
     ],
   },
   {
     id: 15,
-    text: 'Your attention tends to go to...',
+    text: 'You would rather receive:',
     options: [
-      { label: 'Details and specifics', value: 'S' },
-      { label: 'Big picture and future possibilities', value: 'N' },
+      { label: 'Words of affirmation', value: 'words' },
+      { label: 'Acts of service', value: 'acts' },
+      { label: 'A thoughtful gift', value: 'gifts' },
+      { label: 'Quality time together', value: 'quality' },
+      { label: 'Physical touch', value: 'touch' },
     ],
   },
   {
     id: 16,
-    text: 'You are more likely to be described as...',
+    text: 'Your partner shows love most clearly when they:',
     options: [
-      { label: 'Realistic and practical', value: 'S' },
-      { label: 'Imaginative and abstract', value: 'N' },
+      { label: 'Say kind things about you', value: 'words' },
+      { label: 'Do helpful acts', value: 'acts' },
+      { label: 'Give gifts from the heart', value: 'gifts' },
+      { label: 'Spend quality time with you', value: 'quality' },
+      { label: 'Touch or hug you', value: 'touch' },
     ],
   },
   {
     id: 17,
-    text: 'When remembering events, you recall...',
+    text: 'During hard times, you feel supported when your partner:',
     options: [
-      { label: 'Exact details and facts', value: 'S' },
-      { label: 'Impressions and meanings', value: 'N' },
+      { label: 'Encourages you verbally', value: 'words' },
+      { label: 'Takes action to help', value: 'acts' },
+      { label: 'Gives a gift as a gesture', value: 'gifts' },
+      { label: 'Spends time listening and being present', value: 'quality' },
+      { label: 'Offers comforting touch', value: 'touch' },
     ],
   },
   {
     id: 18,
-    text: 'You value more...',
+    text: 'The most memorable way your partner shows love is:',
     options: [
-      { label: 'What is proven and certain', value: 'S' },
-      { label: 'What is possible and potential', value: 'N' },
+      { label: 'Through verbal affirmations', value: 'words' },
+      { label: 'By helping you practically', value: 'acts' },
+      { label: 'By giving meaningful gifts', value: 'gifts' },
+      { label: 'By spending quality time together', value: 'quality' },
+      { label: 'Through physical touch', value: 'touch' },
     ],
   },
   {
     id: 19,
-    text: 'When problem-solving, you tend to...',
+    text: 'You feel valued when your partner:',
     options: [
-      { label: 'Rely on past experience', value: 'S' },
-      { label: 'Look for new approaches', value: 'N' },
+      { label: 'Expresses appreciation in words', value: 'words' },
+      { label: 'Helps with your tasks', value: 'acts' },
+      { label: 'Gives thoughtful gifts', value: 'gifts' },
+      { label: 'Makes time for you', value: 'quality' },
+      { label: 'Touches or hugs you', value: 'touch' },
     ],
   },
   {
     id: 20,
-    text: 'Your communication style is often...',
+    text: 'A romantic gesture that moves you most is:',
     options: [
-      { label: 'Literal and precise', value: 'S' },
-      { label: 'Figurative and symbolic', value: 'N' },
+      { label: 'Sweet words of love', value: 'words' },
+      { label: 'Helpful acts of service', value: 'acts' },
+      { label: 'Giving a meaningful gift', value: 'gifts' },
+      { label: 'Spending quality time together', value: 'quality' },
+      { label: 'A loving touch', value: 'touch' },
     ],
   },
   {
     id: 21,
-    text: 'You are more attracted to...',
+    text: 'You feel most connected to your partner when:',
     options: [
-      { label: 'Practical tools and objects', value: 'S' },
-      { label: 'Innovative ideas and theories', value: 'N' },
+      { label: 'They say something kind', value: 'words' },
+      { label: 'They help you without being asked', value: 'acts' },
+      { label: 'They give a gift with thought', value: 'gifts' },
+      { label: 'They spend focused time with you', value: 'quality' },
+      { label: 'They hold or touch you affectionately', value: 'touch' },
     ],
   },
   {
     id: 22,
-    text: 'In daily life, you prefer...',
+    text: 'When you are feeling down, the best support comes from:',
     options: [
-      { label: 'Clear, step-by-step instructions', value: 'S' },
-      { label: 'Exploring your own methods', value: 'N' },
+      { label: 'Words of encouragement', value: 'words' },
+      { label: 'Practical help or assistance', value: 'acts' },
+      { label: 'A thoughtful gift', value: 'gifts' },
+      { label: 'Spending uninterrupted time together', value: 'quality' },
+      { label: 'Physical comfort', value: 'touch' },
     ],
   },
-
-  // Thinking (T) vs Feeling (F)
   {
     id: 23,
-    text: 'When making decisions, you prioritize...',
+    text: 'You feel love most strongly when your partner:',
     options: [
-      { label: 'Logic and fairness', value: 'T' },
-      { label: 'Values and harmony', value: 'F' },
+      { label: 'Verbalizes their affection', value: 'words' },
+      { label: 'Acts to support you', value: 'acts' },
+      { label: 'Gives you gifts that matter', value: 'gifts' },
+      { label: 'Spends quality time', value: 'quality' },
+      { label: 'Touches you affectionately', value: 'touch' },
     ],
   },
   {
     id: 24,
-    text: 'When giving feedback, you are more likely to...',
+    text: 'Your partner’s actions that mean the most are:',
     options: [
-      { label: 'Be direct and objective', value: 'T' },
-      { label: 'Be considerate of feelings', value: 'F' },
+      { label: 'Speaking loving words', value: 'words' },
+      { label: 'Performing helpful deeds', value: 'acts' },
+      { label: 'Gifting meaningful items', value: 'gifts' },
+      { label: 'Being fully present with you', value: 'quality' },
+      { label: 'Showing affection physically', value: 'touch' },
     ],
   },
   {
     id: 25,
-    text: 'In conflicts, you focus on...',
+    text: 'You feel love through your partner’s:',
     options: [
-      { label: 'Solving the problem', value: 'T' },
-      { label: 'Preserving relationships', value: 'F' },
+      { label: 'Compliments and encouragement', value: 'words' },
+      { label: 'Helpful actions', value: 'acts' },
+      { label: 'Thoughtful gifts', value: 'gifts' },
+      { label: 'Time spent together', value: 'quality' },
+      { label: 'Touch and physical closeness', value: 'touch' },
     ],
   },
   {
     id: 26,
-    text: 'People often describe you as...',
+    text: 'The way your partner shows they care most is:',
     options: [
-      { label: 'Analytical and firm', value: 'T' },
-      { label: 'Compassionate and warm', value: 'F' },
+      { label: 'With kind words', value: 'words' },
+      { label: 'By doing helpful acts', value: 'acts' },
+      { label: 'By giving gifts', value: 'gifts' },
+      { label: 'By spending quality time', value: 'quality' },
+      { label: 'Through affectionate touch', value: 'touch' },
     ],
   },
   {
     id: 27,
-    text: 'You prefer decisions to be...',
+    text: 'You feel appreciated when your partner:',
     options: [
-      { label: 'Impersonal and fair', value: 'T' },
-      { label: 'Personal and considerate', value: 'F' },
+      { label: 'Praises you verbally', value: 'words' },
+      { label: 'Acts kindly or helpfully', value: 'acts' },
+      { label: 'Gives thoughtful gifts', value: 'gifts' },
+      { label: 'Spends meaningful time with you', value: 'quality' },
+      { label: 'Touches or hugs you', value: 'touch' },
     ],
   },
   {
     id: 28,
-    text: 'You are more satisfied when you...',
+    text: 'Your partner’s love is clearest when they:',
     options: [
-      { label: 'Achieve a logical solution', value: 'T' },
-      { label: 'Help someone feel better', value: 'F' },
+      { label: 'Say something affirming', value: 'words' },
+      { label: 'Do something helpful', value: 'acts' },
+      { label: 'Give a meaningful gift', value: 'gifts' },
+      { label: 'Spend quality time', value: 'quality' },
+      { label: 'Show affectionate touch', value: 'touch' },
     ],
   },
   {
     id: 29,
-    text: 'When faced with a tough choice, you rely on...',
+    text: 'You feel closest to your partner when they:',
     options: [
-      { label: 'Facts and analysis', value: 'T' },
-      { label: 'Values and empathy', value: 'F' },
+      { label: 'Speak words of love', value: 'words' },
+      { label: 'Perform helpful actions', value: 'acts' },
+      { label: 'Give a thoughtful gift', value: 'gifts' },
+      { label: 'Share uninterrupted time', value: 'quality' },
+      { label: 'Offer physical affection', value: 'touch' },
     ],
   },
   {
     id: 30,
-    text: 'At work, you are more focused on...',
+    text: 'Overall, you feel most loved when your partner:',
     options: [
-      { label: 'Objectives and efficiency', value: 'T' },
-      { label: 'Team harmony and support', value: 'F' },
-    ],
-  },
-  {
-    id: 31,
-    text: 'Your communication style is usually...',
-    options: [
-      { label: 'Straightforward and brief', value: 'T' },
-      { label: 'Gentle and diplomatic', value: 'F' },
-    ],
-  },
-  {
-    id: 32,
-    text: 'You are more likely to trust...',
-    options: [
-      { label: 'Reason over feelings', value: 'T' },
-      { label: 'Feelings over reason', value: 'F' },
-    ],
-  },
-  {
-    id: 33,
-    text: 'You are motivated more by...',
-    options: [
-      { label: 'Accomplishments and results', value: 'T' },
-      { label: 'Recognition and appreciation', value: 'F' },
-    ],
-  },
-
-  // Judging (J) vs Perceiving (P)
-  {
-    id: 34,
-    text: 'Do you prefer your plans to be...',
-    options: [
-      { label: 'Structured and decided in advance', value: 'J' },
-      { label: 'Flexible and adaptable', value: 'P' },
-    ],
-  },
-  {
-    id: 35,
-    text: 'When working on tasks, you usually...',
-    options: [
-      { label: 'Finish them well before the deadline', value: 'J' },
-      { label: 'Work closer to the deadline', value: 'P' },
-    ],
-  },
-  {
-    id: 36,
-    text: 'How do you approach daily life?',
-    options: [
-      { label: 'With clear routines', value: 'J' },
-      { label: 'By adapting as things come', value: 'P' },
-    ],
-  },
-  {
-    id: 37,
-    text: 'You feel more comfortable when...',
-    options: [
-      { label: 'Things are settled', value: 'J' },
-      { label: 'Options are still open', value: 'P' },
-    ],
-  },
-  {
-    id: 38,
-    text: 'Your workspace is usually...',
-    options: [
-      { label: 'Organized and tidy', value: 'J' },
-      { label: 'Flexible and spontaneous', value: 'P' },
-    ],
-  },
-  {
-    id: 39,
-    text: 'When approaching a project, you prefer...',
-    options: [
-      { label: 'A step-by-step plan', value: 'J' },
-      { label: 'Figuring it out as you go', value: 'P' },
-    ],
-  },
-  {
-    id: 40,
-    text: 'You are more likely to be described as...',
-    options: [
-      { label: 'Decisive and structured', value: 'J' },
-      { label: 'Easygoing and flexible', value: 'P' },
-    ],
-  },
-  {
-    id: 41,
-    text: 'You usually...',
-    options: [
-      { label: 'Stick to schedules', value: 'J' },
-      { label: 'Prefer freedom from schedules', value: 'P' },
-    ],
-  },
-  {
-    id: 42,
-    text: 'When starting something new, you...',
-    options: [
-      { label: 'Plan carefully before starting', value: 'J' },
-      { label: 'Dive in and figure it out later', value: 'P' },
-    ],
-  },
-  {
-    id: 43,
-    text: 'Deadlines are...',
-    options: [
-      { label: 'Motivators to stay organized', value: 'J' },
-      { label: 'Flexible guidelines', value: 'P' },
-    ],
-  },
-  {
-    id: 44,
-    text: 'You feel most satisfied when...',
-    options: [
-      { label: 'Tasks are completed and closed', value: 'J' },
-      { label: 'You can keep exploring possibilities', value: 'P' },
+      { label: 'Says kind and affirming things', value: 'words' },
+      { label: 'Helps and supports you', value: 'acts' },
+      { label: 'Gives meaningful gifts', value: 'gifts' },
+      { label: 'Spends quality time together', value: 'quality' },
+      { label: 'Touches or hugs you affectionately', value: 'touch' },
     ],
   },
 ];
