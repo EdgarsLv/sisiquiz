@@ -2,6 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 
@@ -33,6 +34,20 @@ interface TestResult {
   imports: [ButtonModule, ProgressBarModule, TagModule],
   templateUrl: './sociotype-test.html',
   styleUrl: './sociotype-test.scss',
+  animations: [
+    trigger('slideAnimation', [
+      transition(':increment', [
+        // going forward
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 })),
+      ]),
+      transition(':decrement', [
+        // going backward
+        style({ transform: 'translateX(-100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class SociotypeTest {
   public questions = signal<Question[]>(sociotypeQuestions);
@@ -55,7 +70,7 @@ export class SociotypeTest {
   public justSelected = false;
 
   public handleAnswer(questionId: number, value: Dichotomy, answerIndex: number): void {
-    this.selectedAnswers[answerIndex] = value;
+    this.selectedAnswers[questionId - 1] = value;
 
     this.answers.update((prev) => ({
       ...prev,
@@ -85,7 +100,7 @@ export class SociotypeTest {
   };
 
   public handleSubmit(): void {
-    this.isLoading.set(true);
+    // this.isLoading.set(true);
 
     if (this.selectedAnswers.includes(null)) {
       alert('Please answer all questions.');
