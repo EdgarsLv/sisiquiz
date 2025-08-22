@@ -31,7 +31,7 @@
         class="p-4 flex items-center border-b border-[var(--surface-border)] cursor-pointer hover:bg-[var(--surface-hover)]"
         (click)="handleAnswer(question().id, option.value, $index)"
         [class]="first ? 'border-t' : ''"
-        [class.animate-selected]="selected && justSelected"
+        [class.bounce]="selected && justSelected"
         (animationend)="onAnswerAnimationEnd()"
       >
         @if (selected) {
