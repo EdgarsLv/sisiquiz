@@ -5,3 +5,19 @@
     margin-inline: 0;
   }
 }
+
+.animate-selected {
+  animation: selectedPulse 0.8s ease forwards;
+}
+
+@keyframes selectedPulse {
+  0% {
+    background-color: #d1fae5;
+  } /* green-100 */
+  50% {
+    background-color: #a7f3d0;
+  } /* green-200 */
+  100% {
+    background-color: transparent;
+  }
+}

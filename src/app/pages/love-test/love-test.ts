@@ -1,5 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { TagModule } from 'primeng/tag';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 
@@ -12,44 +14,48 @@ interface Question {
   }[];
 }
 
-interface TestResult {
-  type: string; // e.g., "INTP"
-  percentages: {
-    E: number;
-    I: number;
-    S: number;
-    N: number;
-    T: number;
-    F: number;
-    J: number;
-    P: number;
-  };
-}
-
 @Component({
   selector: 'app-love-test',
-  imports: [ButtonModule],
+  imports: [ButtonModule, TagModule, ProgressBarModule],
   templateUrl: './love-test.html',
   styleUrl: './love-test.scss',
 })
 export class LoveTest {
-  public sociotypeQuestions = signal<Question[]>(sociotypeQuestions);
-
   public questions = signal<Question[]>(sociotypeQuestions);
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
   public questionOptions = computed(() => this.question().options);
   public answers = signal<Record<number, number>>({ 0: 0 });
+  public isLoading = signal<boolean>(false);
+  public submitDisabled = computed(
+    () => Object.keys(this.answers()).length - 1 < this.questions().length
+  );
+  public progressValue = computed(() => {
+    const answered = Object.keys(this.answers()).length - 1;
+    const total = this.questions().length;
+    return total > 0 ? Math.round((answered / total) * 100) : 0;
+  });
 
-  selectedAnswers: (Dichotomy | null)[] = Array(sociotypeQuestions.length).fill(null);
+  private selectedAnswers: (Dichotomy | null)[] = Array(sociotypeQuestions.length).fill(null);
+
+  public justSelected = false;
 
   public handleAnswer(questionId: number, value: Dichotomy, answerIndex: number): void {
-    this.selectedAnswers[answerIndex] = value;
+    this.selectedAnswers[questionId - 1] = value;
 
     this.answers.update((prev) => ({
       ...prev,
       [questionId]: answerIndex,
     }));
+
+    this.justSelected = true;
+  }
+
+  public onAnswerAnimationEnd(): void {
+    if (this.justSelected) {
+      this.justSelected = false;
+      this.nextQuestion();
+    }
   }
 
   public nextQuestion = () => {
@@ -62,69 +68,6 @@ export class LoveTest {
     if (this.currentQuestion() > 0) {
       this.currentQuestion.set(this.currentQuestion() - 1);
     }
-  };
-
-  finishTest() {
-    if (this.selectedAnswers.includes(null)) {
-      alert('Please answer all questions.');
-      return;
-    }
-
-    const result = calculateSociotype(this.selectedAnswers as Dichotomy[]);
-    console.log(result);
-    // e.g. { type: "INTP", percentages: { E: 40, I: 60, ... } }
-  }
-}
-
-export function calculateSociotype(answers: Dichotomy[]): TestResult {
-  // Initialize counters
-  const counts: Record<Dichotomy, number> = {
-    E: 0,
-    I: 0,
-    S: 0,
-    N: 0,
-    T: 0,
-    F: 0,
-    J: 0,
-    P: 0,
-  };
-
-  // Count answers
-  answers.forEach((ans) => {
-    counts[ans] = (counts[ans] || 0) + 1;
-  });
-
-  // Calculate percentages for each dichotomy pair
-  const calcPercent = (a: Dichotomy, b: Dichotomy) => {
-    const total = counts[a] + counts[b];
-    if (total === 0) return { [a]: 50, [b]: 50 }; // fallback if unanswered
-    return {
-      [a]: Math.round((counts[a] / total) * 100),
-      [b]: Math.round((counts[b] / total) * 100),
-    };
-  };
-
-  const ei = calcPercent('E', 'I');
-  const sn = calcPercent('S', 'N');
-  const tf = calcPercent('T', 'F');
-  const jp = calcPercent('J', 'P');
-
-  // Determine type by highest percentage in each dichotomy
-  const type =
-    (ei['E'] >= ei['I'] ? 'E' : 'I') +
-    (sn['S'] >= sn['N'] ? 'S' : 'N') +
-    (tf['T'] >= tf['F'] ? 'T' : 'F') +
-    (jp['J'] >= jp['P'] ? 'J' : 'P');
-
-  return {
-    type,
-    //@ts-ignore
-    percentages: {
-      ...ei,
-      ...sn,
-      ...tf,
-      ...jp,
-    },
   };
 }
 

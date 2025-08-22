@@ -1,5 +1,24 @@
 <div class="section">
   <div class="fancy">
+    <div class="flex flex-col gap-y-2 md:flex-row justify-between items-center mb-2">
+      <h4 class="mb-0!">Progress</h4>
+      <div>
+        <span class="text-muted-color-emphasis ml-2">
+          Question {{ currentQuestion() + 1 }} of {{ questions().length }}
+        </span>
+      </div>
+    </div>
+    <div>
+      <p-progressbar
+        [value]="progressValue()"
+        [color]="'#06981a'"
+        [showValue]="false"
+        [style]="{ height: '0.6rem' }"
+      />
+    </div>
+  </div>
+
+  <div class="fancy">
     <div>
       <h4>{{ question().text }}</h4>
     </div>
@@ -12,6 +31,8 @@
         class="p-4 flex items-center border-b border-[var(--surface-border)] cursor-pointer hover:bg-[var(--surface-hover)]"
         (click)="handleAnswer(question().id, option.value, $index)"
         [class]="first ? 'border-t' : ''"
+        [class.animate-selected]="selected && justSelected"
+        (animationend)="onAnswerAnimationEnd()"
       >
         @if (selected) {
         <i class="pi pi-check-circle text-green-500 text-[1.2rem]"></i>
@@ -33,6 +54,13 @@
       >
         Previous
       </p-button>
+
+      <div class="flex items-center">
+        @let value = `${ currentQuestion() + 1 } / ${ questions().length }`;
+
+        <p-tag [value]="value" />
+      </div>
+
       @if (currentQuestion() < questions().length - 1) {
       <p-button
         variant="outlined"
@@ -48,22 +76,40 @@
     </div>
   </div>
 
-  <!-- <div class="fancy">
-    @for (question of sociotypeQuestions(); track i; let i = $index) {
-    <h3>{{ question.text }}</h3>
-
-    @for (option of question.options; track j; let j = $index) {
-    <div
-      class="p-1 cursor-pointer rounded hover:bg-gray-200"
-      [class]="selectedAnswers[i] === option.value ? 'bg-blue-700' : 'bg-black'"
-      (click)="selectedAnswers[i] = option.value"
-    >
-      {{ option.label }}
-    </div>
-    } }
-  </div>
-
   <div class="fancy">
-    <button (click)="finishTest()">FINISH</button>
-  </div> -->
+    <div><h4>Question overview</h4></div>
+
+    <div class="grid grid-cols-10 mb-4 gap-4">
+      @for (item of questions(); track $index) {
+      <button
+        class="w-8 h-8 md:w-10 md:h-10 rounded-sm cursor-pointer text-black font-semibold"
+        (click)="currentQuestion.set($index)"
+        [class]="
+          currentQuestion() === $index
+            ? 'bg-purple-500'
+            : answers()[questions()[$index].id] !== undefined
+            ? 'bg-green-500'
+            : 'dark:bg-gray-500 bg-gray-300'
+        "
+      >
+        {{ $index + 1 }}
+      </button>
+      }
+    </div>
+
+    <div class="mt-5 flex gap-4 justify-center">
+      <div class="flex">
+        <div class="w-5 h-5 bg-purple-500 mr-3 rounded-sm"></div>
+        <span class="text-muted-color-emphasis">Current</span>
+      </div>
+      <div class="flex">
+        <div class="w-5 h-5 bg-green-500 mr-3 rounded-sm"></div>
+        <span class="text-muted-color-emphasis">Answered</span>
+      </div>
+      <div class="flex">
+        <div class="w-5 h-5 bg-gray-300 dark:bg-gray-500 mr-3 rounded-sm"></div>
+        <span class="text-muted-color-emphasis">Unanswered</span>
+      </div>
+    </div>
+  </div>
 </div>

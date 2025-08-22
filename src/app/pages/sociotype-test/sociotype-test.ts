@@ -2,7 +2,6 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { FirebaseService } from '../../services/firebase.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -39,20 +38,6 @@ interface TestResult {
   imports: [ButtonModule, ProgressBarModule, TagModule],
   templateUrl: './sociotype-test.html',
   styleUrl: './sociotype-test.scss',
-  animations: [
-    trigger('slideAnimation', [
-      transition(':increment', [
-        // going forward
-        style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 })),
-      ]),
-      transition(':decrement', [
-        // going backward
-        style({ transform: 'translateX(-100%)', opacity: 0 }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 })),
-      ]),
-    ]),
-  ],
 })
 export class SociotypeTest {
   private firebaseService = inject(FirebaseService);
