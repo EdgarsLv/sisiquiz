@@ -20,7 +20,7 @@
 
   <div class="fancy">
     <div>
-      <h4>{{ question().question }}</h4>
+      <h4>{{ question().text }}</h4>
     </div>
 
     <div>
@@ -29,8 +29,10 @@
       @let selected = answers()[question().id]=== $index;
       <div
         class="p-4 flex items-center border-b border-[var(--surface-border)] cursor-pointer hover:bg-[var(--surface-hover)]"
-        (click)="handleAnswer(question().id, $index)"
+        (click)="handleAnswer(question().id, option.value, $index)"
         [class]="first ? 'border-t' : ''"
+        [class.animate-selected]="selected && justSelected"
+        (animationend)="onAnswerAnimationEnd()"
       >
         @if (selected) {
         <i class="pi pi-check-circle text-green-500 text-[1.2rem]"></i>
@@ -38,7 +40,7 @@
         <i class="pi pi-circle text-[1.2rem]"></i>
         }
 
-        <span class="ml-4 font-medium">{{ option }}</span>
+        <span class="ml-4 font-medium">{{ option.label }}</span>
       </div>
       }
     </div>
@@ -80,14 +82,14 @@
     <div class="grid grid-cols-10 mb-4 gap-4">
       @for (item of questions(); track $index) {
       <button
-        class="w-10 h-10 rounded-sm cursor-pointer text-black font-semibold"
+        class="w-8 h-8 md:w-10 md:h-10 rounded-sm cursor-pointer text-black font-semibold"
         (click)="currentQuestion.set($index)"
         [class]="
           currentQuestion() === $index
             ? 'bg-purple-500'
             : answers()[questions()[$index].id] !== undefined
             ? 'bg-green-500'
-            : 'bg-gray-500'
+            : 'dark:bg-gray-500 bg-gray-300'
         "
       >
         {{ $index + 1 }}

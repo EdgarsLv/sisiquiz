@@ -1,1 +1,69 @@
-<p>love-test works!</p>
+<div class="section">
+  <div class="fancy">
+    <div>
+      <h4>{{ question().text }}</h4>
+    </div>
+
+    <div>
+      @for (option of questionOptions(); track $index; let first = $first) {
+      <!-- SELECTED -->
+      @let selected = answers()[question().id]=== $index;
+      <div
+        class="p-4 flex items-center border-b border-[var(--surface-border)] cursor-pointer hover:bg-[var(--surface-hover)]"
+        (click)="handleAnswer(question().id, option.value, $index)"
+        [class]="first ? 'border-t' : ''"
+      >
+        @if (selected) {
+        <i class="pi pi-check-circle text-green-500 text-[1.2rem]"></i>
+        }@else {
+        <i class="pi pi-circle text-[1.2rem]"></i>
+        }
+
+        <span class="ml-4 font-medium">{{ option.label }}</span>
+      </div>
+      }
+    </div>
+
+    <div class="flex justify-between mt-4">
+      <p-button
+        variant="outlined"
+        severity="contrast"
+        (click)="prevQuestion()"
+        [disabled]="currentQuestion() === 0"
+      >
+        Previous
+      </p-button>
+      @if (currentQuestion() < questions().length - 1) {
+      <p-button
+        variant="outlined"
+        severity="contrast"
+        (click)="nextQuestion()"
+        [disabled]="answers()[question().id] === undefined"
+      >
+        Next
+      </p-button>
+      }@else {
+      <p-button variant="outlined" severity="success"> Submit </p-button>
+      }
+    </div>
+  </div>
+
+  <!-- <div class="fancy">
+    @for (question of sociotypeQuestions(); track i; let i = $index) {
+    <h3>{{ question.text }}</h3>
+
+    @for (option of question.options; track j; let j = $index) {
+    <div
+      class="p-1 cursor-pointer rounded hover:bg-gray-200"
+      [class]="selectedAnswers[i] === option.value ? 'bg-blue-700' : 'bg-black'"
+      (click)="selectedAnswers[i] = option.value"
+    >
+      {{ option.label }}
+    </div>
+    } }
+  </div>
+
+  <div class="fancy">
+    <button (click)="finishTest()">FINISH</button>
+  </div> -->
+</div>
