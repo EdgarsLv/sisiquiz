@@ -1,8 +1,13 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { FirebaseService } from '../../services/firebase.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { db } from '../../firebase.config';
+import { doc } from 'firebase/firestore';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 
@@ -50,6 +55,10 @@ interface TestResult {
   ],
 })
 export class SociotypeTest {
+  private firebaseService = inject(FirebaseService);
+  public authService = inject(AuthService);
+  public router = inject(Router);
+
   public questions = signal<Question[]>(sociotypeQuestions);
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
@@ -100,7 +109,7 @@ export class SociotypeTest {
   };
 
   public handleSubmit(): void {
-    // this.isLoading.set(true);
+    this.isLoading.set(true);
 
     if (this.selectedAnswers.includes(null)) {
       alert('Please answer all questions.');
@@ -111,7 +120,22 @@ export class SociotypeTest {
     console.log(result);
     // e.g. { type: "INTP", percentages: { E: 40, I: 60, ... } }
 
-    // this.saveTestResult(result);
+    this.saveTestResult(result);
+  }
+
+  private async saveTestResult(result: TestResult): Promise<void> {
+    try {
+      const userId = this.authService.authUser()!.uid;
+      // const resultRef = doc(collection(db, `users/${userId}/sociotype`));
+      const userRef = doc(db, 'users', userId);
+
+      await this.firebaseService.update(userRef, { sociotype: result });
+
+      this.router.navigate(['/results']);
+    } catch (err) {
+      console.error('Failed to save test result', err);
+      this.isLoading.set(false);
+    }
   }
 }
 
