@@ -41,6 +41,17 @@ const defaultStats: TestStats = {
   currentScore: 0,
 };
 
+const dichotomyMap: Record<Dichotomy, string> = {
+  E: 'Extraverted',
+  I: 'Introverted',
+  S: 'Sensing',
+  N: 'Intuitive',
+  T: 'Thinking',
+  F: 'Feeling',
+  J: 'Judging',
+  P: 'Perceiving',
+};
+
 @Component({
   selector: 'app-results',
   imports: [
@@ -158,7 +169,8 @@ export class Results implements OnInit {
     const sociotype = this.sociotype()!.percentages;
     const type = this.sociotype()!.type;
 
-    const labels = Object.keys(sociotype);
+    // const labels = Object.keys(sociotype);
+    const labels = (Object.keys(sociotype) as Dichotomy[]).map((d) => dichotomyMap[d]);
     const data = Object.values(sociotype);
 
     return {
@@ -274,27 +286,11 @@ export class Results implements OnInit {
     return `${Math.min((result.score / 150) * 100, 100)}`;
   }
 
-  public getScoreColor(score: number): string {
-    if (score >= 130) return 'contrast';
-    if (score >= 115) return 'info';
-    if (score >= 100) return 'success';
-    if (score >= 85) return 'warn';
-    return 'danger';
-  }
-
   public getScoreLevel(score: number): string {
     if (score >= 130) return 'purple';
     if (score >= 115) return 'blue';
     if (score >= 100) return 'green';
     if (score >= 85) return 'orange';
     return 'red';
-  }
-
-  public getScoreGradient(score: number): string {
-    if (score >= 130) return 'bg-gradient-to-r from-purple-600 to-pink-600';
-    if (score >= 115) return 'bg-gradient-to-r from-blue-600 to-cyan-600';
-    if (score >= 100) return 'bg-gradient-to-r from-green-600 to-emerald-600';
-    if (score >= 85) return 'bg-gradient-to-r from-yellow-600 to-orange-600';
-    return 'bg-gradient-to-r from-red-600 to-rose-600';
   }
 }
