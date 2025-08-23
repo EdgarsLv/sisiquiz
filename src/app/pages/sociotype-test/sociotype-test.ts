@@ -102,9 +102,6 @@ export class SociotypeTest {
     }
 
     const result = calculateSociotype(this.selectedAnswers as Dichotomy[]);
-    console.log(result);
-    // e.g. { type: "INTP", percentages: { E: 40, I: 60, ... } }
-
     this.saveTestResult(result);
   }
 

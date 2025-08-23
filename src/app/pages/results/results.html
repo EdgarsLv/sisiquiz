@@ -22,17 +22,14 @@
       (onClick)="goToShareScreen()"
     />
   </div>
+
+  }
+  <!-- SPACE -->
+  @if (sociotype()) {
+  <app-sociotype-chart [sociotype]="sociotype()!" />
   }
 
-  <div class="fancy">
-    <h4>Sociotype</h4>
-
-    <div class="relative h-60">
-      <canvas baseChart [data]="barData()" [options]="barOptions" [type]="'bar'"> </canvas>
-    </div>
-  </div>
-
-  <div class="grid lg:grid-cols-6 gap-4 sm:grid-cols-3">
+  <div class="grid lg:grid-cols-6 gap-4 sm:grid-cols-3 my-8">
     <app-stats-widget text="Current score" [score]="stats().currentScore" icon="pi pi-lightbulb" />
     <app-stats-widget
       text="Highest score"
@@ -66,15 +63,9 @@
     />
   </div>
 
-  <div class="fancy mt-8">
-    <h4 class="mb-0!">IQ Score timeline</h4>
+  <app-iq-score-chart [results]="results()" />
 
-    <div class="relative min-h-60">
-      <canvas baseChart [data]="lineData()" [options]="lineOptions" [type]="'line'"> </canvas>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 mt-8">
     <div class="fancy mb-0!">
       <h4>Score interpretation</h4>
 

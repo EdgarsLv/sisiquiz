@@ -7,8 +7,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { AuthService } from '../../services/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { SociotypeChart } from './components/sociotype-chart/sociotype-chart';
+import { IqScoreChart } from './components/iq-score-chart/iq-score-chart';
 
 type TestStats = {
   average: number;
@@ -41,17 +41,6 @@ const defaultStats: TestStats = {
   currentScore: 0,
 };
 
-const dichotomyMap: Record<Dichotomy, string> = {
-  E: 'Extraverted',
-  I: 'Introverted',
-  S: 'Sensing',
-  N: 'Intuitive',
-  T: 'Thinking',
-  F: 'Feeling',
-  J: 'Judging',
-  P: 'Perceiving',
-};
-
 @Component({
   selector: 'app-results',
   imports: [
@@ -61,7 +50,8 @@ const dichotomyMap: Record<Dichotomy, string> = {
     ProgressBarModule,
     AvatarModule,
     TagModule,
-    BaseChartDirective,
+    SociotypeChart,
+    IqScoreChart,
   ],
   templateUrl: './results.html',
   styleUrl: './results.scss',
@@ -87,146 +77,11 @@ export class Results implements OnInit {
 
   public user = this.authService.authUser;
 
-  public lineOptions: ChartConfiguration<'line'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    plugins: {
-      legend: { align: 'end' },
-    },
-
-    scales: {
-      y: {
-        type: 'linear',
-        position: 'left',
-        title: {
-          display: true,
-          text: 'Score',
-        },
-        suggestedMin: 60,
-        suggestedMax: 150,
-        min: 60,
-      },
-      y1: {
-        type: 'linear',
-        position: 'right',
-        grid: {
-          drawOnChartArea: false,
-        },
-        title: {
-          display: true,
-          text: 'Time (min)',
-        },
-        suggestedMin: 5,
-        suggestedMax: 30,
-      },
-    },
-  };
-
-  public barOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            // context.label is your dichotomy (E, I, S, etc.)
-            // context.parsed.y or .parsed.x (depending on chart type) is the value
-            // const label = context.label || '';
-            const value = context.parsed.y ?? context.parsed.x;
-            return ` ${value} %`;
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        title: { display: true, text: 'Personality traits' },
-      },
-      y: {
-        title: { display: true, text: 'Percentage' },
-        min: 0,
-        max: 100,
-      },
-    },
-  };
-
-  public lineData = computed<ChartConfiguration<'line'>['data']>(() => this.mapResultsToLineData());
-  public barData = computed<ChartConfiguration<'bar'>['data']>(() => this.mapSociotypeToBarData());
-
   public ngOnInit(): void {
     this.activatedRoute.data.subscribe((data) => {
       this.results.set(data['data'] || []);
       this.sociotype.set(data['sociotype']?.sociotype);
     });
-  }
-
-  private mapSociotypeToBarData(): ChartConfiguration<'bar'>['data'] {
-    const sociotype = this.sociotype()!.percentages;
-    const type = this.sociotype()!.type;
-
-    // const labels = Object.keys(sociotype);
-    const labels = (Object.keys(sociotype) as Dichotomy[]).map((d) => dichotomyMap[d]);
-    const data = Object.values(sociotype);
-
-    return {
-      labels,
-      datasets: [
-        {
-          label: type,
-          data,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)', // red
-            'rgba(255, 159, 64, 0.2)', // orange
-            'rgba(255, 205, 86, 0.2)', // yellow
-            'rgba(75, 192, 192, 0.2)', // teal
-            'rgba(54, 162, 235, 0.2)', // blue
-            'rgba(153, 102, 255, 0.2)', // purple
-            'rgba(0, 200, 83, 0.2)', // green (replacement for gray)
-            'rgba(233, 30, 99, 0.2)', // pink/magenta
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(0, 200, 83)',
-            'rgb(233, 30, 99)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
-  }
-
-  private mapResultsToLineData(): ChartConfiguration<'line'>['data'] {
-    const labels = this.results().map((r) => new Date(r.date).toLocaleDateString());
-    const score = this.results().map((r) => r.score);
-    const time = this.results().map((r) => Math.ceil(r.timeSpent / 60));
-
-    return {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Score',
-          data: score,
-          borderColor: 'blue',
-          yAxisID: 'y',
-        },
-        {
-          label: 'Completion Time (min)',
-          data: time,
-          borderColor: 'green',
-          yAxisID: 'y1',
-        },
-      ],
-    };
   }
 
   public goToShareScreen(): void {
