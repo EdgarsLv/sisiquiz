@@ -60,6 +60,7 @@ export class SociotypeStatistics {
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
+    indexAxis: 'y',
     plugins: {
       legend: {
         display: true,
@@ -67,8 +68,8 @@ export class SociotypeStatistics {
       },
     },
     scales: {
-      x: {},
-      y: { min: 0, suggestedMax: 10 },
+      x: { min: 0, suggestedMax: 10 },
+      y: {},
     },
   };
 
