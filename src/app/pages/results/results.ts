@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SociotypeChart } from './components/sociotype-chart/sociotype-chart';
 import { IqScoreChart } from './components/iq-score-chart/iq-score-chart';
 import { LoveTestResults } from '../love-test/love-test';
+import { LoveLanguageChart } from './components/love-language-chart/love-language-chart';
 
 type TestStats = {
   average: number;
@@ -53,6 +54,7 @@ const defaultStats: TestStats = {
     TagModule,
     SociotypeChart,
     IqScoreChart,
+    LoveLanguageChart,
   ],
   templateUrl: './results.html',
   styleUrl: './results.scss',
@@ -84,7 +86,6 @@ export class Results implements OnInit {
       this.results.set(data['data'] || []);
       this.sociotype.set(data['mbti']);
       this.loveResults.set(data['love']);
-      console.log('love', data['love']);
     });
   }
 

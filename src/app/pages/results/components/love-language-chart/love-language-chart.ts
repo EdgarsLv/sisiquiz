@@ -1,34 +1,30 @@
 import { Component, computed, input } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { LoveTestResults } from '../../../love-test/love-test';
 
-type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
-type TSociotype = {
-  percentages: Record<Dichotomy, number>;
-  type: string;
-};
+export type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
 
-const dichotomyMap: Record<Dichotomy, string> = {
-  E: 'Extraverted',
-  I: 'Introverted',
-  S: 'Sensing',
-  N: 'Intuitive',
-  T: 'Thinking',
-  F: 'Feeling',
-  J: 'Judging',
-  P: 'Perceiving',
+const loveLanguageMap: Record<LoveLanguage, string> = {
+  words: 'Words of Affirmation',
+  acts: 'Acts of Service',
+  gifts: 'Receiving Gifts',
+  quality: 'Quality Time',
+  touch: 'Physical Touch',
 };
 
 @Component({
-  selector: 'app-sociotype-chart',
+  selector: 'app-love-language-chart',
   imports: [BaseChartDirective],
-  templateUrl: './sociotype-chart.html',
-  styleUrl: './sociotype-chart.scss',
+  templateUrl: './love-language-chart.html',
+  styleUrl: './love-language-chart.scss',
 })
-export class SociotypeChart {
-  public sociotype = input.required<TSociotype>();
+export class LoveLanguageChart {
+  public loveLanguage = input.required<LoveTestResults>();
 
-  public barData = computed<ChartConfiguration<'bar'>['data']>(() => this.mapSociotypeToBarData());
+  public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
+    this.mapLoveLanguageToBarData()
+  );
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -49,7 +45,7 @@ export class SociotypeChart {
     },
     scales: {
       x: {
-        title: { display: false, text: 'Personality traits' },
+        title: { display: false, text: 'Love languages' },
       },
       y: {
         title: { display: true, text: 'Percentage' },
@@ -59,18 +55,18 @@ export class SociotypeChart {
     },
   };
 
-  private mapSociotypeToBarData(): ChartConfiguration<'bar'>['data'] {
-    const sociotype = this.sociotype().percentages;
-    const type = this.sociotype().type;
+  private mapLoveLanguageToBarData(): ChartConfiguration<'bar'>['data'] {
+    const language = this.loveLanguage().percentages;
+    const topLanguage = this.loveLanguage().topLanguages[0];
 
-    const labels = (Object.keys(sociotype) as Dichotomy[]).map((d) => dichotomyMap[d]);
-    const data = Object.values(sociotype);
+    const labels = Object.keys(language).map((key) => loveLanguageMap[key as LoveLanguage]);
+    const data = Object.values(language);
 
     return {
       labels,
       datasets: [
         {
-          label: type,
+          label: topLanguage,
           data,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)', // red
@@ -78,9 +74,6 @@ export class SociotypeChart {
             'rgba(255, 205, 86, 0.2)', // yellow
             'rgba(75, 192, 192, 0.2)', // teal
             'rgba(54, 162, 235, 0.2)', // blue
-            'rgba(153, 102, 255, 0.2)', // purple
-            'rgba(0, 200, 83, 0.2)', // green (replacement for gray)
-            'rgba(233, 30, 99, 0.2)', // pink/magenta
           ],
           borderColor: [
             'rgb(255, 99, 132)',
@@ -88,9 +81,6 @@ export class SociotypeChart {
             'rgb(255, 205, 86)',
             'rgb(75, 192, 192)',
             'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(0, 200, 83)',
-            'rgb(233, 30, 99)',
           ],
           borderWidth: 1,
         },
