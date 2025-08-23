@@ -11,8 +11,8 @@ import { TabsModule } from 'primeng/tabs';
 })
 export class Statistics {
   public tabs = [
-    { route: 'iq-statistics', label: 'IQ Scores', icon: 'pi pi-home' },
-    { route: 'sociotype-statistics', label: 'Sociotypes', icon: 'pi pi-chart-line' },
-    { route: 'love-statistics', label: 'Love Languages', icon: 'pi pi-list' },
+    { route: 'iq', label: 'IQ Scores', icon: 'pi pi-wave-pulse' },
+    { route: 'sociotype', label: 'Sociotypes', icon: 'pi pi-users' },
+    { route: 'love', label: 'Love Languages', icon: 'pi pi-heart' },
   ];
 }

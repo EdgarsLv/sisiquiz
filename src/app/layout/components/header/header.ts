@@ -65,7 +65,7 @@ export class Header {
       {
         label: 'View Statistics',
         icon: 'pi pi-chart-scatter',
-        link: 'statistics',
+        link: 'statistics/iq',
       },
     ];
   }

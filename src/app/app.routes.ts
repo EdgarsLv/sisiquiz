@@ -59,23 +59,22 @@ export const routes: Routes = [
       {
         path: 'statistics',
         loadComponent: () => import('./pages/statistics/statistics').then((c) => c.Statistics),
-        resolve: { data: statisticsResolver },
         canActivate: [authGuard, profileGuard],
         children: [
           {
-            path: 'iq-statistics',
+            path: 'iq',
             loadComponent: () =>
               import('./pages/iq-statistics/iq-statistics').then((c) => c.IqStatistics),
             resolve: { data: iqStatisticsResolver },
           },
           {
-            path: 'love-statistics',
+            path: 'love',
             loadComponent: () =>
               import('./pages/love-statistics/love-statistics').then((c) => c.LoveStatistics),
             resolve: { data: loveStatisticsResolver },
           },
           {
-            path: 'sociotype-statistics',
+            path: 'sociotype',
             loadComponent: () =>
               import('./pages/sociotype-statistics/sociotype-statistics').then(
                 (c) => c.SociotypeStatistics
@@ -89,10 +88,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/login/login').then((c) => c.Login),
         canActivate: [guestGuard],
       },
-      {
-        path: '**',
-        component: Home,
-      },
+      { path: '**', redirectTo: '/', pathMatch: 'full' },
     ],
   },
 ];
