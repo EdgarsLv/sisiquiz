@@ -51,6 +51,7 @@ export class LoveTest {
   });
 
   private selectedAnswers: (LoveLanguage | null)[] = Array(questions.length).fill(null);
+  private profile = this.authService.profile;
 
   public justSelected = false;
 
@@ -94,11 +95,6 @@ export class LoveTest {
 
     const result = calculateLoveLanguageResults(this.selectedAnswers);
     this.saveTestResult(result);
-    //     {
-    //   counts: { words: 8, acts: 5, gifts: 6, quality: 7, touch: 4 },
-    //   percentages: { words: 26.7, acts: 16.7, gifts: 20, quality: 23.3, touch: 13.3 },
-    //   topLanguages: ['words']
-    // }
   }
 
   private async saveTestResult(result: LoveTestResults): Promise<void> {
@@ -108,6 +104,8 @@ export class LoveTest {
 
       const finalResult = {
         ...result,
+        gender: this.profile()?.gender,
+        age: this.profile()?.age,
         createdAt: serverTimestamp(),
       };
       await this.firebaseService.add(resultRef, finalResult);

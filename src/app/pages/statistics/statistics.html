@@ -1,11 +1,10 @@
 <div class="section">
-  <div class="fancy relative h-svh-adjusted">
-    <canvas
-      baseChart
-      [data]="scatterData()"
-      [options]="scatterChartOptions"
-      [type]="'scatter'"
-    >
-    </canvas>
+  <div class="fancy">
+    <h4 class="mb-0!">IQ Sores by age and sex</h4>
+
+    <div class="relative h-svh-adjusted">
+      <canvas baseChart [data]="scatterData()" [options]="scatterChartOptions" [type]="'scatter'">
+      </canvas>
+    </div>
   </div>
 </div>

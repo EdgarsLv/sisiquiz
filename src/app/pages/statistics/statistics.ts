@@ -23,12 +23,6 @@ export class Statistics {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      title: {
-        display: true,
-        text: 'IQ Scores by age and sex',
-        align: 'start',
-        font: { size: 20 },
-      },
       legend: { align: 'end' },
       tooltip: {
         callbacks: {

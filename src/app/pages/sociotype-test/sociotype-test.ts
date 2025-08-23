@@ -60,6 +60,7 @@ export class SociotypeTest {
   });
 
   private selectedAnswers: (Dichotomy | null)[] = Array(sociotypeQuestions.length).fill(null);
+  private profile = this.authService.profile;
 
   public justSelected = false;
 
@@ -112,6 +113,8 @@ export class SociotypeTest {
 
       const finalResult = {
         ...result,
+        gender: this.profile()?.gender,
+        age: this.profile()?.age,
         createdAt: serverTimestamp(),
       };
       await this.firebaseService.add(resultRef, finalResult);
