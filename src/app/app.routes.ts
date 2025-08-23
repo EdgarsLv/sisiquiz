@@ -11,6 +11,7 @@ import { guestGuard } from './guards/guest.guard';
 import { mbtiResolver } from './pages/results/mbti.resolver';
 import { loveResolver } from './pages/results/love.resolver';
 import { loveStatisticsResolver } from './pages/love-statistics/love-statistics.resolver';
+import { sociotypeStatisticsResolver } from './pages/sociotype-statistics/sociotype-statistics.resolver';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/love-statistics/love-statistics').then((c) => c.LoveStatistics),
         resolve: { data: loveStatisticsResolver },
+        canActivate: [authGuard, profileGuard],
+      },
+      {
+        path: 'sociotype-statistics',
+        loadComponent: () =>
+          import('./pages/sociotype-statistics/sociotype-statistics').then(
+            (c) => c.SociotypeStatistics
+          ),
+        resolve: { data: sociotypeStatisticsResolver },
         canActivate: [authGuard, profileGuard],
       },
       {

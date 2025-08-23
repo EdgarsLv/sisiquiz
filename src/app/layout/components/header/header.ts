@@ -63,6 +63,11 @@ export class Header {
         link: 'love-statistics',
       },
       {
+        label: 'MBTI statistics',
+        icon: 'pi pi-clock',
+        link: 'sociotype-statistics',
+      },
+      {
         label: 'View Results',
         icon: 'pi pi-chart-bar',
         link: 'results',

@@ -32,15 +32,15 @@ export class LoveStatistics {
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
-
-    scales: {
-      x: {},
-      y: { min: 0, suggestedMax: 10 },
-    },
     plugins: {
       legend: {
         display: true,
+        align: 'end',
       },
+    },
+    scales: {
+      x: {},
+      y: { min: 0, suggestedMax: 10 },
     },
   };
 
