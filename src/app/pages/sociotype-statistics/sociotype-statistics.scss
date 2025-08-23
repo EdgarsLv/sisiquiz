@@ -1,11 +1,3 @@
-.section {
-  margin-inline: 10%;
-
-  @media (max-width: 900px) {
-    margin-inline: 0;
-  }
-}
-
 .h-svh-adjusted {
   max-height: calc(100svh - 265px);
   min-height: calc(100svh - 265px);

@@ -33,14 +33,7 @@ export const serverRoutes: ServerRoute[] = [
     path: 'statistics',
     renderMode: RenderMode.Client,
   },
-  {
-    path: 'love-statistics',
-    renderMode: RenderMode.Client,
-  },
-  {
-    path: 'sociotype-statistics',
-    renderMode: RenderMode.Client,
-  },
+
   {
     path: '**',
     renderMode: RenderMode.Prerender,

@@ -12,6 +12,7 @@ import { mbtiResolver } from './pages/results/mbti.resolver';
 import { loveResolver } from './pages/results/love.resolver';
 import { loveStatisticsResolver } from './pages/love-statistics/love-statistics.resolver';
 import { sociotypeStatisticsResolver } from './pages/sociotype-statistics/sociotype-statistics.resolver';
+import { iqStatisticsResolver } from './pages/iq-statistics/iq-statistics.resolver';
 
 export const routes: Routes = [
   {
@@ -27,22 +28,6 @@ export const routes: Routes = [
         path: 'profile',
         loadComponent: () => import('./pages/profile/profile').then((c) => c.Profile),
         canActivate: [authGuard],
-      },
-      {
-        path: 'love-statistics',
-        loadComponent: () =>
-          import('./pages/love-statistics/love-statistics').then((c) => c.LoveStatistics),
-        resolve: { data: loveStatisticsResolver },
-        canActivate: [authGuard, profileGuard],
-      },
-      {
-        path: 'sociotype-statistics',
-        loadComponent: () =>
-          import('./pages/sociotype-statistics/sociotype-statistics').then(
-            (c) => c.SociotypeStatistics
-          ),
-        resolve: { data: sociotypeStatisticsResolver },
-        canActivate: [authGuard, profileGuard],
       },
       {
         path: 'iq-test',
@@ -76,6 +61,28 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/statistics/statistics').then((c) => c.Statistics),
         resolve: { data: statisticsResolver },
         canActivate: [authGuard, profileGuard],
+        children: [
+          {
+            path: 'iq-statistics',
+            loadComponent: () =>
+              import('./pages/iq-statistics/iq-statistics').then((c) => c.IqStatistics),
+            resolve: { data: iqStatisticsResolver },
+          },
+          {
+            path: 'love-statistics',
+            loadComponent: () =>
+              import('./pages/love-statistics/love-statistics').then((c) => c.LoveStatistics),
+            resolve: { data: loveStatisticsResolver },
+          },
+          {
+            path: 'sociotype-statistics',
+            loadComponent: () =>
+              import('./pages/sociotype-statistics/sociotype-statistics').then(
+                (c) => c.SociotypeStatistics
+              ),
+            resolve: { data: sociotypeStatisticsResolver },
+          },
+        ],
       },
       {
         path: 'login',
