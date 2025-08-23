@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase.config';
+import { StorageService } from '../../services/storage.service';
 
 type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
 interface Question {
@@ -32,8 +33,9 @@ export type LoveTestResults = {
 })
 export class LoveTest {
   private firebaseService = inject(FirebaseService);
-  public authService = inject(AuthService);
-  public router = inject(Router);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private storageService = inject(StorageService);
 
   public questions = signal<Question[]>(questions);
   public currentQuestion = signal<number>(0);
@@ -110,6 +112,7 @@ export class LoveTest {
       };
       await this.firebaseService.add(resultRef, finalResult);
 
+      this.storageService.storeTimer('love');
       this.router.navigate(['/results']);
     } catch (err) {
       console.error('Failed to save test result', err);

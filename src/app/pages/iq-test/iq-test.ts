@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase.config';
+import { StorageService } from '../../services/storage.service';
 
 type Questions = {
   id: number;
@@ -32,8 +33,9 @@ type TestResult = {
 })
 export class IqTest implements OnInit {
   private firebaseService = inject(FirebaseService);
-  public authService = inject(AuthService);
-  public router = inject(Router);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private storageService = inject(StorageService);
 
   public questions = signal<Questions[]>(questions);
   public currentQuestion = signal<number>(0);
@@ -88,6 +90,7 @@ export class IqTest implements OnInit {
 
       await this.firebaseService.commitBatch(batch);
 
+      this.storageService.storeTimer('iq');
       this.router.navigate(['/results']);
     } catch (err) {
       console.error('Failed to save test result', err);

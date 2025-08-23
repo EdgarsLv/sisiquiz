@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { db } from '../../firebase.config';
 import { collection, serverTimestamp } from 'firebase/firestore';
+import { StorageService } from '../../services/storage.service';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 
@@ -41,8 +42,9 @@ interface TestResult {
 })
 export class SociotypeTest {
   private firebaseService = inject(FirebaseService);
-  public authService = inject(AuthService);
-  public router = inject(Router);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private storageService = inject(StorageService);
 
   public questions = signal<Question[]>(sociotypeQuestions);
   public currentQuestion = signal<number>(0);
@@ -119,6 +121,7 @@ export class SociotypeTest {
       };
       await this.firebaseService.add(resultRef, finalResult);
 
+      this.storageService.storeTimer('mbti');
       this.router.navigate(['/results']);
     } catch (err) {
       console.error('Failed to save test result', err);

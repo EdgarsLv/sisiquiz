@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Message } from 'primeng/message';
+import { StorageService } from '../../services/storage.service';
 
 type AvailableTests = {
   icon: string;
@@ -48,8 +49,9 @@ const tests: AvailableTests[] = [
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnDestroy {
-  public authService = inject(AuthService);
+  private authService = inject(AuthService);
   private router = inject(Router);
+  private storageService = inject(StorageService);
 
   public init = signal<boolean>(true);
   public canTakeTest = signal<boolean>(false);
@@ -73,6 +75,8 @@ export class Dashboard implements OnDestroy {
           this.timerId = setInterval(() => this.updateCountdown(date), 1000);
         }
       });
+
+    console.log('love', this.storageService.getTimer('love'));
   }
 
   public navigateToTest(link: string): void {
