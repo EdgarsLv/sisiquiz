@@ -100,3 +100,24 @@ exports.onMbtiResultCreated = functions
         { merge: true }
       );
   });
+
+exports.onLoveResultCreated = functions
+  .runWith({ maxInstances: 10 })
+  .firestore.document('users/{userId}/loveResults/{resultId}')
+  .onCreate(async (snap, context) => {
+    const data = snap.data();
+    const userId = context.params.userId;
+
+    // Write/update in global results (doc ID = userId)
+    await db
+      .collection('loveStatistics')
+      .doc(userId)
+      .set(
+        {
+          ...data,
+          userId,
+          updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+  });

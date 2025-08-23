@@ -9,6 +9,7 @@ import { resultsResolver } from './pages/results/results.resolver';
 import { statisticsResolver } from './pages/statistics/statistics.resolver';
 import { guestGuard } from './guards/guest.guard';
 import { mbtiResolver } from './pages/results/mbti.resolver';
+import { loveResolver } from './pages/results/love.resolver';
 
 export const routes: Routes = [
   {
@@ -54,7 +55,7 @@ export const routes: Routes = [
       {
         path: 'results',
         loadComponent: () => import('./pages/results/results').then((c) => c.Results),
-        resolve: { data: resultsResolver, mbti: mbtiResolver },
+        resolve: { data: resultsResolver, mbti: mbtiResolver, love: loveResolver },
         canActivate: [authGuard, profileGuard],
       },
       {

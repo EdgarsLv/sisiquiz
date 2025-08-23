@@ -1,10 +1,14 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
+import { FirebaseService } from '../../services/firebase.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase.config';
 
 type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
-
 interface Question {
   id: number;
   text: string;
@@ -14,6 +18,12 @@ interface Question {
   }[];
 }
 
+export type LoveTestResults = {
+  counts: Record<LoveLanguage, number>;
+  percentages: Record<LoveLanguage, number>;
+  topLanguages: LoveLanguage[];
+};
+
 @Component({
   selector: 'app-love-test',
   imports: [ButtonModule, TagModule, ProgressBarModule],
@@ -21,6 +31,10 @@ interface Question {
   styleUrl: './love-test.scss',
 })
 export class LoveTest {
+  private firebaseService = inject(FirebaseService);
+  public authService = inject(AuthService);
+  public router = inject(Router);
+
   public questions = signal<Question[]>(questions);
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
@@ -71,7 +85,7 @@ export class LoveTest {
   };
 
   public handleSubmit(): void {
-    // this.isLoading.set(true);
+    this.isLoading.set(true);
 
     if (this.selectedAnswers.includes(null)) {
       alert('Please answer all questions.');
@@ -79,8 +93,7 @@ export class LoveTest {
     }
 
     const result = calculateLoveLanguageResults(this.selectedAnswers);
-    console.log(result);
-
+    this.saveTestResult(result);
     //     {
     //   counts: { words: 8, acts: 5, gifts: 6, quality: 7, touch: 4 },
     //   percentages: { words: 26.7, acts: 16.7, gifts: 20, quality: 23.3, touch: 13.3 },
@@ -88,23 +101,26 @@ export class LoveTest {
     // }
   }
 
-  //     private async saveTestResult(result: TestResult): Promise<void> {
-  //   try {
-  //     const userId = this.authService.authUser()!.uid;
+  private async saveTestResult(result: LoveTestResults): Promise<void> {
+    try {
+      const userId = this.authService.authUser()!.uid;
+      const resultRef = collection(db, `users/${userId}/loveResults`);
 
-  //     const userRef = doc(db, 'users', userId);
+      const finalResult = {
+        ...result,
+        createdAt: serverTimestamp(),
+      };
+      await this.firebaseService.add(resultRef, finalResult);
 
-  //     await this.firebaseService.update(userRef, { sociotype: result });
-
-  //     this.router.navigate(['/results']);
-  //   } catch (err) {
-  //     console.error('Failed to save test result', err);
-  //     this.isLoading.set(false);
-  //   }
-  // }
+      this.router.navigate(['/results']);
+    } catch (err) {
+      console.error('Failed to save test result', err);
+      this.isLoading.set(false);
+    }
+  }
 }
 
-function calculateLoveLanguageResults(answers: (LoveLanguage | null)[]) {
+function calculateLoveLanguageResults(answers: (LoveLanguage | null)[]): LoveTestResults {
   const counts: Record<LoveLanguage, number> = {
     words: 0,
     acts: 0,
@@ -122,11 +138,11 @@ function calculateLoveLanguageResults(answers: (LoveLanguage | null)[]) {
 
   // Calculate percentages
   const percentages: Record<LoveLanguage, number> = {
-    words: (counts.words / totalAnswered) * 100,
-    acts: (counts.acts / totalAnswered) * 100,
-    gifts: (counts.gifts / totalAnswered) * 100,
-    quality: (counts.quality / totalAnswered) * 100,
-    touch: (counts.touch / totalAnswered) * 100,
+    words: Math.round((counts.words / totalAnswered) * 100),
+    acts: Math.round((counts.acts / totalAnswered) * 100),
+    gifts: Math.round((counts.gifts / totalAnswered) * 100),
+    quality: Math.round((counts.quality / totalAnswered) * 100),
+    touch: Math.round((counts.touch / totalAnswered) * 100),
   };
 
   // Find the highest count(s)

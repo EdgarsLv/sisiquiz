@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SociotypeChart } from './components/sociotype-chart/sociotype-chart';
 import { IqScoreChart } from './components/iq-score-chart/iq-score-chart';
+import { LoveTestResults } from '../love-test/love-test';
 
 type TestStats = {
   average: number;
@@ -72,6 +73,7 @@ export class Results implements OnInit {
 
   public results = signal<TTestResult[]>([]);
   public sociotype = signal<TSociotype | undefined>(undefined);
+  public loveResults = signal<LoveTestResults | undefined>(undefined);
 
   public lastResultId = computed(() => this.results().at(-1)?.id || null);
 
@@ -81,6 +83,8 @@ export class Results implements OnInit {
     this.activatedRoute.data.subscribe((data) => {
       this.results.set(data['data'] || []);
       this.sociotype.set(data['mbti']);
+      this.loveResults.set(data['love']);
+      console.log('love', data['love']);
     });
   }
 
