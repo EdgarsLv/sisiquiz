@@ -6,6 +6,7 @@ import {
   DocumentReference,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   setDoc,
@@ -34,6 +35,25 @@ export class FirebaseService {
     try {
       const snapshot = await getDoc(ref);
       return snapshot.exists() ? (snapshot.data() as T) : undefined;
+    } finally {
+      this.loader.hide();
+    }
+  }
+
+  async getLast<T>(
+    ref: CollectionReference<T>,
+    orderField?: string,
+    direction: 'asc' | 'desc' = 'desc'
+  ): Promise<T | null> {
+    this.loader.show();
+    try {
+      const q = orderField ? query(ref, orderBy(orderField, direction), limit(1)) : ref;
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        return snapshot.docs[0].data();
+      }
+      return null;
     } finally {
       this.loader.hide();
     }

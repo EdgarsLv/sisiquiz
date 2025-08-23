@@ -8,7 +8,7 @@ import { imageResolver } from './pages/result/image.resolver';
 import { resultsResolver } from './pages/results/results.resolver';
 import { statisticsResolver } from './pages/statistics/statistics.resolver';
 import { guestGuard } from './guards/guest.guard';
-import { sociotypeResolver } from './pages/results/sociotype.resolver';
+import { mbtiResolver } from './pages/results/mbti.resolver';
 
 export const routes: Routes = [
   {
@@ -54,7 +54,7 @@ export const routes: Routes = [
       {
         path: 'results',
         loadComponent: () => import('./pages/results/results').then((c) => c.Results),
-        resolve: { data: resultsResolver, sociotype: sociotypeResolver },
+        resolve: { data: resultsResolver, mbti: mbtiResolver },
         canActivate: [authGuard, profileGuard],
       },
       {

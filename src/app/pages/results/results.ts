@@ -80,7 +80,7 @@ export class Results implements OnInit {
   public ngOnInit(): void {
     this.activatedRoute.data.subscribe((data) => {
       this.results.set(data['data'] || []);
-      this.sociotype.set(data['sociotype']?.sociotype);
+      this.sociotype.set(data['mbti']);
     });
   }
 

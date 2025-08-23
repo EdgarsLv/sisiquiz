@@ -6,7 +6,7 @@ import { FirebaseService } from '../../services/firebase.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { db } from '../../firebase.config';
-import { doc } from 'firebase/firestore';
+import { collection, serverTimestamp } from 'firebase/firestore';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 
@@ -108,10 +108,13 @@ export class SociotypeTest {
   private async saveTestResult(result: TestResult): Promise<void> {
     try {
       const userId = this.authService.authUser()!.uid;
-      // const resultRef = doc(collection(db, `users/${userId}/sociotype`));
-      const userRef = doc(db, 'users', userId);
+      const resultRef = collection(db, `users/${userId}/mbtiResults`);
 
-      await this.firebaseService.update(userRef, { sociotype: result });
+      const finalResult = {
+        ...result,
+        createdAt: serverTimestamp(),
+      };
+      await this.firebaseService.add(resultRef, finalResult);
 
       this.router.navigate(['/results']);
     } catch (err) {
