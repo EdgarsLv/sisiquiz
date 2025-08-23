@@ -10,6 +10,7 @@ import { statisticsResolver } from './pages/statistics/statistics.resolver';
 import { guestGuard } from './guards/guest.guard';
 import { mbtiResolver } from './pages/results/mbti.resolver';
 import { loveResolver } from './pages/results/love.resolver';
+import { loveStatisticsResolver } from './pages/love-statistics/love-statistics.resolver';
 
 export const routes: Routes = [
   {
@@ -27,8 +28,10 @@ export const routes: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: 'test',
-        loadComponent: () => import('./pages/test/test').then((c) => c.Test),
+        path: 'love-statistics',
+        loadComponent: () =>
+          import('./pages/love-statistics/love-statistics').then((c) => c.LoveStatistics),
+        resolve: { data: loveStatisticsResolver },
         canActivate: [authGuard, profileGuard],
       },
       {

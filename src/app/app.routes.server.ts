@@ -10,10 +10,6 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
-    path: 'test',
-    renderMode: RenderMode.Client,
-  },
-  {
     path: 'iq-test',
     renderMode: RenderMode.Client,
   },
@@ -35,6 +31,10 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'statistics',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'love-statistics',
     renderMode: RenderMode.Client,
   },
   {

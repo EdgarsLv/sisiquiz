@@ -58,9 +58,9 @@ export class Header {
         link: 'test-list',
       },
       {
-        label: 'Start Test',
+        label: 'Love statistics',
         icon: 'pi pi-clock',
-        link: 'test',
+        link: 'love-statistics',
       },
       {
         label: 'View Results',

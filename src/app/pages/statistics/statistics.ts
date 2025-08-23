@@ -1,6 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { TabsModule } from 'primeng/tabs';
 
 type TStatistics = {
   id: string;
@@ -11,7 +12,7 @@ type TStatistics = {
 
 @Component({
   selector: 'app-statistics',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, TabsModule],
   templateUrl: './statistics.html',
   styleUrl: './statistics.scss',
 })
