@@ -1,6 +1,5 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Avatar } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { interval, Subject, takeUntil } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
@@ -41,7 +40,7 @@ const tests: AvailableTests[] = [
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Avatar, ButtonModule],
+  imports: [ButtonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

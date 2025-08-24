@@ -75,19 +75,19 @@
   <div class="fancy flex flex-col md:flex-row gap-5">
     <div class="flex flex-col justify-center items-center text-white md:w-[250px] f-full">
       <h4 class="mb-0!">Choose Test</h4>
-      <img src="assets/logo/women.svg" />
+      <img src="assets/logo/women.svg" alt="Choose test" />
     </div>
 
     <div class="flex flex-col w-full">
       @for (test of availableTests(); track $index; let last = $last; let first = $first) {
       <div
-        class="flex flex-col lg:flex-row justify-between lg:items-center sm:px-4 py-2 border-b border-[var(--surface-border)] hover:bg-[var(--surface-hover)]"
+        class="flex lg:items-center sm:px-4 py-2 border-b border-[var(--surface-border)] hover:bg-[var(--surface-hover)]"
         [class]="first ? 'border-t' : ''"
       >
-        <div class="flex justify-between items-center">
-          <p-avatar [image]="test.icon" size="large" />
+        <img class="w-14 aspect-square" [src]="test.icon" [alt]="test.name" />
 
-          <div class="ml-4 mr-auto">
+        <div class="w-full flex flex-col md:flex-row ml-5 md:items-center">
+          <div class="mb-1 md:mb-0 mr-auto">
             <h6
               class="font-semibold text-lg mb-0!"
               [class]="last ? 'text-muted-color-emphasis' : ''"
@@ -98,33 +98,33 @@
               {{ test.description }}
             </p>
           </div>
-        </div>
 
-        @if (countdown() && first) {
-        <div class="flex">
-          @let canTake = 'Take again in - ' + countdown();
+          @if (countdown() && first) { @let canTake = 'Take again in - ' + countdown();
 
-          <p-button
-            class="ml-auto"
-            [severity]="'warn'"
-            [label]="canTake"
-            variant="outlined"
-            [disabled]="true"
+          <button
+            class="w-full md:w-auto"
+            pButton
             size="small"
-          />
+            [outlined]="true"
+            [disabled]="true"
+            severity="warn"
+          >
+            <span pButtonLabel>{{ canTake }}</span>
+          </button>
+          }@else {
+          <button
+            class="w-full md:w-auto"
+            pButton
+            size="small"
+            [outlined]="true"
+            [disabled]="last"
+            (click)="navigateToTest(test.link)"
+          >
+            <span pButtonLabel>{{ last ? 'Coming soon' : 'Start now' }}</span>
+            @if (!last) {<i class="pi pi-arrow-right" pButtonIcon></i>}
+          </button>
+          }
         </div>
-        }@else {
-        <p-button
-          class="ml-auto"
-          label="Start now"
-          variant="outlined"
-          icon="pi pi-arrow-right"
-          iconPos="right"
-          size="small"
-          [disabled]="last"
-          (onClick)="navigateToTest(test.link)"
-        />
-        }
       </div>
       }
     </div>
