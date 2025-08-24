@@ -48,7 +48,12 @@ export class LoveLanguageChart {
         title: { display: false, text: 'Love languages' },
       },
       y: {
-        title: { display: true, text: 'Percentage' },
+        ticks: {
+          callback: function (value) {
+            return value + '%';
+          },
+        },
+        title: { display: false, text: 'Percentage' },
         min: 0,
         max: 100,
       },

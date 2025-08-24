@@ -52,7 +52,12 @@ export class SociotypeChart {
         title: { display: false, text: 'Personality traits' },
       },
       y: {
-        title: { display: true, text: 'Percentage' },
+        ticks: {
+          callback: function (value) {
+            return value + '%';
+          },
+        },
+        title: { display: false, text: 'Percentage' },
         min: 0,
         max: 100,
       },

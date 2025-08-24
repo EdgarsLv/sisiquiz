@@ -70,8 +70,6 @@ export class Results implements OnInit {
     }
     return this.getStats();
   });
-  public curretLevel = computed(() => this.getCurrentLevel());
-  public consistency = computed(() => this.getConsistency());
 
   public results = signal<TTestResult[]>([]);
   public sociotype = signal<TSociotype | undefined>(undefined);
@@ -97,28 +95,6 @@ export class Results implements OnInit {
     return Math.round(result.timeSpent / 60);
   }
 
-  private getConsistency(): string {
-    return Math.abs(this.stats().highest - this.stats().lowest) <= 10
-      ? 'Very High'
-      : Math.abs(this.stats().highest - this.stats().lowest) <= 20
-      ? 'High'
-      : Math.abs(this.stats().highest - this.stats().lowest) <= 30
-      ? 'Moderate'
-      : 'Variable';
-  }
-
-  private getCurrentLevel(): string {
-    return this.stats().average >= 130
-      ? 'Exceptional'
-      : this.stats().average >= 115
-      ? 'Above Average'
-      : this.stats().average >= 100
-      ? 'Average'
-      : this.stats().average >= 85
-      ? 'Below Average'
-      : 'Low';
-  }
-
   private getStats(): TestStats {
     const result = this.results() || [];
 
@@ -140,17 +116,5 @@ export class Results implements OnInit {
     };
 
     return stats;
-  }
-
-  public progressWidth(result: TTestResult): any {
-    return `${Math.min((result.score / 150) * 100, 100)}`;
-  }
-
-  public getScoreLevel(score: number): string {
-    if (score >= 130) return 'purple';
-    if (score >= 115) return 'blue';
-    if (score >= 100) return 'green';
-    if (score >= 85) return 'orange';
-    return 'red';
   }
 }
