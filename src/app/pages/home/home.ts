@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, debounceTime } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { HeroImage } from '../../components/hero-image/hero-image';
 
@@ -24,10 +24,7 @@ export class Home implements OnDestroy {
 
   constructor() {
     toObservable(this.authService.profile)
-      .pipe(
-        filter((val) => val !== null),
-        takeUntil(this.destroy$)
-      )
+      .pipe(debounceTime(1500), takeUntil(this.destroy$))
       .subscribe(() => {
         this.init.set(false);
       });

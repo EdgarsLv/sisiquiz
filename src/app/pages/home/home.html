@@ -21,8 +21,8 @@
   </div>
   }@else {
 
-  <div class="fancy text-center text-muted-color-emphasis font-medium w-max">
-    <div class="flex justify-center mb-6">
+  <div class="fancy w-full md:w-[30%] text-muted-color-emphasis font-medium z-10">
+    <div class="flex mb-7">
       <p-button
         icon="pi pi-google"
         severity="contrast"
@@ -31,15 +31,14 @@
       />
     </div>
 
-    <p class="mb-1!">No payment required.</p>
-    <p class="text-balance">
-      Your test results will be available instantly after completing the test!
+    <p>
+      No payment required. Your test results will be available instantly after completing the tests!
     </p>
   </div>
   }
   <!-- SPACING -->
   }@else {
-  <div class="fancy flex justify-center w-max">LOADING</div>
+  <div class="fancy flex justify-center w-max">LOADING...</div>
   }
 
   <app-hero-image />

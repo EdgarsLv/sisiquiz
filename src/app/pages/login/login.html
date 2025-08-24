@@ -8,18 +8,20 @@
       <h2 class="font-semibold">Welcome to SisiQuiz</h2>
     </div>
 
-    <div class="flex justify-center mb-8">
-      <p-button
-        icon="pi pi-google"
-        severity="contrast"
-        label="Sign in with Google"
-        (onClick)="loginWithGoogle()"
-      />
+    <div class="flex justify-center mb-7">
+      <button class="w-full sm:w-[400px]" pButton severity="contrast" (click)="loginWithGoogle()">
+        <i class="pi pi-google" pButtonIcon></i>
+        <span pButtonLabel>Sign in with Google</span>
+      </button>
     </div>
 
-    <div class="text-center text-muted-color-emphasis font-medium">
-      <p class="mb-1!">No payment required.</p>
-      <p>Your test results will be available instantly after completing the test!</p>
+    <div
+      class="text-center border-t pt-4 border-[var(--surface-border)] text-muted-color-emphasis font-medium"
+    >
+      <p>
+        No payment required. Your test results will be available instantly after completing the
+        tests!
+      </p>
     </div>
   </div>
 </div>
