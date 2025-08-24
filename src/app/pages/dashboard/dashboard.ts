@@ -62,8 +62,13 @@ export class Dashboard implements OnDestroy {
     interval(1000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        const countdown = this.storageService.getCountdown('love');
+        const countdown = this.storageService.getCountdown('iq');
         this.countdown.set(countdown);
+
+        if (countdown === null) {
+          this.destroy$.next();
+          this.destroy$.complete();
+        }
       });
   }
 
