@@ -76,7 +76,7 @@ export class Dashboard implements OnDestroy {
         }
       });
 
-    console.log('love', this.storageService.getTimer('love'));
+    console.log('love', this.storageService.getCountdown('love'));
   }
 
   public navigateToTest(link: string): void {

@@ -92,7 +92,7 @@
     <div class="flex flex-col w-full">
       @for (test of availableTests(); track $index; let last = $last; let first = $first) {
       <div
-        class="flex justify-between border-b border-[var(--surface-border)] px-4 py-2 items-center hover:bg-[var(--surface-hover)]"
+        class="flex justify-between border-b border-[var(--surface-border)] sm:px-4 py-2 items-center hover:bg-[var(--surface-hover)]"
         [class]="first ? 'border-t' : ''"
       >
         <p-avatar [image]="test.icon" size="large" />
