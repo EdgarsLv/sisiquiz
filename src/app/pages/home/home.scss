@@ -1,7 +1,16 @@
 .section {
-    margin-inline: 10%;
+  margin-inline: 10%;
 
-    @media (max-width: 900px) {
-        margin-inline: 0;
-    }
+  @media (max-width: 900px) {
+    margin-inline: 0;
+  }
+}
+
+.variable-title {
+  font-size: clamp(30px, 5vw, 35px);
+}
+
+.variable-subtitle {
+  font-size: clamp(17px, 3vw, 21px);
+  line-height: clamp(24px, 3vw, 28px);
 }
