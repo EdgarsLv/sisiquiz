@@ -72,41 +72,51 @@
     </div>
   </div>
 
-  @if (!canTakeTest() && init()) {
-  <div class="fancy">
-    <p-message severity="warn" variant="outlined">
-      <span>Test can be taken again in - </span>
-      <span class="font-semibold">{{ countdown() }}</span>
-    </p-message>
-  </div>
-  }
-
   <div class="fancy flex flex-col md:flex-row gap-5">
-    <div
-      class="rounded-sm flex flex-col justify-center items-center text-white p-4 md:w-[250px] f-full"
-    >
-      <h4>Choose Test</h4>
+    <div class="flex flex-col justify-center items-center text-white md:w-[250px] f-full">
+      <h4 class="mb-0!">Choose Test</h4>
       <img src="assets/logo/women.svg" />
     </div>
 
     <div class="flex flex-col w-full">
       @for (test of availableTests(); track $index; let last = $last; let first = $first) {
       <div
-        class="flex justify-between border-b border-[var(--surface-border)] sm:px-4 py-2 items-center hover:bg-[var(--surface-hover)]"
+        class="flex flex-col lg:flex-row justify-between lg:items-center sm:px-4 py-2 border-b border-[var(--surface-border)] hover:bg-[var(--surface-hover)]"
         [class]="first ? 'border-t' : ''"
       >
-        <p-avatar [image]="test.icon" size="large" />
+        <div class="flex justify-between items-center">
+          <p-avatar [image]="test.icon" size="large" />
 
-        <div class="ml-4 mr-auto">
-          <h6 class="font-semibold text-lg mb-0!" [class]="last ? 'text-muted-color-emphasis' : ''">
-            {{ test.name }}
-          </h6>
-          <p class="text-muted-color text-sm">
-            {{ test.description }}
-          </p>
+          <div class="ml-4 mr-auto">
+            <h6
+              class="font-semibold text-lg mb-0!"
+              [class]="last ? 'text-muted-color-emphasis' : ''"
+            >
+              {{ test.name }}
+            </h6>
+            <p class="text-muted-color text-sm">
+              {{ test.description }}
+            </p>
+          </div>
         </div>
 
+        @if (countdown() && first) {
+        <div class="flex">
+          @let canTake = 'Take again in - ' + countdown();
+
+          <p-button
+            class="ml-auto"
+            [severity]="'warn'"
+            [label]="canTake"
+            variant="outlined"
+            [disabled]="true"
+            size="small"
+          />
+        </div>
+        }@else {
         <p-button
+          class="ml-auto"
+          label="Start now"
           variant="outlined"
           icon="pi pi-arrow-right"
           iconPos="right"
@@ -114,6 +124,7 @@
           [disabled]="last"
           (onClick)="navigateToTest(test.link)"
         />
+        }
       </div>
       }
     </div>
