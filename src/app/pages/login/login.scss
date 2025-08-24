@@ -1,3 +1,8 @@
 .min-h-svh-adjusted {
   min-height: calc(100svh - 165px);
 }
+
+.custom-font {
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: clamp(24px, 3vw, 32px);
+}

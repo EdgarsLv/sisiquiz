@@ -10,7 +10,6 @@ import { db } from '../../firebase.config';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
-import { Logo } from '../../components/logo/logo';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +20,6 @@ import { Logo } from '../../components/logo/logo';
     InputNumberModule,
     RadioButton,
     ButtonModule,
-    Logo,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
