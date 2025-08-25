@@ -13,44 +13,19 @@
     </p>
   </div>
 
-  @if (!init()) {
-  <!-- SPACING -->
-  @if (user()) {
-  <div class="fancy items-center mb-8 w-max z-10">
+  <div class="mb-8 mt-12 ml-6 w-max z-10">
     <p-button
-      icon="pi pi-arrow-right"
-      iconPos="right"
-      label="Take a Quiz"
+      icon="pi pi-sparkles"
+      label="Join The Fun"
       size="large"
       severity="warn"
       (onClick)="startTest()"
     />
   </div>
-  <!-- <div class="mt-20">
-    <button class="cta-btn variant1">🚀 Challenge Yourself</button>
-    <button class="cta-btn variant2">✨ Take a Quiz</button>
+  <!-- <div class="mt-10">
+    <button class="cta-btn variant1">🚀 Join The Fun</button>
+   
   </div> -->
-  }@else {
-
-  <div class="fancy w-full md:w-[30%] text-muted-color-emphasis font-medium z-10">
-    <div class="flex mb-7">
-      <p-button
-        icon="pi pi-google"
-        severity="contrast"
-        label="Sign in with Google"
-        (onClick)="loginWithGoogle()"
-      />
-    </div>
-
-    <p>
-      No payment required. Your test results will be available instantly after completing the tests!
-    </p>
-  </div>
-  }
-  <!-- SPACING -->
-  }@else {
-  <div class="fancy flex justify-center w-max">LOADING...</div>
-  }
 
   <app-hero-image />
 </div>

@@ -1,9 +1,7 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { Subject, takeUntil, debounceTime } from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { HeroImage } from '../../components/hero-image/hero-image';
 
 @Component({
@@ -12,38 +10,24 @@ import { HeroImage } from '../../components/hero-image/hero-image';
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home implements OnDestroy {
+export class Home {
   public authService = inject(AuthService);
   public router = inject(Router);
 
-  public user = this.authService.authUser;
-
-  public init = signal<boolean>(true);
-
-  private destroy$ = new Subject<void>();
-
-  constructor() {
-    toObservable(this.authService.profile)
-      .pipe(debounceTime(1500), takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.init.set(false);
-      });
-  }
+  private user = this.authService.authUser;
+  private profile = this.authService.profile;
 
   public startTest(): void {
-    this.router.navigate(['test-list']);
-  }
-
-  public async loginWithGoogle(): Promise<void> {
-    try {
-      await this.authService.googleSignIn().then(() => this.router.navigate(['/profile']));
-    } catch (err) {
-      console.error('Login error:', err);
+    if (!this.user()) {
+      this.router.navigate(['login']);
+      return;
     }
-  }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    if (!this.profile()) {
+      this.router.navigate(['profile']);
+      return;
+    }
+
+    this.router.navigate(['test-list']);
   }
 }
