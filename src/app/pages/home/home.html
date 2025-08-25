@@ -17,8 +17,19 @@
   <!-- SPACING -->
   @if (user()) {
   <div class="fancy items-center mb-8 w-max z-10">
-    <p-button icon="pi pi-clock" label="VIEW TESTS" (onClick)="startTest()" />
+    <p-button
+      icon="pi pi-arrow-right"
+      iconPos="right"
+      label="Take a Quiz"
+      size="large"
+      severity="warn"
+      (onClick)="startTest()"
+    />
   </div>
+  <!-- <div class="mt-20">
+    <button class="cta-btn variant1">🚀 Challenge Yourself</button>
+    <button class="cta-btn variant2">✨ Take a Quiz</button>
+  </div> -->
   }@else {
 
   <div class="fancy w-full md:w-[30%] text-muted-color-emphasis font-medium z-10">
