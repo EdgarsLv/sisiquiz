@@ -49,11 +49,10 @@
       <p-button
         variant="outlined"
         severity="contrast"
-        (click)="prevQuestion()"
+        (onClick)="prevQuestion()"
         [disabled]="currentQuestion() === 0"
-      >
-        Previous
-      </p-button>
+        label="Previous"
+      />
 
       <div class="flex items-center">
         @let value = `${ currentQuestion() + 1 } / ${ questions().length }`;
@@ -65,20 +64,18 @@
       <p-button
         variant="outlined"
         severity="contrast"
-        (click)="nextQuestion()"
+        (onClick)="nextQuestion()"
         [disabled]="answers()[question().id] === undefined"
-      >
-        Next
-      </p-button>
+        label="Next"
+      />
+
       }@else {
       <p-button
-        variant="outlined"
-        severity="success"
-        (click)="handleSubmit()"
+        severity="warn"
+        (onClick)="handleSubmit()"
         [disabled]="submitDisabled() || isLoading()"
-      >
-        Submit
-      </p-button>
+        label="Submit"
+      />
       }
     </div>
   </div>
