@@ -66,9 +66,28 @@ export class SociotypeStatistics {
         display: true,
         align: 'end',
       },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            // context.label is your dichotomy (E, I, S, etc.)
+            // context.parsed.y or .parsed.x (depending on chart type) is the value
+            // const label = context.label || '';
+            const value = context.parsed.x ?? context.parsed.x;
+            return ` ${value} %`;
+          },
+        },
+      },
     },
     scales: {
-      x: { min: 0, suggestedMax: 10 },
+      x: {
+        ticks: {
+          callback: function (value) {
+            return value + '%';
+          },
+        },
+        min: 0,
+        suggestedMax: 60,
+      },
       y: {},
     },
   };
@@ -98,16 +117,30 @@ export class SociotypeStatistics {
     }
 
     const labels = Object.keys(counts).map((l) => typeMap[l as SocionicType]);
+    const categories = Object.keys(counts) as SocionicType[];
+
+    // total counts for each gender
+    const totalMale = categories.reduce((sum, cat) => sum + counts[cat].male, 0);
+    const totalFemale = categories.reduce((sum, cat) => sum + counts[cat].female, 0);
+
+    // percentage split per category
+    const maleData = categories.map((cat) =>
+      totalMale > 0 ? Math.round((counts[cat].male / totalMale) * 100) : 0
+    );
+
+    const femaleData = categories.map((cat) =>
+      totalFemale > 0 ? Math.round((counts[cat].female / totalFemale) * 100) : 0
+    );
 
     return {
       labels: labels,
       datasets: [
         {
-          data: Object.values(counts).map((c) => c.male),
+          data: maleData, //Object.values(counts).map((c) => c.male),
           label: 'Male',
         },
         {
-          data: Object.values(counts).map((c) => c.female),
+          data: femaleData, //Object.values(counts).map((c) => c.female),
           label: 'Female',
         },
       ],
