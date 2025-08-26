@@ -1,6 +1,7 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { socionicsNameMap, SocionicType } from '../../../sociotype-statistics/sociotype-statistics';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 type TSociotype = {
@@ -28,6 +29,7 @@ const dichotomyMap: Record<Dichotomy, string> = {
 export class SociotypeChart {
   public sociotype = input.required<TSociotype>();
 
+  public socionicType = computed(() => socionicsNameMap[this.sociotype().type as SocionicType]);
   public barData = computed<ChartConfiguration<'bar'>['data']>(() => this.mapSociotypeToBarData());
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {

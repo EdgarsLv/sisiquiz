@@ -44,6 +44,25 @@ export const typeMap: Record<SocionicType, string> = {
   ENTJ: 'Commander',
 };
 
+export const socionicsNameMap: Record<SocionicType, string> = {
+  ISTJ: 'Maxim Gorky',
+  ISFJ: 'Dumas',
+  INFJ: 'Dostoevsky',
+  INTJ: 'Balzac',
+  ISTP: 'Gabin',
+  ISFP: 'Dreiser',
+  INFP: 'Yesenin',
+  INTP: 'Robespierre',
+  ESTP: 'Zhukov',
+  ESFP: 'Napoleon',
+  ENFP: 'Huxley',
+  ENTP: 'Don Quixote',
+  ESTJ: 'Stierlitz',
+  ESFJ: 'Hugo',
+  ENFJ: 'Hamlet',
+  ENTJ: 'Jack London',
+};
+
 @Component({
   selector: 'app-sociotype-statistics',
   imports: [BaseChartDirective],
@@ -116,7 +135,9 @@ export class SociotypeStatistics {
       counts[stat.type][stat.gender] += 1;
     }
 
-    const labels = Object.keys(counts).map((l) => typeMap[l as SocionicType]);
+    // const labels = Object.keys(counts).map((l) => typeMap[l as SocionicType]);
+    const labels = Object.keys(counts).map((l) => socionicsNameMap[l as SocionicType]);
+    // const labels = Object.keys(counts);
     const categories = Object.keys(counts) as SocionicType[];
 
     // total counts for each gender

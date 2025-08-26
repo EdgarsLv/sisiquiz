@@ -1,5 +1,5 @@
 <div class="fancy">
-  <h4>Sociotype</h4>
+  <h4>Sociotype - {{ socionicType() }}</h4>
 
   <div class="relative h-60">
     <canvas baseChart [data]="barData()" [options]="barOptions" [type]="'bar'"> </canvas>

@@ -46,7 +46,7 @@ export class SociotypeTest {
   private router = inject(Router);
   private storageService = inject(StorageService);
 
-  public questions = signal<Question[]>(sociotypeQuestions);
+  public questions = signal<Question[]>(randomizedQuestions);
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
   public questionOptions = computed(() => this.question().options);
@@ -185,6 +185,13 @@ export function calculateSociotype(answers: Dichotomy[]): TestResult {
     type,
     percentages,
   };
+}
+
+function shuffle<T>(array: T[]): T[] {
+  return array
+    .map((item) => ({ item, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ item }) => item);
 }
 
 const sociotypeQuestions: Question[] = [
@@ -548,3 +555,8 @@ const sociotypeQuestions: Question[] = [
     ],
   },
 ];
+
+const randomizedQuestions = sociotypeQuestions.map((q) => ({
+  ...q,
+  options: shuffle([...q.options]), // clone + shuffle
+}));
