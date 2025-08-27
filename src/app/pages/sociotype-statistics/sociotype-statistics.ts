@@ -1,7 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Message } from 'primeng/message';
 
 export type SocionicType =
   | 'ISTJ'
@@ -66,7 +65,7 @@ export const socionicsNameMap: Record<SocionicType, string> = {
 
 @Component({
   selector: 'app-sociotype-statistics',
-  imports: [BaseChartDirective, Message],
+  imports: [BaseChartDirective],
   templateUrl: './sociotype-statistics.html',
   styleUrl: './sociotype-statistics.scss',
 })
