@@ -1,3 +1,26 @@
 <div class="fancy relative h-svh-adjusted">
   <canvas baseChart [data]="barData()" [options]="barOptions" [type]="'bar'"> </canvas>
 </div>
+
+<div class="fancy">
+  <h4>Sociotype explanations</h4>
+
+  <p>In Socionics, each personality type has several names:</p>
+  <ul class="list-disc list-inside space-y-1 mb-4">
+    <li><strong>Title</strong> – a descriptive role (e.g., <em>Provider</em>)</li>
+    <li><strong>Type code</strong> – the four-letter abbreviation (e.g., <em>ESFJ</em>)</li>
+    <li>
+      <strong>Nickname</strong> – a traditional Socionics name, often from famous writers or figures
+      (e.g., <em>Hugo</em>)
+    </li>
+  </ul>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    @for (item of socionicsList; track $index) {
+    <p-message variant="outlined" severity="secondary">
+      <span class="text-indigo-400!"> {{ item.title }}</span> – ( {{ item.type }},
+      {{ item.socionicsName }} )
+    </p-message>
+    }
+  </div>
+</div>

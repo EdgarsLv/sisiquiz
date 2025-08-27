@@ -1,6 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { Message } from 'primeng/message';
 
 export type SocionicType =
   | 'ISTJ'
@@ -65,7 +66,7 @@ export const socionicsNameMap: Record<SocionicType, string> = {
 
 @Component({
   selector: 'app-sociotype-statistics',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, Message],
   templateUrl: './sociotype-statistics.html',
   styleUrl: './sociotype-statistics.scss',
 })
@@ -75,6 +76,15 @@ export class SociotypeStatistics {
   public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
     this.mapLoveStatisticsBarData()
   );
+
+  public socionicsList = Object.keys(typeMap).map((key) => {
+    const socionicType = key as SocionicType;
+    return {
+      type: socionicType, // e.g. "ESFJ"
+      title: typeMap[socionicType], // e.g. "Provider"
+      socionicsName: socionicsNameMap[socionicType], // e.g. "Hugo"
+    };
+  });
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -135,9 +145,7 @@ export class SociotypeStatistics {
       counts[stat.type][stat.gender] += 1;
     }
 
-    // const labels = Object.keys(counts).map((l) => typeMap[l as SocionicType]);
-    const labels = Object.keys(counts).map((l) => socionicsNameMap[l as SocionicType]);
-    // const labels = Object.keys(counts);
+    const labels = Object.keys(counts).map((l) => typeMap[l as SocionicType]);
     const categories = Object.keys(counts) as SocionicType[];
 
     // total counts for each gender

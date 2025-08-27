@@ -38,7 +38,6 @@ export class AuthService {
   initAuth(): Promise<void> {
     return new Promise((resolve) => {
       onAuthStateChanged(auth, async (user) => {
-        this.currentUser.next(user);
         this.authUser.set(user);
 
         if (user) {
@@ -57,6 +56,7 @@ export class AuthService {
           }
         }
 
+        this.currentUser.next(user);
         resolve();
       });
     });

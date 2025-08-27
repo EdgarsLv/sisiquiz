@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { debounceTime, filter, map, take } from 'rxjs';
+import { filter, map, take } from 'rxjs';
 import { User } from 'firebase/auth';
 
 export const profileGuard: CanActivateFn = () => {
@@ -10,7 +10,6 @@ export const profileGuard: CanActivateFn = () => {
 
   return authService.user$.pipe(
     filter((user): user is User | null => user !== undefined),
-    debounceTime(500),
     take(1),
     map(() => {
       const profile = authService.profile();
