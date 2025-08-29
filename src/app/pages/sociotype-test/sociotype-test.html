@@ -20,10 +20,10 @@
 
   <div class="fancy overflow-hidden">
     <div>
-      <h4>{{ question().text }}</h4>
+      <h4 #questionEl>{{ question().text }}</h4>
     </div>
 
-    <div>
+    <div #optionsContainer>
       @for (option of questionOptions(); track $index; let first = $first) {
       <!-- SELECTED -->
       @let selected = answers()[question().id]=== $index;
@@ -31,8 +31,6 @@
         class="p-4 flex items-center border-b border-[var(--surface-border)] cursor-pointer hover:bg-[var(--surface-hover)]"
         (click)="handleAnswer(question().id, option.value, $index)"
         [class]="first ? 'border-t' : ''"
-        [class.bounce]="selected && justSelected"
-        (animationend)="onAnswerAnimationEnd()"
       >
         @if (selected) {
         <i class="pi pi-check-circle text-green-500 text-[1.2rem]"></i>
@@ -88,7 +86,7 @@
       @for (item of questions(); track $index) {
       <button
         class="w-8 h-8 md:w-10 md:h-10 rounded-sm cursor-pointer text-black font-semibold"
-        (click)="currentQuestion.set($index)"
+        (click)="setQuestion($index)"
         [class]="
           currentQuestion() === $index
             ? 'bg-purple-500'

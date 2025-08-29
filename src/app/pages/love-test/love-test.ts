@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { StorageService } from '../../services/storage.service';
+import { gsap } from 'gsap';
 
 type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
 interface Question {
@@ -56,6 +57,8 @@ export class LoveTest {
   private profile = this.authService.profile;
 
   public justSelected = false;
+  @ViewChild('questionEl') questionEl!: ElementRef;
+  @ViewChild('optionsContainer') optionsContainer!: ElementRef;
 
   public handleAnswer(questionId: number, value: LoveLanguage, answerIndex: number): void {
     this.selectedAnswers[questionId - 1] = value;
@@ -66,6 +69,7 @@ export class LoveTest {
     }));
 
     this.justSelected = true;
+    this.animateSelection(this.currentQuestion() + 1);
   }
 
   public onAnswerAnimationEnd(): void {
@@ -77,15 +81,19 @@ export class LoveTest {
 
   public nextQuestion = () => {
     if (this.currentQuestion() < this.questions().length - 1) {
-      this.currentQuestion.set(this.currentQuestion() + 1);
+      this.animateSelection(this.currentQuestion() + 1);
     }
   };
 
   public prevQuestion = () => {
     if (this.currentQuestion() > 0) {
-      this.currentQuestion.set(this.currentQuestion() - 1);
+      this.animateSelection(this.currentQuestion() - 1);
     }
   };
+
+  public setQuestion(index: number): void {
+    this.animateSelection(index);
+  }
 
   public handleSubmit(): void {
     this.isLoading.set(true);
@@ -118,6 +126,40 @@ export class LoveTest {
       console.error('Failed to save test result', err);
       this.isLoading.set(false);
     }
+  }
+
+  private animateSelection(index: number): void {
+    const question = this.questionEl.nativeElement;
+    const container = this.optionsContainer.nativeElement;
+
+    gsap.to(question, {
+      opacity: 0,
+      y: -10,
+      duration: 0.25,
+      ease: 'power2.in',
+    });
+
+    gsap.to(container, {
+      opacity: 0,
+      y: -30,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: () => {
+        this.currentQuestion.set(index);
+
+        gsap.fromTo(
+          question,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+        );
+
+        gsap.fromTo(
+          container,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
+        );
+      },
+    });
   }
 }
 

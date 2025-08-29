@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { StorageService } from '../../services/storage.service';
+import { gsap } from 'gsap';
 
 type Questions = {
   id: number;
@@ -58,6 +59,8 @@ export class IqTest implements OnInit {
   );
 
   private destroy$ = new Subject<void>();
+  @ViewChild('questionImage') questionImage!: ElementRef;
+  @ViewChild('optionsContainer') optionsContainer!: ElementRef;
 
   public ngOnInit(): void {
     this.startCountdown();
@@ -139,24 +142,71 @@ export class IqTest implements OnInit {
     return value < 10 ? '0' + value : value.toString();
   }
 
-  public handleAnswer(questionId: number, answerIndex: number): void {
+  public handleAnswer(questionId: number, answerIndex: number, option: HTMLDivElement): void {
     this.answers.update((prev) => ({
       ...prev,
       [questionId]: answerIndex,
     }));
+
+    gsap.fromTo(
+      option,
+      { scale: 1 },
+      {
+        scale: 1.1,
+        duration: 0.15,
+        yoyo: true,
+        repeat: 1,
+        ease: 'power1.inOut',
+      }
+    );
   }
 
   public nextQuestion = () => {
     if (this.currentQuestion() < this.questions().length - 1) {
-      this.currentQuestion.set(this.currentQuestion() + 1);
+      this.animateImages(this.currentQuestion() + 1);
     }
   };
 
   public prevQuestion = () => {
     if (this.currentQuestion() > 0) {
-      this.currentQuestion.set(this.currentQuestion() - 1);
+      this.animateImages(this.currentQuestion() - 1);
     }
   };
+
+  public setQuestion = (index: number) => {
+    this.animateImages(index);
+  };
+
+  private animateImages(index: number): void {
+    const imgContainer = this.questionImage.nativeElement;
+    const container = this.optionsContainer.nativeElement;
+    const children = container.children;
+
+    gsap.to([imgContainer, ...children], {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.3,
+      stagger: 0.05,
+      onComplete: () => {
+        // Step 1: swap content AFTER old elements are hidden
+        this.currentQuestion.set(index);
+
+        // Step 2: wait for Angular to render new DOM
+        setTimeout(() => {
+          const newImg = this.questionImage.nativeElement;
+          const newChildren = this.optionsContainer.nativeElement.children;
+
+          // Animate new content in
+          gsap.fromTo(newImg, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4 });
+          gsap.fromTo(
+            newChildren,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.3, stagger: 0.05 }
+          );
+        });
+      },
+    });
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
