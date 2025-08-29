@@ -1,5 +1,8 @@
 <div class="fancy">
-  <h4>Love language</h4>
+  <h4 class="mb-0!">Love language</h4>
+  <span class="mb-2 block text-sm text-muted-color-emphasis">
+    {{ topLanguage() }}
+  </span>
 
   <div class="relative h-44">
     <canvas baseChart [data]="barData()" [options]="barOptions" [type]="'bar'"> </canvas>

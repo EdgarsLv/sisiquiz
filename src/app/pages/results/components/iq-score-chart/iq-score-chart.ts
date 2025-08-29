@@ -11,6 +11,7 @@ import { TTestResult } from '../../results';
 })
 export class IqScoreChart {
   public results = input.required<TTestResult[]>();
+  public lastScore = input<number>();
 
   public lineData = computed<ChartConfiguration<'line'>['data']>(() => this.mapResultsToLineData());
 

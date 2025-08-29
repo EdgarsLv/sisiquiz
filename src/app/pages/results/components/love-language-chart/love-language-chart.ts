@@ -22,6 +22,9 @@ const loveLanguageMap: Record<LoveLanguage, string> = {
 export class LoveLanguageChart {
   public loveLanguage = input.required<LoveTestResults>();
 
+  public topLanguage = computed(
+    () => loveLanguageMap[this.loveLanguage().topLanguages[0] as LoveLanguage]
+  );
   public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
     this.mapLoveLanguageToBarData()
   );
