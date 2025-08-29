@@ -6,13 +6,13 @@ import { profileGuard } from './guards/profile.guard';
 import { resultResolver } from './pages/result/result.resolver';
 import { imageResolver } from './pages/result/image.resolver';
 import { resultsResolver } from './pages/results/results.resolver';
-import { statisticsResolver } from './pages/statistics/statistics.resolver';
 import { guestGuard } from './guards/guest.guard';
 import { mbtiResolver } from './pages/results/mbti.resolver';
 import { loveResolver } from './pages/results/love.resolver';
 import { loveStatisticsResolver } from './pages/love-statistics/love-statistics.resolver';
 import { sociotypeStatisticsResolver } from './pages/sociotype-statistics/sociotype-statistics.resolver';
 import { iqStatisticsResolver } from './pages/iq-statistics/iq-statistics.resolver';
+import { iqTestGuard } from './guards/test.guard';
 
 export const routes: Routes = [
   {
@@ -33,7 +33,7 @@ export const routes: Routes = [
       {
         path: 'iq-test',
         loadComponent: () => import('./pages/iq-test/iq-test').then((c) => c.IqTest),
-        canActivate: [authGuard, profileGuard],
+        canActivate: [authGuard, profileGuard, iqTestGuard],
       },
       {
         path: 'love-test',
