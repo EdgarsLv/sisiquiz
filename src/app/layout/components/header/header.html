@@ -1,6 +1,6 @@
 <div class="layout-topbar">
   <div class="layout-topbar-logo-container">
-    <a class="layout-topbar-logo" routerLink="/">
+    <a class="layout-topbar-logo" routerLink="/" (click)="closeMenu()">
       <app-logo [size]="36" />
 
       <h3 class="font-semibold m-0!">SisiQuiz</h3>
@@ -8,8 +8,10 @@
   </div>
 
   <div class="flex items-center ml-auto gap-x-2">
+    <p-button icon="pi pi-bars" (onClick)="toggleMenu()" />
+
     <p-button
-      (click)="toggleDarkMode()"
+      (onClick)="toggleDarkMode()"
       [outlined]="true"
       severity="secondary"
       size="small"
@@ -90,4 +92,49 @@
 
     <p-button (onClick)="toggle($event)" [outlined]="true" severity="contrast" icon="pi pi-bars" />
   </div>
+</div>
+
+<div
+  #menuOverlay
+  class="fixed top-0 left-0 w-full h-full bg-[var(--surface-card)] flex flex-col items-center justify-center z-50 overflow-hidden"
+  style="height: 100%; transform: scaleY(0); transform-origin: top; visibility: hidden"
+>
+  <nav #menuLinks class="nav-items flex flex-col gap-4 text-5xl font-black uppercase">
+    <a
+      routerLink="/"
+      routerLinkActive="text-indigo-400"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+      class="hover:text-indigo-400"
+      >Home</a
+    >
+    <a
+      routerLink="profile"
+      routerLinkActive="text-indigo-400"
+      (click)="closeMenu()"
+      class="hover:text-indigo-400"
+      >Profile</a
+    >
+    <a
+      routerLink="test-list"
+      routerLinkActive="text-indigo-400"
+      (click)="closeMenu()"
+      class="hover:text-indigo-400"
+      >Tests</a
+    >
+    <a
+      routerLink="results"
+      routerLinkActive="text-indigo-400"
+      (click)="closeMenu()"
+      class="hover:text-indigo-400"
+      >Results</a
+    >
+    <a
+      routerLink="statistics/iq"
+      routerLinkActive="text-indigo-400"
+      (click)="closeMenu()"
+      class="hover:text-indigo-400"
+      >Statistics</a
+    >
+  </nav>
 </div>

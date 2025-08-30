@@ -1,5 +1,13 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, Inject, inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  Inject,
+  inject,
+  PLATFORM_ID,
+  ViewChild,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AuthService } from '../../../services/auth.service';
@@ -7,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { Popover } from 'primeng/popover';
 import { PopoverModule } from 'primeng/popover';
 import { Logo } from '../../../components/logo/logo';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +39,12 @@ export class Header {
   private isBrowser: boolean;
   public isDark = true;
 
+  @ViewChild('menuOverlay') menuOverlay!: ElementRef;
+  @ViewChild('menuLinks') menuLinks!: ElementRef;
+
+  private menuTl!: gsap.core.Timeline;
+  private menuOpen = false;
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -40,6 +55,64 @@ export class Header {
         window.localStorage.setItem('theme', 'app-dark');
       }
     }
+  }
+
+  ngAfterViewInit() {
+    const menu = this.menuOverlay.nativeElement;
+    const links = this.menuLinks.nativeElement.querySelectorAll('a');
+
+    this.menuTl = gsap.timeline({
+      paused: true,
+      defaults: { ease: 'power4.inOut' },
+      onReverseComplete: () => {
+        menu.style.visibility = 'hidden';
+      },
+    });
+
+    this.menuTl
+      // Curtain reveal
+      .fromTo(
+        menu,
+        { scaleY: 0, transformOrigin: 'top' },
+        {
+          scaleY: 1,
+          duration: 0.6,
+          onStart: () => {
+            menu.style.visibility = 'visible';
+          },
+        } // 👈 make sure visible every time
+      )
+      // Links animation
+      .fromTo(
+        links,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: 'power2.out' },
+        '-=0.2'
+      );
+  }
+
+  toggleMenu() {
+    if (!this.menuOpen) {
+      this.menuTl.play();
+    } else {
+      this.menuTl.reverse();
+    }
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    if (!this.menuOpen) return;
+    const menu = this.menuOverlay.nativeElement;
+    const links = this.menuLinks.nativeElement.querySelectorAll('a');
+
+    // Immediately hide menu without animation
+    gsap.killTweensOf([menu, links]); // cancel any running animations
+    gsap.set(menu, { scaleY: 0, visibility: 'hidden' });
+    gsap.set(links, { opacity: 0, y: 30 });
+
+    // Reset timeline so next open works correctly
+    this.menuTl.progress(0).pause();
+    this.menuOpen = false;
   }
 
   public toggle(event: any) {
@@ -70,7 +143,7 @@ export class Header {
     ];
   }
 
-  toggleDarkMode() {
+  public toggleDarkMode() {
     this.isDark = !this.isDark;
     if (this.isDark) {
       document.documentElement.classList.add('app-dark');
