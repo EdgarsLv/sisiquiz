@@ -6,6 +6,7 @@ import {
   Inject,
   inject,
   PLATFORM_ID,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -41,9 +42,11 @@ export class Header {
 
   @ViewChild('menuOverlay') menuOverlay!: ElementRef;
   @ViewChild('menuLinks') menuLinks!: ElementRef;
+  @ViewChild('previewImage') previewImage!: ElementRef;
 
   private menuTl!: gsap.core.Timeline;
   private menuOpen = false;
+  public currentPreview = signal<string | null>(null);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -79,6 +82,7 @@ export class Header {
           duration: 0.6,
           onStart: () => {
             menu.style.visibility = 'visible';
+            this.setPreviewForCurrentRoute();
           },
         } // 👈 make sure visible every time
       )
@@ -89,6 +93,25 @@ export class Header {
         { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: 'power2.out' },
         '-=0.2'
       );
+  }
+
+  public setPreviewForCurrentRoute() {
+    // const url = this.router.url.split('?')[0];
+    // const preview = this.routePreviews[url];
+    const preview = 'assets/logo/account.svg';
+    if (preview) {
+      this.currentPreview.set(preview);
+      setTimeout(() => {
+        if (this.previewImage) {
+          // gsap.set(this.previewImage.nativeElement, { opacity: 1 });
+          gsap.fromTo(
+            this.previewImage.nativeElement,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.2, ease: 'power2.out', delay: 0.5 }
+          );
+        }
+      });
+    }
   }
 
   toggleMenu() {
@@ -113,6 +136,32 @@ export class Header {
     // Reset timeline so next open works correctly
     this.menuTl.progress(0).pause();
     this.menuOpen = false;
+  }
+
+  showPreview(image: string) {
+    this.currentPreview.set(image);
+    setTimeout(() => {
+      if (this.previewImage) {
+        gsap.fromTo(
+          this.previewImage.nativeElement,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2, ease: 'power2.out' }
+        );
+      }
+    });
+  }
+
+  hidePreview() {
+    if (this.previewImage) {
+      gsap.to(this.previewImage.nativeElement, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          this.currentPreview.set(null);
+        },
+      });
+    }
   }
 
   public toggle(event: any) {
