@@ -48,6 +48,14 @@ export class Header {
   private menuOpen = false;
   public currentPreview = signal<string | null>(null);
 
+  private routePreviews: Record<string, string> = {
+    '/': 'assets/logo/mindmap.svg',
+    '/profile': 'assets/logo/account.svg',
+    '/test-list': 'assets/logo/online.svg',
+    '/results': 'assets/logo/analysis.svg',
+    '/statistics/iq': 'assets/logo/statistics.svg',
+  };
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -58,6 +66,26 @@ export class Header {
         window.localStorage.setItem('theme', 'app-dark');
       }
     }
+  }
+
+  public ngOnInit() {
+    this.items = [
+      {
+        label: 'View Tests',
+        icon: 'pi pi-sparkles',
+        link: 'test-list',
+      },
+      {
+        label: 'View Results',
+        icon: 'pi pi-chart-bar',
+        link: 'results',
+      },
+      {
+        label: 'View Statistics',
+        icon: 'pi pi-chart-scatter',
+        link: 'statistics/iq',
+      },
+    ];
   }
 
   ngAfterViewInit() {
@@ -96,34 +124,42 @@ export class Header {
   }
 
   public setPreviewForCurrentRoute() {
-    // const url = this.router.url.split('?')[0];
-    // const preview = this.routePreviews[url];
-    const preview = 'assets/logo/account.svg';
+    const url = this.router.url.split('?')[0];
+    const preview = this.routePreviews[url];
+
     if (preview) {
       this.currentPreview.set(preview);
       setTimeout(() => {
         if (this.previewImage) {
-          // gsap.set(this.previewImage.nativeElement, { opacity: 1 });
           gsap.fromTo(
             this.previewImage.nativeElement,
             { opacity: 0 },
-            { opacity: 1, duration: 0.2, ease: 'power2.out', delay: 0.5 }
+            { opacity: 1, duration: 0.2, ease: 'power2.in', delay: 0.5 }
           );
         }
       });
     }
   }
 
-  toggleMenu() {
+  public toggleMenu() {
     if (!this.menuOpen) {
       this.menuTl.play();
     } else {
       this.menuTl.reverse();
+      gsap.to(this.previewImage.nativeElement, {
+        opacity: 0,
+        duration: 0.3,
+        delay: 0.3,
+        ease: 'power2.out',
+        onComplete: () => {
+          this.currentPreview.set(null);
+        },
+      });
     }
     this.menuOpen = !this.menuOpen;
   }
 
-  closeMenu() {
+  public closeMenu() {
     if (!this.menuOpen) return;
     const menu = this.menuOverlay.nativeElement;
     const links = this.menuLinks.nativeElement.querySelectorAll('a');
@@ -138,7 +174,7 @@ export class Header {
     this.menuOpen = false;
   }
 
-  showPreview(image: string) {
+  public showPreview(image: string) {
     this.currentPreview.set(image);
     setTimeout(() => {
       if (this.previewImage) {
@@ -151,16 +187,12 @@ export class Header {
     });
   }
 
-  hidePreview() {
-    if (this.previewImage) {
-      gsap.to(this.previewImage.nativeElement, {
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power2.in',
-        onComplete: () => {
-          this.currentPreview.set(null);
-        },
-      });
+  public hidePreview() {
+    const url = this.router.url.split('?')[0];
+    const preview = this.routePreviews[url];
+
+    if (preview) {
+      this.currentPreview.set(preview);
     }
   }
 
@@ -170,26 +202,6 @@ export class Header {
 
   public close(): void {
     this.op.hide();
-  }
-
-  public ngOnInit() {
-    this.items = [
-      {
-        label: 'View Tests',
-        icon: 'pi pi-sparkles',
-        link: 'test-list',
-      },
-      {
-        label: 'View Results',
-        icon: 'pi pi-chart-bar',
-        link: 'results',
-      },
-      {
-        label: 'View Statistics',
-        icon: 'pi pi-chart-scatter',
-        link: 'statistics/iq',
-      },
-    ];
   }
 
   public toggleDarkMode() {
