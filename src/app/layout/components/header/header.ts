@@ -38,6 +38,7 @@ export class Header implements AfterViewInit {
   @ViewChild('menuOverlay') menuOverlay!: ElementRef;
   @ViewChild('menuLinks') menuLinks!: ElementRef;
   @ViewChild('previewImage') previewImage!: ElementRef;
+  @ViewChild('authNav') authNav!: ElementRef;
 
   private menuTl!: gsap.core.Timeline;
   public menuOpen = false;
@@ -66,6 +67,7 @@ export class Header implements AfterViewInit {
   public ngAfterViewInit() {
     const menu = this.menuOverlay.nativeElement;
     const links = this.menuLinks.nativeElement.querySelectorAll('a');
+    const authNav = this.authNav.nativeElement;
 
     this.menuTl = gsap.timeline({
       paused: true,
@@ -95,6 +97,17 @@ export class Header implements AfterViewInit {
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: 'power2.out' },
         '-=0.2'
+      )
+
+      .fromTo(
+        authNav,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.5,
+          delay: 0.3,
+        },
+        '<'
       );
   }
 
