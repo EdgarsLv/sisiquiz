@@ -1,5 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   computed,
   ElementRef,
@@ -13,18 +14,16 @@ import { Router, RouterModule } from '@angular/router';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AuthService } from '../../../services/auth.service';
 import { ButtonModule } from 'primeng/button';
-import { Popover } from 'primeng/popover';
-import { PopoverModule } from 'primeng/popover';
 import { Logo } from '../../../components/logo/logo';
 import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, CommonModule, PopoverModule, StyleClassModule, ButtonModule, Logo],
+  imports: [RouterModule, CommonModule, StyleClassModule, ButtonModule, Logo],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
+export class Header implements AfterViewInit {
   public authService = inject(AuthService);
   private router = inject(Router);
 
@@ -32,10 +31,6 @@ export class Header {
   public isAuthenticatedWithProfile = computed<boolean>(
     () => !!this.authService.authUser() && !!this.authService.profile()
   );
-
-  @ViewChild('op') op!: Popover;
-
-  items: any[] = [];
 
   private isBrowser: boolean;
   public isDark = true;
@@ -45,7 +40,7 @@ export class Header {
   @ViewChild('previewImage') previewImage!: ElementRef;
 
   private menuTl!: gsap.core.Timeline;
-  private menuOpen = false;
+  public menuOpen = false;
   public currentPreview = signal<string | null>(null);
 
   private routePreviews: Record<string, string> = {
@@ -68,27 +63,7 @@ export class Header {
     }
   }
 
-  public ngOnInit() {
-    this.items = [
-      {
-        label: 'View Tests',
-        icon: 'pi pi-sparkles',
-        link: 'test-list',
-      },
-      {
-        label: 'View Results',
-        icon: 'pi pi-chart-bar',
-        link: 'results',
-      },
-      {
-        label: 'View Statistics',
-        icon: 'pi pi-chart-scatter',
-        link: 'statistics/iq',
-      },
-    ];
-  }
-
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     const menu = this.menuOverlay.nativeElement;
     const links = this.menuLinks.nativeElement.querySelectorAll('a');
 
@@ -194,14 +169,6 @@ export class Header {
     if (preview) {
       this.currentPreview.set(preview);
     }
-  }
-
-  public toggle(event: any) {
-    this.op.toggle(event);
-  }
-
-  public close(): void {
-    this.op.hide();
   }
 
   public toggleDarkMode() {

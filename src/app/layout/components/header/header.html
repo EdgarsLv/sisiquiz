@@ -8,8 +8,6 @@
   </div>
 
   <div class="flex items-center ml-auto gap-x-2">
-    <!-- <p-button icon="pi pi-bars" (onClick)="toggleMenu()" /> -->
-
     <p-button
       (onClick)="toggleDarkMode()"
       [outlined]="true"
@@ -17,81 +15,13 @@
       size="small"
       [icon]="isDark ? 'pi pi-moon' : 'pi pi-sun'"
     />
-    <p-popover #op>
-      <div class="flex flex-col w-[12rem]">
-        <a
-          pRipple
-          routerLink="/"
-          class="flex items-center p-3 hover:bg-emphasis cursor-pointer"
-          (click)="close()"
-        >
-          <span class="pi pi-home"></span>
-          <span class="ml-3">Home</span>
-        </a>
-        <div class="border-b border-slate-500 my-2"></div>
 
-        <a
-          pRipple
-          class="flex items-center p-3 hover:bg-emphasis cursor-pointer"
-          routerLink="profile"
-          (click)="close()"
-        >
-          <span class="pi pi-user-edit"></span>
-          <span class="ml-3">Profile</span>
-          @if (!isAuthenticated()) {
-          <span class="ml-auto text-muted-color">
-            <i class="pi pi-lock"></i>
-          </span>
-          }
-        </a>
-
-        <!-- NAVIGATION -->
-        @for (item of items; track $index) {
-        <a
-          pRipple
-          class="flex items-center p-3 hover:bg-emphasis cursor-pointer"
-          [routerLink]="item.link"
-          (click)="close()"
-        >
-          <span [class]="item.icon"></span>
-          <span class="ml-3">{{ item.label }}</span>
-          @if (!isAuthenticatedWithProfile()) {
-          <span class="ml-auto text-muted-color">
-            <i class="pi pi-lock"></i>
-          </span>
-          }
-        </a>
-        }
-
-        <!-- ACTIONS -->
-        @if (authService.authUser()) {
-        <div class="border-t border-slate-500 my-2"></div>
-        <a
-          pRipple
-          class="flex items-center text-red-400 p-3 cursor-pointer"
-          (click)="signOut()"
-          (click)="close()"
-        >
-          <span class="pi pi-sign-out"></span>
-          <span class="ml-3">Sign Out</span>
-        </a>
-        }@else {
-        <div class="border-t border-slate-500 my-2"></div>
-        <a
-          pRipple
-          routerLink="login"
-          class="flex items-center text-green-400 p-3 cursor-pointer"
-          (click)="close()"
-        >
-          <span class="pi pi-sign-in"></span>
-          <span class="ml-2">Sign In</span>
-        </a>
-        }
-      </div>
-    </p-popover>
-
-    <p-button [outlined]="true" severity="contrast" icon="pi pi-bars" (onClick)="toggleMenu()" />
-    <!-- <p-button (onClick)="toggle($event)" [outlined]="true" severity="contrast" icon="pi pi-bars" /> -->
+    <p-button
+      [outlined]="true"
+      severity="contrast"
+      [icon]="menuOpen ? 'pi pi-times' : 'pi pi-bars'"
+      (onClick)="toggleMenu()"
+    />
   </div>
 </div>
 
@@ -163,7 +93,29 @@
     </nav>
 
     <div class="flex justify-end border-t border-indigo-600 p-4 w-[90%]">
-      <span class="text-red-400 hover:text-red-500 cursor-pointer">SIGN OUT</span>
+      @if (authService.authUser()) {
+
+      <a
+        pRipple
+        class="flex items-center font-semibold text-red-400 cursor-pointer hover:text-red-500"
+        (click)="signOut()"
+        (click)="closeMenu()"
+      >
+        <span class="pi pi-sign-out font-semibold!"></span>
+        <span class="ml-3">SIGN OUT</span>
+      </a>
+      }@else {
+
+      <a
+        pRipple
+        routerLink="login"
+        class="flex items-center font-semibold text-green-400 cursor-pointer hover:text-green-500"
+        (click)="closeMenu()"
+      >
+        <span class="pi pi-sign-in font-semibold!"></span>
+        <span class="ml-2">SIGN IN</span>
+      </a>
+      }
     </div>
   </div>
 </div>
