@@ -16,16 +16,18 @@ import { AuthService } from '../../../services/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { Logo } from '../../../components/logo/logo';
 import { gsap } from 'gsap';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, CommonModule, StyleClassModule, ButtonModule, Logo],
+  imports: [RouterModule, CommonModule, StyleClassModule, ButtonModule, Logo, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header implements AfterViewInit {
   public authService = inject(AuthService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   public isAuthenticated = computed<boolean>(() => !!this.authService.authUser());
   public isAuthenticatedWithProfile = computed<boolean>(
@@ -62,6 +64,13 @@ export class Header implements AfterViewInit {
         window.localStorage.setItem('theme', 'app-dark');
       }
     }
+
+    this.translate.addLangs(['en', 'lv']);
+    this.translate.setFallbackLang('en');
+
+    // Optionally auto-detect browser language
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/en|lv/) ? browserLang : 'en');
   }
 
   public ngAfterViewInit() {
@@ -109,6 +118,10 @@ export class Header implements AfterViewInit {
         },
         '<'
       );
+  }
+
+  public switchLanguage(lang: string) {
+    this.translate.use(lang);
   }
 
   public setPreviewForCurrentRoute() {

@@ -18,7 +18,9 @@ import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './app.routes';
-
+import { provideHttpClient } from '@angular/common/http';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { WINDOW, windowProvider } from './providers/window';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from './services/auth.service';
@@ -86,6 +88,15 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
+    provideHttpClient(),
+    provideTranslateService({
+      lang: 'en',
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json',
+      }),
+    }),
     provideRouter(
       routes,
       withViewTransitions(),

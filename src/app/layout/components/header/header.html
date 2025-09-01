@@ -56,7 +56,7 @@
         class="hover:text-indigo-400"
         (click)="closeMenu()"
         (mouseenter)="showPreview('assets/logo/mindmap.svg')"
-        >Home</a
+        >{{ 'HOME' | translate }}</a
       >
       <a
         routerLink="profile"
@@ -64,7 +64,7 @@
         class="hover:text-indigo-400"
         (click)="closeMenu()"
         (mouseenter)="showPreview('assets/logo/account.svg')"
-        >Profile</a
+        >{{ 'PROFILE' | translate }}</a
       >
       <a
         routerLink="test-list"
@@ -72,7 +72,7 @@
         class="hover:text-indigo-400"
         (click)="closeMenu()"
         (mouseenter)="showPreview('assets/logo/online.svg')"
-        >Tests</a
+        >{{ 'TESTS' | translate }}</a
       >
       <a
         routerLink="results"
@@ -80,7 +80,7 @@
         class="hover:text-indigo-400"
         (click)="closeMenu()"
         (mouseenter)="showPreview('assets/logo/analysis.svg')"
-        >Results</a
+        >{{ 'RESULTS' | translate }}</a
       >
       <a
         routerLink="statistics/iq"
@@ -88,15 +88,22 @@
         class="hover:text-indigo-400"
         (click)="closeMenu()"
         (mouseenter)="showPreview('assets/logo/statistics.svg')"
-        >Statistics</a
+        >{{ 'STATISTICS' | translate }}</a
       >
     </nav>
 
     <div #authNav class="w-[90%]">
       <div class="border-b border-indigo-600 py-2">
-        <span class="font-black tracking-wider">EN</span>
+        <span class="font-black tracking-wider cursor-pointer" (click)="switchLanguage('en')">
+          EN
+        </span>
         <span class="mx-1">/</span>
-        <span class="font-bold tracking-wider text-gray-400">LV</span>
+        <span
+          class="font-bold tracking-wider text-gray-400 cursor-pointer"
+          (click)="switchLanguage('lv')"
+        >
+          LV
+        </span>
       </div>
 
       <div class="flex justify-end py-4">
