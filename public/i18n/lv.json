@@ -3,5 +3,14 @@
   "PROFILE": "Profils",
   "TESTS": "Testi",
   "RESULTS": "Rezultāti",
-  "STATISTICS": "Statistika"
+  "STATISTICS": "Statistika",
+  "SIGN_OUT": "Iziet",
+  "SIGN_IN": "Ienākt",
+
+  "HERO": {
+    "TITLE": "Testi, Uzdevumi...",
+    "SUBTITLE": "Veic IQ testus, personības testus un citus testus, lai pārbaudītu sevi un labi pavadītu laiku!",
+    "PARAGRAPH": "Vai kādreiz esi domājis, cik ass ir tavs prāts, vai ko par tevi stāsta tava personība? Izpildi mūsu testus un atklāj interesantus faktus par sevi, vienlaikus labi pavadot laiku.",
+    "CTA": "Pievienojies jautrībai"
+  }
 }

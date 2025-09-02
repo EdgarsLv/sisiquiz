@@ -3,5 +3,14 @@
   "PROFILE": "Profile",
   "TESTS": "Tests",
   "RESULTS": "Results",
-  "STATISTICS": "Statistics"
+  "STATISTICS": "Statistics",
+  "SIGN_OUT": "Sign out",
+  "SIGN_IN": "Sign in",
+
+  "HERO": {
+    "TITLE": "Tests, Quizzes...",
+    "SUBTITLE": "Take IQ tests, personality quizzes, and more to test yourself and have fun!",
+    "PARAGRAPH": "Ever wondered how sharp your mind is, or what your personality says about you? Explore our quizzes and uncover insights while having a great time.",
+    "CTA": "Join The Fun"
+  }
 }

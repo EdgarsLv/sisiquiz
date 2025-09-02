@@ -45,6 +45,7 @@ export class Header implements AfterViewInit {
   private menuTl!: gsap.core.Timeline;
   public menuOpen = false;
   public currentPreview = signal<string | null>(null);
+  public activeLang = signal<'en' | 'lv'>('en');
 
   private routePreviews: Record<string, string> = {
     '/': 'assets/logo/mindmap.svg',
@@ -120,7 +121,8 @@ export class Header implements AfterViewInit {
       );
   }
 
-  public switchLanguage(lang: string) {
+  public switchLanguage(lang: 'en' | 'lv') {
+    this.activeLang.set(lang);
     this.translate.use(lang);
   }
 

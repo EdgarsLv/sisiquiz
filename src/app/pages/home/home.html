@@ -1,22 +1,21 @@
 <div class="section">
   <div class="fancy md:w-2/3 z-10">
-    <h1 class="variable-title">Tests, Quizzes...</h1>
+    <h1 class="variable-title">{{ 'HERO.TITLE' | translate }}</h1>
     <h2 class="variable-subtitle text-muted-color-emphasis! my-0!">
-      Take IQ tests, personality quizzes, and more to test yourself and have fun!
+      {{ 'HERO.SUBTITLE' | translate }}
     </h2>
   </div>
 
   <div class="fancy md:w-2/5 z-10">
     <p class="text-muted-color!">
-      Ever wondered how sharp your mind is, or what your personality says about you? Explore our
-      quizzes and uncover insights while having a great time.
+      {{ 'HERO.PARAGRAPH' | translate }}
     </p>
   </div>
 
   <div class="fancy relative mb-8 mt-12 w-max z-10">
     <p-button
       icon="pi pi-sparkles"
-      label="Join The Fun"
+      [label]="'HERO.CTA' | translate"
       size="large"
       severity="warn"
       (onClick)="startTest()"
