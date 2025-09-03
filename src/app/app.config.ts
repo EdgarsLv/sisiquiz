@@ -1,6 +1,8 @@
 import {
   ApplicationConfig,
   inject,
+  PLATFORM_ID,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideEnvironmentInitializer,
   provideZonelessChangeDetection,
@@ -19,10 +21,10 @@ import Aura from '@primeuix/themes/aura';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { WINDOW, windowProvider } from './providers/window';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AuthService } from './services/auth.service';
 
 const MyPreset = definePreset(Aura, {
@@ -84,19 +86,45 @@ export function provideAuthInitializer() {
   });
 }
 
+export function translatorInitializer(translate: TranslateService, platformId: any): () => void {
+  return () => {
+    const defaultLang = 'lv';
+    if (!isPlatformBrowser(platformId)) {
+      const browserLang = translate.getBrowserLang();
+      const usedLanguage = browserLang?.match(/en|lv/) ? browserLang : defaultLang;
+
+      translate.use(usedLanguage);
+    } else {
+      const storedLang = localStorage.getItem('sisi-locale');
+
+      translate.setFallbackLang(defaultLang);
+      if (storedLang) {
+        translate.use(storedLang);
+      } else {
+        const browserLang = translate.getBrowserLang();
+        const usedLanguage = browserLang?.match(/en|lv/) ? browserLang : defaultLang;
+
+        translate.use(usedLanguage);
+        localStorage.setItem('sisi-locale', usedLanguage);
+      }
+    }
+  };
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideHttpClient(),
     provideTranslateService({
-      lang: 'en',
-      fallbackLang: 'en',
+      // lang: 'lv',
+      // fallbackLang: 'lv',
       loader: provideTranslateHttpLoader({
         prefix: '/i18n/',
         suffix: '.json',
       }),
     }),
+
     provideRouter(
       routes,
       withViewTransitions(),
@@ -120,6 +148,10 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideClientHydration(withEventReplay()),
+    provideAppInitializer(() => {
+      const initializerFn = translatorInitializer(inject(TranslateService), inject(PLATFORM_ID));
+      return initializerFn();
+    }),
     {
       provide: WINDOW,
       useFactory: (document: Document) => windowProvider(document),

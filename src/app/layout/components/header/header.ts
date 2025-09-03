@@ -45,7 +45,7 @@ export class Header implements AfterViewInit {
   private menuTl!: gsap.core.Timeline;
   public menuOpen = false;
   public currentPreview = signal<string | null>(null);
-  public activeLang = signal<'en' | 'lv'>('en');
+  public activeLang = signal<'en' | 'lv'>('lv');
 
   private routePreviews: Record<string, string> = {
     '/': 'assets/logo/mindmap.svg',
@@ -59,6 +59,15 @@ export class Header implements AfterViewInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
     if (this.isBrowser) {
+      const browserLang = this.translate.getBrowserLang();
+      const usedLanguage = browserLang?.match(/en|lv/) ? browserLang : 'lv';
+      const locale = localStorage.getItem('sisi-locale');
+      if (locale) {
+        this.activeLang.set(locale as 'en' | 'lv');
+      } else {
+        this.activeLang.set(usedLanguage as 'en' | 'lv');
+      }
+
       this.isDark = window.localStorage.getItem('theme') === 'app-dark';
       if (this.isDark) {
         document.documentElement.classList.add('app-dark');
@@ -66,12 +75,12 @@ export class Header implements AfterViewInit {
       }
     }
 
-    this.translate.addLangs(['en', 'lv']);
-    this.translate.setFallbackLang('en');
+    // this.translate.addLangs(['en', 'lv']);
+    // this.translate.setFallbackLang('lv');
 
     // Optionally auto-detect browser language
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/en|lv/) ? browserLang : 'en');
+    // const browserLang = this.translate.getBrowserLang();
+    // this.translate.use(browserLang?.match(/en|lv/) ? browserLang : 'lv');
   }
 
   public ngAfterViewInit() {
@@ -124,6 +133,7 @@ export class Header implements AfterViewInit {
   public switchLanguage(lang: 'en' | 'lv') {
     this.activeLang.set(lang);
     this.translate.use(lang);
+    localStorage.setItem('sisi-locale', lang);
   }
 
   public setPreviewForCurrentRoute() {
