@@ -12,5 +12,32 @@
     "SUBTITLE": "Veic IQ testus, personības testus un citus testus, lai pārbaudītu sevi un labi pavadītu laiku!",
     "PARAGRAPH": "Vai kādreiz esi domājis, cik ass ir tavs prāts, vai ko par tevi stāsta tava personība? Izpildi mūsu testus un atklāj interesantus faktus par sevi, vienlaikus labi pavadot laiku.",
     "CTA": "Pievienojies jautrībai"
+  },
+
+  "TEST_LIST": {
+    "BOX_ONE_TITLE": "Jautri un aizraujoši",
+    "BOX_ONE_TEXT": "Atklāj dažādus uzdevumus, kas izaicinās, izklaidēs un iedvesmos.",
+
+    "BOX_TWO_TITLE": "Salīdzini un pilnveidojies",
+    "BOX_TWO_TEXT": "Dalies ar rezultātiem, izaicini draugus un seko savam progresam.",
+
+    "BOX_THREE_TITLE": "Personalizēti rezultāti",
+    "BOX_THREE_TEXT": "Uzzini interesantus faktus un atziņas par savu personību un prasmēm.",
+
+    "CHOOSE_TEST": "Izvēlies Testu",
+    "IQ_TEST_TITLE": "IQ Tests",
+    "IQ_TEST_TEXT": "Izaicini savu prātu ar āķīgiem loģikas un shēmu uzdevumiem.",
+
+    "LOVE_TEST_TITLE": "Mīlestības Valodas Tests",
+    "LOVE_TEST_TEXT": "Noskaidro, kā tu mīli un kā vēlies, lai tevi mīlētu.",
+
+    "SOCIOTYPE_TEST_TITLE": "Sociotipa Tests",
+    "SOCIOTYPE_TEST_TEXT": "Atklāj savu personības tipu un saziņas stilu.",
+
+    "COMING_SOON_TITLE": "Drīzumā",
+    "COMING_SOON_TEXT": "Jauni testi jau drīzumā — seko līdzi!",
+
+    "START_NOW": "Sāc tagad",
+    "TAKE_AGAIN": "Pildīt vēlreiz pēc - "
   }
 }

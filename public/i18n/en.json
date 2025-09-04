@@ -17,9 +17,27 @@
   "TEST_LIST": {
     "BOX_ONE_TITLE": "Fun & Edngaging",
     "BOX_ONE_TEXT": "Explore a variety of quizzes designed to challenge, entertain, and inspire.",
+
     "BOX_TWO_TITLE": "Compare & Improve",
     "BOX_TWO_TEXT": "Share your results, challenge friends, and watch your progress over time.",
+
     "BOX_THREE_TITLE": "Personalized Results",
-    "BOX_THREE_TEXT": "Discover fun facts and insights about your personality and skills."
+    "BOX_THREE_TEXT": "Discover fun facts and insights about your personality and skills.",
+
+    "CHOOSE_TEST": "Choose Test",
+    "IQ_TEST_TITLE": "IQ Test",
+    "IQ_TEST_TEXT": "Challenge your brain with tricky logic and pattern puzzles.",
+
+    "LOVE_TEST_TITLE": "Love Language Test",
+    "LOVE_TEST_TEXT": "Find out how you love and want to be loved.",
+
+    "SOCIOTYPE_TEST_TITLE": "Sociotype Test",
+    "SOCIOTYPE_TEST_TEXT": "Discover your personality blueprint and connection style.",
+
+    "COMING_SOON_TITLE": "Coming Soon",
+    "COMING_SOON_TEXT": "New tests are on the way—stay tuned!",
+
+    "START_NOW": "Start now",
+    "TAKE_AGAIN": "Take again in - "
   }
 }

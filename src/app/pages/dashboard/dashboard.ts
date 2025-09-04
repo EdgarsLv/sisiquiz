@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { interval, Subject, takeUntil } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 type AvailableTests = {
   icon: string;
@@ -14,33 +15,33 @@ type AvailableTests = {
 const tests: AvailableTests[] = [
   {
     icon: 'assets/logo/logic.svg',
-    name: 'IQ Test',
-    description: 'Challenge your brain with tricky logic and pattern puzzles.',
+    name: 'TEST_LIST.IQ_TEST_TITLE',
+    description: 'TEST_LIST.IQ_TEST_TEXT',
     link: 'iq-test',
   },
   {
     icon: 'assets/logo/lovelanguage.svg',
-    name: 'Love Language Test',
-    description: 'Find out how you love and want to be loved.',
+    name: 'TEST_LIST.LOVE_TEST_TITLE',
+    description: 'TEST_LIST.LOVE_TEST_TEXT',
     link: 'love-test',
   },
   {
     icon: 'assets/logo/personality.svg',
-    name: 'Sociotype Test',
-    description: 'Discover your personality blueprint and connection style.',
+    name: 'TEST_LIST.SOCIOTYPE_TEST_TITLE',
+    description: 'TEST_LIST.SOCIOTYPE_TEST_TEXT',
     link: 'sociotype-test',
   },
   {
     icon: 'assets/logo/process.svg',
-    name: 'Coming Soon',
-    description: 'New tests are on the way—stay tuned!',
+    name: 'TEST_LIST.COMING_SOON_TITLE',
+    description: 'TEST_LIST.COMING_SOON_TEXT',
     link: 'coming-soon',
   },
 ];
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ButtonModule],
+  imports: [ButtonModule, TranslatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
