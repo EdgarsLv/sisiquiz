@@ -19,7 +19,6 @@ const provider = new GoogleAuthProvider();
 export type UserProfile = {
   age: number;
   gender: 'male' | 'female';
-  testTakenAt?: string;
 };
 
 @Injectable({
@@ -49,7 +48,6 @@ export class AuthService {
             this.profile.set({
               age: profile.age,
               gender: profile.gender,
-              testTakenAt: profile?.testTakenAt,
             });
           } else {
             this.profile.set(null);

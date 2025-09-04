@@ -117,8 +117,6 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideHttpClient(),
     provideTranslateService({
-      // lang: 'lv',
-      // fallbackLang: 'lv',
       loader: provideTranslateHttpLoader({
         prefix: '/i18n/',
         suffix: '.json',

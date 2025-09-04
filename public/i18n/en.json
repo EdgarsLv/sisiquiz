@@ -12,5 +12,14 @@
     "SUBTITLE": "Take IQ tests, personality quizzes, and more to test yourself and have fun!",
     "PARAGRAPH": "Ever wondered how sharp your mind is, or what your personality says about you? Explore our quizzes and uncover insights while having a great time.",
     "CTA": "Join The Fun"
+  },
+
+  "TEST_LIST": {
+    "BOX_ONE_TITLE": "Fun & Edngaging",
+    "BOX_ONE_TEXT": "Explore a variety of quizzes designed to challenge, entertain, and inspire.",
+    "BOX_TWO_TITLE": "Compare & Improve",
+    "BOX_TWO_TEXT": "Share your results, challenge friends, and watch your progress over time.",
+    "BOX_THREE_TITLE": "Personalized Results",
+    "BOX_THREE_TEXT": "Discover fun facts and insights about your personality and skills."
   }
 }

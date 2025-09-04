@@ -89,7 +89,7 @@ export class IqTest implements OnInit {
 
       const batch = writeBatch(db);
       batch.set(resultRef, result);
-      batch.update(userRef, { testTakenAt: result.date });
+      batch.update(userRef, {});
 
       await this.firebaseService.commitBatch(batch);
 

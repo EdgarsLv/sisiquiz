@@ -61,7 +61,6 @@ export class Profile {
       const userId = this.authService.authUser()!.uid;
       const age = this.profileForm.controls['age'].value;
       const sex = this.profileForm.controls['gender'].value;
-      const testTakenAt = this.authService.profile()?.testTakenAt;
 
       const userRef = doc(db, 'users', userId);
       await this.firebaseService.update(userRef, {
@@ -71,7 +70,7 @@ export class Profile {
 
       this.profileForm.reset();
       this.formSubmitted = false;
-      this.authService.profile.set({ age, gender: sex, testTakenAt });
+      this.authService.profile.set({ age, gender: sex });
       this.router.navigate(['test-list']);
     }
   }

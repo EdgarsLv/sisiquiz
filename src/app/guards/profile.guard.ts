@@ -14,7 +14,7 @@ export const profileGuard: CanActivateFn = () => {
     map(() => {
       const profile = authService.profile();
 
-      if (profile) return true;
+      if (profile?.age !== undefined || profile?.gender !== undefined) return true;
       return router.createUrlTree(['profile']);
     })
   );

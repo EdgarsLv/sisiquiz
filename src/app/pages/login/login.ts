@@ -18,7 +18,11 @@ export class Login {
 
   public async loginWithGoogle(): Promise<void> {
     try {
-      await this.authService.googleSignIn().then(() => this.router.navigate(['/profile']));
+      await this.authService.googleSignIn();
+
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 1000);
     } catch (err) {
       console.error('Login error:', err);
     }
