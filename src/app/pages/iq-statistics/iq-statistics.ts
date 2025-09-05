@@ -1,4 +1,5 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, input, signal, inject, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -15,12 +16,11 @@ type TStatistics = {
   templateUrl: './iq-statistics.html',
   styleUrl: './iq-statistics.scss',
 })
-export class IqStatistics {
+export class IqStatistics implements OnInit {
   public data = input<TStatistics[]>([]);
+  private translate = inject(TranslateService);
 
-  public scatterData = computed<ChartConfiguration<'scatter'>['data']>(() =>
-    this.mapStatisticsToDatasets(this.data())
-  );
+  public scatterData = signal<ChartConfiguration<'scatter'>['data']>({} as any);
 
   // scatter
   public scatterChartOptions: ChartConfiguration['options'] = {
@@ -31,20 +31,21 @@ export class IqStatistics {
       tooltip: {
         callbacks: {
           //@ts-ignore
-          label: (ctx) => `Age: ${ctx.raw.y}, Score: ${ctx.raw.x}`,
+          label: (ctx: any) =>
+            `${this.translate.instant('PROFILE_PAGE.AGE')}: ${ctx.raw.y}, IQ: ${ctx.raw.x}`,
         },
       },
     },
 
     scales: {
       x: {
-        title: { display: true, text: 'IQ Score' },
+        title: { display: true, text: 'IQ' },
         suggestedMin: 60,
         suggestedMax: 140,
         min: 60,
       },
       y: {
-        title: { display: true, text: 'Age' },
+        title: { display: true, text: this.translate.instant('PROFILE_PAGE.AGE') },
         suggestedMin: 10,
         suggestedMax: 100,
         min: 10,
@@ -52,25 +53,35 @@ export class IqStatistics {
     },
   };
 
-  private mapStatisticsToDatasets(stats: TStatistics[]) {
-    const malePoints = stats
+  constructor() {
+    this.translate.onLangChange.subscribe(() => {
+      this.scatterData.set(this.mapStatisticsToDatasets());
+    });
+  }
+
+  public ngOnInit(): void {
+    this.scatterData.set(this.mapStatisticsToDatasets());
+  }
+
+  private mapStatisticsToDatasets() {
+    const malePoints = this.data()
       .filter((d) => d.gender === 'male')
       .map((d) => ({ x: d.score, y: d.age }));
 
-    const femalePoints = stats
+    const femalePoints = this.data()
       .filter((d) => d.gender === 'female')
       .map((d) => ({ x: d.score, y: d.age }));
 
     return {
       datasets: [
         {
-          label: 'Male',
+          label: this.translate.instant('PROFILE_PAGE.MALE'),
           data: malePoints,
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
           pointRadius: 5,
         },
         {
-          label: 'Female',
+          label: this.translate.instant('PROFILE_PAGE.FEMALE'),
           data: femalePoints,
           backgroundColor: 'rgba(255, 99, 132, 0.6)',
           pointRadius: 5,

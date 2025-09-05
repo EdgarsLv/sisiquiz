@@ -1,5 +1,5 @@
 <div class="section">
-  <p-tabs value="/iq-statistics" [scrollable]="true">
+  <p-tabs [value]="activeTab()" [scrollable]="true">
     <p-tablist>
       @for(tab of tabs; track tab.route){
       <p-tab
@@ -8,7 +8,7 @@
         class="flex items-center !gap-2 text-inherit"
       >
         <i [class]="tab.icon"></i>
-        <span>{{ tab.label }}</span>
+        <span>{{ tab.label | translate }}</span>
       </p-tab>
       }
     </p-tablist>

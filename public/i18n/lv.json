@@ -69,7 +69,7 @@
     "ESTP_NAME": "Žukovs",
     "ESFP_NAME": "Napoleons",
     "ENFP_NAME": "Hakslijs",
-    "ENTP_NAME": "Dons Kihots",
+    "ENTP_NAME": "Donkihots",
     "ESTJ_NAME": "Štirlics",
     "ESFJ_NAME": "Hugo",
     "ENFJ_NAME": "Hamlets",
@@ -114,5 +114,11 @@
 
     "AGE_ERROR": "Vecumam jābūt no 18 līdz 99",
     "GENDER_ERROR": "Norādiet dzimumu."
+  },
+
+  "STATISTICS_PAGE": {
+    "SCORES": "IQ Rezultāti",
+    "SOCIOTYPES": "Sociotipi",
+    "LOVE_LANGUAGES": "Mīlestības valodas"
   }
 }

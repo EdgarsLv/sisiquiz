@@ -114,5 +114,11 @@
 
     "AGE_ERROR": "Age must be between 18 to 99",
     "GENDER_ERROR": "Gender must be selected."
+  },
+
+  "STATISTICS_PAGE": {
+    "SCORES": "IQ Scores",
+    "SOCIOTYPES": "Sociotypes",
+    "LOVE_LANGUAGES": "Love Languages"
   }
 }

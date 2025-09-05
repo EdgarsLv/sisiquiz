@@ -1,4 +1,5 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit, signal } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -25,43 +26,24 @@ export type SociotypeStatisticResults = {
   gender: 'male' | 'female';
 };
 
-export const typeMap: Record<SocionicType, string> = {
-  ISTJ: 'Inspector',
-  ISFJ: 'Protector',
-  INFJ: 'Advocate',
-  INTJ: 'Mastermind',
-  ISTP: 'Crafter',
-  ISFP: 'Artist',
-  INFP: 'Mediator',
-  INTP: 'Thinker',
-  ESTP: 'Dynamo',
-  ESFP: 'Performer',
-  ENFP: 'Campaigner',
-  ENTP: 'Visionary',
-  ESTJ: 'Supervisor',
-  ESFJ: 'Provider',
-  ENFJ: 'Teacher',
-  ENTJ: 'Commander',
-};
-
-export const socionicsNameMap: Record<SocionicType, string> = {
-  ISTJ: 'Maxim Gorky',
-  ISFJ: 'Dumas',
-  INFJ: 'Dostoevsky',
-  INTJ: 'Balzac',
-  ISTP: 'Gabin',
-  ISFP: 'Dreiser',
-  INFP: 'Yesenin',
-  INTP: 'Robespierre',
-  ESTP: 'Zhukov',
-  ESFP: 'Napoleon',
-  ENFP: 'Huxley',
-  ENTP: 'Don Quixote',
-  ESTJ: 'Stierlitz',
-  ESFJ: 'Hugo',
-  ENFJ: 'Hamlet',
-  ENTJ: 'Jack London',
-};
+// export const typeMap: Record<SocionicType, string> = {
+//   ISTJ: 'Inspector',
+//   ISFJ: 'Protector',
+//   INFJ: 'Advocate',
+//   INTJ: 'Mastermind',
+//   ISTP: 'Crafter',
+//   ISFP: 'Artist',
+//   INFP: 'Mediator',
+//   INTP: 'Thinker',
+//   ESTP: 'Dynamo',
+//   ESFP: 'Performer',
+//   ENFP: 'Campaigner',
+//   ENTP: 'Visionary',
+//   ESTJ: 'Supervisor',
+//   ESFJ: 'Provider',
+//   ENFJ: 'Teacher',
+//   ENTJ: 'Commander',
+// };
 
 @Component({
   selector: 'app-sociotype-statistics',
@@ -69,21 +51,21 @@ export const socionicsNameMap: Record<SocionicType, string> = {
   templateUrl: './sociotype-statistics.html',
   styleUrl: './sociotype-statistics.scss',
 })
-export class SociotypeStatistics {
+export class SociotypeStatistics implements OnInit {
   public data = input<SociotypeStatisticResults[]>([]);
 
-  public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
-    this.mapLoveStatisticsBarData()
-  );
+  private sociotypeNameMap: Record<SocionicType, string> = {} as any;
 
-  public socionicsList = Object.keys(typeMap).map((key) => {
-    const socionicType = key as SocionicType;
-    return {
-      type: socionicType, // e.g. "ESFJ"
-      title: typeMap[socionicType], // e.g. "Provider"
-      socionicsName: socionicsNameMap[socionicType], // e.g. "Hugo"
-    };
-  });
+  public barData = signal<ChartConfiguration<'bar'>['data']>({} as any);
+
+  // public socionicsList = Object.keys(typeMap).map((key) => {
+  //   const socionicType = key as SocionicType;
+  //   return {
+  //     type: socionicType,
+  //     title: typeMap[socionicType],
+  //     socionicsName: socionicsNameMap[socionicType],
+  //   };
+  // });
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -120,6 +102,40 @@ export class SociotypeStatistics {
     },
   };
 
+  constructor(private translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.loadTranslations();
+
+      this.barData.set(this.mapLoveStatisticsBarData());
+    });
+    this.loadTranslations();
+  }
+
+  public ngOnInit(): void {
+    this.barData.set(this.mapLoveStatisticsBarData());
+  }
+
+  private loadTranslations() {
+    this.sociotypeNameMap = {
+      ISTJ: this.translate.instant('RESULTS_PAGE.ISTJ_NAME'),
+      ISFJ: this.translate.instant('RESULTS_PAGE.ISFJ_NAME'),
+      INFJ: this.translate.instant('RESULTS_PAGE.INFJ_NAME'),
+      INTJ: this.translate.instant('RESULTS_PAGE.INTJ_NAME'),
+      ISTP: this.translate.instant('RESULTS_PAGE.ISTP_NAME'),
+      ISFP: this.translate.instant('RESULTS_PAGE.ISFP_NAME'),
+      INFP: this.translate.instant('RESULTS_PAGE.INFP_NAME'),
+      INTP: this.translate.instant('RESULTS_PAGE.INTP_NAME'),
+      ESTP: this.translate.instant('RESULTS_PAGE.ESTP_NAME'),
+      ESFP: this.translate.instant('RESULTS_PAGE.ESFP_NAME'),
+      ENFP: this.translate.instant('RESULTS_PAGE.ENFP_NAME'),
+      ENTP: this.translate.instant('RESULTS_PAGE.ENTP_NAME'),
+      ESTJ: this.translate.instant('RESULTS_PAGE.ESTJ_NAME'),
+      ESFJ: this.translate.instant('RESULTS_PAGE.ESFJ_NAME'),
+      ENFJ: this.translate.instant('RESULTS_PAGE.ENFJ_NAME'),
+      ENTJ: this.translate.instant('RESULTS_PAGE.ENTJ_NAME'),
+    };
+  }
+
   private mapLoveStatisticsBarData(): ChartConfiguration<'bar'>['data'] {
     const counts: Record<SocionicType, { male: number; female: number }> = {
       INFJ: { male: 0, female: 0 },
@@ -144,7 +160,7 @@ export class SociotypeStatistics {
       counts[stat.type][stat.gender] += 1;
     }
 
-    const labels = Object.keys(counts).map((l) => typeMap[l as SocionicType]);
+    const labels = Object.keys(counts).map((l) => this.sociotypeNameMap[l as SocionicType]);
     const categories = Object.keys(counts) as SocionicType[];
 
     // total counts for each gender
@@ -165,11 +181,11 @@ export class SociotypeStatistics {
       datasets: [
         {
           data: maleData, //Object.values(counts).map((c) => c.male),
-          label: 'Male',
+          label: this.translate.instant('PROFILE_PAGE.MALE'),
         },
         {
           data: femaleData, //Object.values(counts).map((c) => c.female),
-          label: 'Female',
+          label: this.translate.instant('PROFILE_PAGE.FEMALE'),
         },
       ],
     };

@@ -1,4 +1,5 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit, signal } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -8,26 +9,18 @@ export type LoveLanguageStatistics = {
   gender: 'male' | 'female';
 };
 
-const loveLanguageMap: Record<LoveLanguage, string> = {
-  words: 'Words of Affirmation',
-  acts: 'Acts of Service',
-  gifts: 'Receiving Gifts',
-  quality: 'Quality Time',
-  touch: 'Physical Touch',
-};
-
 @Component({
   selector: 'app-love-statistics',
   imports: [BaseChartDirective],
   templateUrl: './love-statistics.html',
   styleUrl: './love-statistics.scss',
 })
-export class LoveStatistics {
+export class LoveStatistics implements OnInit {
   public data = input<LoveLanguageStatistics[]>([]);
 
-  public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
-    this.mapLoveStatisticsBarData()
-  );
+  private loveLanguageMap: Record<LoveLanguage, string> = {} as any;
+
+  public barData = signal<ChartConfiguration<'bar'>['data']>({} as any);
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -63,6 +56,29 @@ export class LoveStatistics {
     },
   };
 
+  constructor(private translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.loadTranslations();
+
+      this.barData.set(this.mapLoveStatisticsBarData());
+    });
+    this.loadTranslations();
+  }
+
+  public ngOnInit(): void {
+    this.barData.set(this.mapLoveStatisticsBarData());
+  }
+
+  private loadTranslations() {
+    this.loveLanguageMap = {
+      words: this.translate.instant('RESULTS_PAGE.WORDS'),
+      acts: this.translate.instant('RESULTS_PAGE.ACTS'),
+      quality: this.translate.instant('RESULTS_PAGE.TIME'),
+      touch: this.translate.instant('RESULTS_PAGE.TOUCH'),
+      gifts: this.translate.instant('RESULTS_PAGE.GIFTS'),
+    };
+  }
+
   private mapLoveStatisticsBarData(): ChartConfiguration<'bar'>['data'] {
     const counts: Record<LoveLanguage, { male: number; female: number }> = {
       words: { male: 0, female: 0 },
@@ -78,7 +94,7 @@ export class LoveStatistics {
       }
     }
 
-    const labels = Object.keys(counts).map((l) => loveLanguageMap[l as LoveLanguage]);
+    const labels = Object.keys(counts).map((l) => this.loveLanguageMap[l as LoveLanguage]);
     const categories = Object.keys(counts) as LoveLanguage[];
 
     // total counts for each gender
@@ -99,11 +115,11 @@ export class LoveStatistics {
       datasets: [
         {
           data: maleData, //Object.values(counts).map((c) => c.male),
-          label: 'Male',
+          label: this.translate.instant('PROFILE_PAGE.MALE'),
         },
         {
           data: femaleData, //Object.values(counts).map((c) => c.female),
-          label: 'Female',
+          label: this.translate.instant('PROFILE_PAGE.FEMALE'),
         },
       ],
     };
