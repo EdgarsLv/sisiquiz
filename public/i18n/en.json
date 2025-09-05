@@ -102,5 +102,17 @@
     "BELOW_AVERAGE": "Below average",
     "LOW": "Low",
     "BELOW": "Below"
+  },
+
+  "PROFILE_PAGE": {
+    "TITLE": "Enter your profile information",
+    "SUBTITLE": "Your age and gender will only be used anonymously to generate overall user statistics shown in interactive charts.",
+    "AGE": "Age",
+    "MALE": "Male",
+    "FEMALE": "Female",
+    "SAVE": "Save",
+
+    "AGE_ERROR": "Age must be between 18 to 99",
+    "GENDER_ERROR": "Gender must be selected."
   }
 }

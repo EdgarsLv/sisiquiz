@@ -102,5 +102,17 @@
     "BELOW_AVERAGE": "Zem vidējā",
     "LOW": "Zems",
     "BELOW": "Zem"
+  },
+
+  "PROFILE_PAGE": {
+    "TITLE": "Ievadi profila informāciju",
+    "SUBTITLE": "Tavs vecums un dzimums tiks izmantoti tikai anonīmi, lai izveidotu kopējo lietotāju statistiku, kas tiks attēlota interaktīvās diagrammās.",
+    "AGE": "Vecums",
+    "MALE": "Vīrietis",
+    "FEMALE": "Sieviete",
+    "SAVE": "Saglabāt",
+
+    "AGE_ERROR": "Vecumam jābūt no 18 līdz 99",
+    "GENDER_ERROR": "Norādiet dzimumu."
   }
 }

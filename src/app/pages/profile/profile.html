@@ -5,21 +5,20 @@
         <img class="w-32" src="assets/logo/account.svg" alt="profile" />
 
         <div class="ml-4 font-semibold">
-          <h2 class="mb-0! custom-font">Enter your profile information.</h2>
+          <h2 class="mb-0! custom-font">{{ 'PROFILE_PAGE.TITLE' | translate }}</h2>
         </div>
       </div>
 
       <p class="text-muted-color font-medium">
-        Your age and gender will only be used anonymously to generate overall user statistics shown
-        in interactive charts.
+        {{ 'PROFILE_PAGE.SUBTITLE' | translate }}
       </p>
     </div>
 
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
       <div class="w-full mb-4">
-        <label for="age" class="block text-surface-900 dark:text-surface-0 font-medium mb-2"
-          >Age</label
-        >
+        <label for="age" class="block text-surface-900 dark:text-surface-0 font-medium mb-2">{{
+          'PROFILE_PAGE.AGE' | translate
+        }}</label>
         <p-inputnumber
           inputId="age"
           formControlName="age"
@@ -28,9 +27,9 @@
           [invalid]="isInvalid('age')"
         />
         @if (isInvalid('age')) {
-        <p-message severity="error" size="small" variant="simple"
-          >Age must be between 18 to 99</p-message
-        >
+        <p-message severity="error" size="small" variant="simple">{{
+          'PROFILE_PAGE.AGE_ERROR' | translate
+        }}</p-message>
         }
       </div>
 
@@ -43,7 +42,7 @@
             value="male"
             [invalid]="isInvalid('gender')"
           />
-          <label for="male"> Male </label>
+          <label for="male"> {{ 'PROFILE_PAGE.MALE' | translate }} </label>
         </div>
         <div class="flex items-center gap-2">
           <p-radiobutton
@@ -53,18 +52,23 @@
             value="female"
             [invalid]="isInvalid('gender')"
           />
-          <label for="female"> Female </label>
+          <label for="female"> {{ 'PROFILE_PAGE.FEMALE' | translate }} </label>
         </div>
       </div>
 
       @if (isInvalid('gender')) {
       <p-message severity="error" size="small" variant="simple">
-        Gender must be selected.
+        {{ 'PROFILE_PAGE.GENDER_ERROR' | translate }}
       </p-message>
       }
 
       <div class="mt-8">
-        <p-button [disabled]="isSubmiting()" type="submit" label="Save" styleClass="w-full" />
+        <p-button
+          [disabled]="isSubmiting()"
+          type="submit"
+          [label]="'PROFILE_PAGE.SAVE' | translate"
+          styleClass="w-full"
+        />
       </div>
     </form>
   </div>
