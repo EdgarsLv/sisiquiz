@@ -45,7 +45,9 @@
     "YOUR_RESULTS": "Tavi Testu rezultāti",
     "SHOW_OFF": "Parādi IQ rezultātu!",
     "PREVIEW": "Apskati un Dalies",
+
     "SOCIOTYPE": "Sociotips",
+    "TYPE_CODE": "Tipa kods",
 
     "THINKING": "Loģisks",
     "FEELING": "Ētisks",
@@ -71,6 +73,14 @@
     "ESTJ_NAME": "Štirlics",
     "ESFJ_NAME": "Hugo",
     "ENFJ_NAME": "Hamlets",
-    "ENTJ_NAME": "Džeks"
+    "ENTJ_NAME": "Džeks",
+
+    "LOVE_LANGUAGE": "Mīlestības valoda",
+
+    "ACTS": "Saimnieciski darbi",
+    "GIFTS": "Dāvanu saņemšana",
+    "TOUCH": "Fizisks pieskāriens",
+    "TIME": "Kopā pavadīts laiks",
+    "WORDS": "Apliecinājuma vārdi"
   }
 }

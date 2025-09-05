@@ -45,7 +45,9 @@
     "YOUR_RESULTS": "Your Test results",
     "SHOW_OFF": "Show off IQ result!",
     "PREVIEW": "Preview & Share",
+
     "SOCIOTYPE": "Sociotype",
+    "TYPE_CODE": "Type code",
 
     "THINKING": "Thinking",
     "FEELING": "Feeling",
@@ -71,6 +73,14 @@
     "ESTJ_NAME": "Stierlitz",
     "ESFJ_NAME": "Hugo",
     "ENFJ_NAME": "Hamlet",
-    "ENTJ_NAME": "Jack London"
+    "ENTJ_NAME": "Jack London",
+
+    "LOVE_LANGUAGE": "Love language",
+
+    "ACTS": "Acts of Service",
+    "GIFTS": "Receiving Gifts",
+    "TOUCH": "Receiving Touch",
+    "TIME": "Quality Time",
+    "WORDS": "Words of Affirmation"
   }
 }

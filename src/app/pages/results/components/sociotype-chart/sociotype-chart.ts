@@ -38,7 +38,7 @@ export const typeNameMap: Record<SocionicType, string> = {
 export class SociotypeChart implements OnInit {
   public sociotype = input.required<TSociotype>();
 
-  dichotomyMap: Record<Dichotomy, string> = {} as any;
+  private dichotomyMap: Record<Dichotomy, string> = {} as any;
 
   public socionicType = computed(() => typeMap[this.sociotype().type as SocionicType]);
   public sociotypeName = computed(() => typeNameMap[this.sociotype().type as SocionicType]);

@@ -1,33 +1,45 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit, signal } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { LoveTestResults } from '../../../love-test/love-test';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 export type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
 
-const loveLanguageMap: Record<LoveLanguage, string> = {
-  words: 'Words of Affirmation',
-  acts: 'Acts of Service',
-  gifts: 'Receiving Gifts',
-  quality: 'Quality Time',
-  touch: 'Physical Touch',
+// const loveLanguageMap: Record<LoveLanguage, string> = {
+//   words: 'Words of Affirmation',
+//   acts: 'Acts of Service',
+//   gifts: 'Receiving Gifts',
+//   quality: 'Quality Time',
+//   touch: 'Physical Touch',
+// };
+
+const loveNameMap: Record<LoveLanguage, string> = {
+  words: 'RESULTS_PAGE.WORDS',
+  acts: 'RESULTS_PAGE.ACTS',
+  gifts: 'RESULTS_PAGE.GIFTS',
+  quality: 'RESULTS_PAGE.TIME',
+  touch: 'RESULTS_PAGE.TOUCH',
 };
 
 @Component({
   selector: 'app-love-language-chart',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, TranslatePipe],
   templateUrl: './love-language-chart.html',
   styleUrl: './love-language-chart.scss',
 })
-export class LoveLanguageChart {
+export class LoveLanguageChart implements OnInit {
   public loveLanguage = input.required<LoveTestResults>();
 
+  private loveLanguageMap: Record<LoveLanguage, string> = {} as any;
+
   public topLanguage = computed(
-    () => loveLanguageMap[this.loveLanguage().topLanguages[0] as LoveLanguage]
+    () => loveNameMap[this.loveLanguage().topLanguages[0] as LoveLanguage]
   );
-  public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
-    this.mapLoveLanguageToBarData()
-  );
+  // public barData = computed<ChartConfiguration<'bar'>['data']>(() =>
+  //   this.mapLoveLanguageToBarData()
+  // );
+  public barData = signal<ChartConfiguration<'bar'>['data']>({} as any);
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -63,11 +75,34 @@ export class LoveLanguageChart {
     },
   };
 
+  constructor(private translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.loadTranslations();
+
+      this.barData.set(this.mapLoveLanguageToBarData());
+    });
+    this.loadTranslations();
+  }
+
+  public ngOnInit(): void {
+    this.barData.set(this.mapLoveLanguageToBarData());
+  }
+
+  private loadTranslations() {
+    this.loveLanguageMap = {
+      words: this.translate.instant('RESULTS_PAGE.WORDS'),
+      acts: this.translate.instant('RESULTS_PAGE.ACTS'),
+      quality: this.translate.instant('RESULTS_PAGE.TIME'),
+      touch: this.translate.instant('RESULTS_PAGE.TOUCH'),
+      gifts: this.translate.instant('RESULTS_PAGE.GIFTS'),
+    };
+  }
+
   private mapLoveLanguageToBarData(): ChartConfiguration<'bar'>['data'] {
     const language = this.loveLanguage().percentages;
     const topLanguage = this.loveLanguage().topLanguages[0];
 
-    const labels = Object.keys(language).map((key) => loveLanguageMap[key as LoveLanguage]);
+    const labels = Object.keys(language).map((key) => this.loveLanguageMap[key as LoveLanguage]);
     const data = Object.values(language);
 
     return {
