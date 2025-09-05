@@ -39,5 +39,38 @@
 
     "START_NOW": "Sāc tagad",
     "TAKE_AGAIN": "Pildīt vēlreiz pēc - "
+  },
+
+  "RESULTS_PAGE": {
+    "YOUR_RESULTS": "Tavi Testu rezultāti",
+    "SHOW_OFF": "Parādi IQ rezultātu!",
+    "PREVIEW": "Apskati un Dalies",
+    "SOCIOTYPE": "Sociotips",
+
+    "THINKING": "Loģisks",
+    "FEELING": "Ētisks",
+    "SENSING": "Sensors",
+    "JUDGING": "Racionāls",
+    "INTUITIVE": "Intuīts",
+    "PERCEIVING": "Iracionāls",
+    "EXTRAVERTED": "Ekstraverts",
+    "INTROVERTED": "Intravers",
+
+    "ISTJ_NAME": "Maksims",
+    "ISFJ_NAME": "Dimā",
+    "INFJ_NAME": "Dostojevskis",
+    "INTJ_NAME": "Balzaks",
+    "ISTP_NAME": "Gabēns",
+    "ISFP_NAME": "Draizers",
+    "INFP_NAME": "Jesēņins",
+    "INTP_NAME": "Robespjērs",
+    "ESTP_NAME": "Žukovs",
+    "ESFP_NAME": "Napoleons",
+    "ENFP_NAME": "Hakslijs",
+    "ENTP_NAME": "Dons Kihots",
+    "ESTJ_NAME": "Štirlics",
+    "ESFJ_NAME": "Hugo",
+    "ENFJ_NAME": "Hamlets",
+    "ENTJ_NAME": "Džeks"
   }
 }

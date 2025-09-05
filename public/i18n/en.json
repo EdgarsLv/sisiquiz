@@ -39,5 +39,38 @@
 
     "START_NOW": "Start now",
     "TAKE_AGAIN": "Take again in - "
+  },
+
+  "RESULTS_PAGE": {
+    "YOUR_RESULTS": "Your Test results",
+    "SHOW_OFF": "Show off IQ result!",
+    "PREVIEW": "Preview & Share",
+    "SOCIOTYPE": "Sociotype",
+
+    "THINKING": "Thinking",
+    "FEELING": "Feeling",
+    "SENSING": "Sensing",
+    "JUDGING": "Rational",
+    "INTUITIVE": "Intuitive",
+    "PERCEIVING": "Irrational",
+    "EXTRAVERTED": "Extraverted",
+    "INTROVERTED": "Introverted",
+
+    "ISTJ_NAME": "Maxim Gorky",
+    "ISFJ_NAME": "Dumas",
+    "INFJ_NAME": "Dostoevsky",
+    "INTJ_NAME": "Balzac",
+    "ISTP_NAME": "Gabin",
+    "ISFP_NAME": "Dreiser",
+    "INFP_NAME": "Yesenin",
+    "INTP_NAME": "Robespierre",
+    "ESTP_NAME": "Zhukov",
+    "ESFP_NAME": "Napoleon",
+    "ENFP_NAME": "Huxley",
+    "ENTP_NAME": "Don Quixote",
+    "ESTJ_NAME": "Stierlitz",
+    "ESFJ_NAME": "Hugo",
+    "ENFJ_NAME": "Hamlet",
+    "ENTJ_NAME": "Jack London"
   }
 }

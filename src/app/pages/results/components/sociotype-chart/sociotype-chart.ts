@@ -1,11 +1,8 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, OnInit, signal } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import {
-  socionicsNameMap,
-  SocionicType,
-  typeMap,
-} from '../../../sociotype-statistics/sociotype-statistics';
+import { SocionicType, typeMap } from '../../../sociotype-statistics/sociotype-statistics';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 type TSociotype = {
@@ -13,29 +10,41 @@ type TSociotype = {
   type: string;
 };
 
-const dichotomyMap: Record<Dichotomy, string> = {
-  E: 'Extraverted',
-  I: 'Introverted',
-  S: 'Sensing',
-  N: 'Intuitive',
-  T: 'Thinking',
-  F: 'Feeling',
-  J: 'Judging',
-  P: 'Perceiving',
+export const typeNameMap: Record<SocionicType, string> = {
+  ISTJ: 'RESULTS_PAGE.ISTJ_NAME',
+  ISFJ: 'RESULTS_PAGE.ISFJ_NAME',
+  INFJ: 'RESULTS_PAGE.INFJ_NAME',
+  INTJ: 'RESULTS_PAGE.INTJ_NAME',
+  ISTP: 'RESULTS_PAGE.ISTP_NAME',
+  ISFP: 'RESULTS_PAGE.ISFP_NAME',
+  INFP: 'RESULTS_PAGE.INFP_NAME',
+  INTP: 'RESULTS_PAGE.INTP_NAME',
+  ESTP: 'RESULTS_PAGE.ESTP_NAME',
+  ESFP: 'RESULTS_PAGE.ESFP_NAME',
+  ENFP: 'RESULTS_PAGE.ENFP_NAME',
+  ENTP: 'RESULTS_PAGE.ENTP_NAME',
+  ESTJ: 'RESULTS_PAGE.ESTJ_NAME',
+  ESFJ: 'RESULTS_PAGE.ESFJ_NAME',
+  ENFJ: 'RESULTS_PAGE.ENFJ_NAME',
+  ENTJ: 'RESULTS_PAGE.ENTJ_NAME',
 };
 
 @Component({
   selector: 'app-sociotype-chart',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, TranslatePipe],
   templateUrl: './sociotype-chart.html',
   styleUrl: './sociotype-chart.scss',
 })
-export class SociotypeChart {
+export class SociotypeChart implements OnInit {
   public sociotype = input.required<TSociotype>();
 
+  dichotomyMap: Record<Dichotomy, string> = {} as any;
+
   public socionicType = computed(() => typeMap[this.sociotype().type as SocionicType]);
-  public sociotypeCode = computed(() => socionicsNameMap[this.sociotype().type as SocionicType]);
-  public barData = computed<ChartConfiguration<'bar'>['data']>(() => this.mapSociotypeToBarData());
+  public sociotypeName = computed(() => typeNameMap[this.sociotype().type as SocionicType]);
+  // public barData = computed<ChartConfiguration<'bar'>['data']>(() => this.mapSociotypeToBarData());
+
+  public barData = signal<ChartConfiguration<'bar'>['data']>({} as any);
 
   public barOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -71,11 +80,37 @@ export class SociotypeChart {
     },
   };
 
+  constructor(private translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.loadTranslations();
+
+      this.barData.set(this.mapSociotypeToBarData());
+    });
+    this.loadTranslations();
+  }
+
+  public ngOnInit(): void {
+    this.barData.set(this.mapSociotypeToBarData());
+  }
+
+  private loadTranslations() {
+    this.dichotomyMap = {
+      E: this.translate.instant('RESULTS_PAGE.EXTRAVERTED'),
+      I: this.translate.instant('RESULTS_PAGE.INTROVERTED'),
+      S: this.translate.instant('RESULTS_PAGE.SENSING'),
+      N: this.translate.instant('RESULTS_PAGE.INTUITIVE'),
+      T: this.translate.instant('RESULTS_PAGE.THINKING'),
+      F: this.translate.instant('RESULTS_PAGE.FEELING'),
+      J: this.translate.instant('RESULTS_PAGE.JUDGING'),
+      P: this.translate.instant('RESULTS_PAGE.PERCEIVING'),
+    };
+  }
+
   private mapSociotypeToBarData(): ChartConfiguration<'bar'>['data'] {
     const sociotype = this.sociotype().percentages;
     const type = this.sociotype().type;
 
-    const labels = (Object.keys(sociotype) as Dichotomy[]).map((d) => dichotomyMap[d]);
+    const labels = (Object.keys(sociotype) as Dichotomy[]).map((d) => this.dichotomyMap[d]);
     const data = Object.values(sociotype);
 
     return {

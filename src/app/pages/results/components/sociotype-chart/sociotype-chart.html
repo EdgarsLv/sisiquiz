@@ -1,8 +1,8 @@
 <div class="fancy">
-  <h4 class="mb-0!">Sociotype - {{ socionicType() }}</h4>
-  <span class="mb-2 block text-sm text-muted-color-emphasis">{{
-    sociotype().type + ' - ' + sociotypeCode()
-  }}</span>
+  <h4 class="mb-0!">
+    {{ 'RESULTS_PAGE.SOCIOTYPE' | translate }} - {{ sociotypeName() | translate }}
+  </h4>
+  <span class="mb-2 block text-sm text-muted-color-emphasis">{{ sociotype().type }}</span>
 
   <div class="relative h-60">
     <canvas baseChart [data]="barData()" [options]="barOptions" [type]="'bar'"> </canvas>

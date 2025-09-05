@@ -1,7 +1,7 @@
 <div class="section">
   <div class="fancy flex justify-between items-center">
     <div>
-      <h4>Your Test results</h4>
+      <h4>{{ 'RESULTS_PAGE.YOUR_RESULTS' | translate }}</h4>
       <p class="text-muted-color font-semibold">{{ user()?.displayName }}</p>
     </div>
 
@@ -13,10 +13,10 @@
   @if (lastResultId()) {
   <div class="fancy flex justify-between items-center">
     <h5 class="mb-0!">
-      Show off <span class="font-black text-2xl text-indigo-500">IQ</span> result!
+      {{ 'RESULTS_PAGE.SHOW_OFF' | translate }}
     </h5>
     <p-button
-      label="Preview & Share"
+      [label]="'RESULTS_PAGE.PREVIEW' | translate"
       severity="warn"
       [raised]="true"
       (onClick)="goToShareScreen()"

@@ -11,6 +11,7 @@ import { SociotypeChart } from './components/sociotype-chart/sociotype-chart';
 import { IqScoreChart } from './components/iq-score-chart/iq-score-chart';
 import { LoveTestResults } from '../love-test/love-test';
 import { LoveLanguageChart } from './components/love-language-chart/love-language-chart';
+import { TranslatePipe } from '@ngx-translate/core';
 
 type TestStats = {
   average: number;
@@ -55,6 +56,7 @@ const defaultStats: TestStats = {
     SociotypeChart,
     IqScoreChart,
     LoveLanguageChart,
+    TranslatePipe,
   ],
   templateUrl: './results.html',
   styleUrl: './results.scss',
