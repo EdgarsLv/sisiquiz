@@ -89,9 +89,17 @@
 
     "LAST_SCORE": "Last score",
     "HIGHEST_SCORE": "Higest score",
-    "LOVWEST_SCORE": "Lowest score",
+    "LOWEST_SCORE": "Lowest score",
     "AVERAGE_SCORE": "Average score",
     "TESTS_TAKEN": "Tests taken",
-    "AVERAGE_TIME": "Average (min)"
+    "AVERAGE_TIME": "Average (min)",
+
+    "SCORE_INTERPRETATION": "Score interpretation",
+    "EXCEPTIONAL": "Exceptional",
+    "ABOVE_AVERAGE": "Above average",
+    "AVERAGE": "Average",
+    "BELOW_AVERAGE": "Below average",
+    "LOW": "Low",
+    "BELOW": "Below"
   }
 }

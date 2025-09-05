@@ -89,9 +89,17 @@
 
     "LAST_SCORE": "Pēdējais rezultāts",
     "HIGHEST_SCORE": "Labākais rezultāts",
-    "LOVWEST_SCORE": "Zemākais rezultāts",
+    "LOWEST_SCORE": "Zemākais rezultāts",
     "AVERAGE_SCORE": "Vidējais rezultāts",
     "TESTS_TAKEN": "Testi izpildīti",
-    "AVERAGE_TIME": "Vidēji (min)"
+    "AVERAGE_TIME": "Vidēji (min)",
+
+    "SCORE_INTERPRETATION": "Rezultātu interpretācija",
+    "EXCEPTIONAL": "Izcils",
+    "ABOVE_AVERAGE": "Virs vidējā",
+    "AVERAGE": "Vidējs",
+    "BELOW_AVERAGE": "Zem vidējā",
+    "LOW": "Zems",
+    "BELOW": "Zem"
   }
 }

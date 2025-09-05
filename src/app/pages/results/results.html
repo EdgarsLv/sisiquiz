@@ -40,62 +40,64 @@
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 mt-8">
     <div class="fancy mb-0!">
-      <h4>Score interpretation</h4>
+      <h4>{{ 'RESULTS_PAGE.SCORE_INTERPRETATION' | translate }}</h4>
 
       <div class="flex justify-between mb-1">
-        <span>130+ (Exceptional)</span>
+        <span>130+ ( {{ 'RESULTS_PAGE.EXCEPTIONAL' | translate }} )</span>
         <span [style.color]="'purple'">2%</span>
       </div>
       <div class="flex justify-between mb-1">
-        <span>115-129 (Above Average)</span>
+        <span>115-129 ( {{ 'RESULTS_PAGE.ABOVE_AVERAGE' | translate }} )</span>
         <span [style.color]="'blue'">16%</span>
       </div>
       <div class="flex justify-between mb-1">
-        <span>100-114 (Average)</span>
+        <span>100-114 ( {{ 'RESULTS_PAGE.AVERAGE' | translate }} )</span>
         <span [style.color]="'green'">50%</span>
       </div>
       <div class="flex justify-between mb-1">
-        <span>85-99 (Below Average)</span>
+        <span>85-99 ( {{ 'RESULTS_PAGE.BELOW_AVERAGE' | translate }} )</span>
         <span [style.color]="'orange'">16%</span>
       </div>
       <div class="flex justify-between">
-        <span>Below 85 (Low)</span>
+        <span
+          >{{ 'RESULTS_PAGE.BELOW' | translate }} 85 ( {{ 'RESULTS_PAGE.LOW' | translate }} )</span
+        >
         <span [style.color]="'red'">16%</span>
       </div>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-3">
       <app-stats-widget
-        text="Current score"
+        [text]="'RESULTS_PAGE.LAST_SCORE' | translate"
         [score]="stats().currentScore"
         icon="pi pi-lightbulb"
       />
       <app-stats-widget
-        text="Tests taken"
+        [text]="'RESULTS_PAGE.TESTS_TAKEN' | translate"
         [score]="stats().totalTests"
         twClass="text-indigo-500"
         icon="pi pi-calendar-times"
       />
       <app-stats-widget
-        text="Average (min)"
+        [text]="'RESULTS_PAGE.AVERAGE_TIME' | translate"
         [score]="stats().averageTime"
         twClass="text-purple-500"
         icon="pi pi-stopwatch"
       />
       <app-stats-widget
-        text="Highest score"
+        [text]="'RESULTS_PAGE.HIGHEST_SCORE' | translate"
         [score]="stats().highest"
         twClass="text-amber-500"
         icon="pi pi-trophy"
       />
       <app-stats-widget
-        text="Average score"
+        [text]="'RESULTS_PAGE.AVERAGE_SCORE' | translate"
         [score]="stats().average"
         twClass="text-teal-500"
         icon="pi pi-wave-pulse"
       />
       <app-stats-widget
-        text="Lowest score"
+        [text]="'RESULTS_PAGE.LOWEST_SCORE' | translate"
         [score]="stats().lowest"
         twClass="text-red-500"
         icon="pi pi-chart-line"
