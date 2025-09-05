@@ -8,8 +8,10 @@
 
     }
 
-    <h3 class="mt-10! sm:mt-0!">Score: {{ result()?.score }}</h3>
-    <h3>Time spent: {{ timeSpent() }}min</h3>
-    <h3>Completion date: {{ result()?.date | date : 'dd.MM.yyyy' }}</h3>
+    <h3 class="mt-10! sm:mt-0!">{{ 'RESULTS_PAGE.SCORE' | translate }}: {{ result()?.score }}</h3>
+    <h3>{{ 'RESULTS_PAGE.COMPLETION_TIME' | translate }}: {{ timeSpent() }}min</h3>
+    <h3>
+      {{ 'RESULTS_PAGE.COMPLETION_DATE' | translate }}: {{ result()?.date | date : 'dd.MM.yyyy' }}
+    </h3>
   </div>
 </div>

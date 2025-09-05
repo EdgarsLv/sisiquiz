@@ -74,13 +74,6 @@ export class Header implements AfterViewInit {
         window.localStorage.setItem('theme', 'app-dark');
       }
     }
-
-    // this.translate.addLangs(['en', 'lv']);
-    // this.translate.setFallbackLang('lv');
-
-    // Optionally auto-detect browser language
-    // const browserLang = this.translate.getBrowserLang();
-    // this.translate.use(browserLang?.match(/en|lv/) ? browserLang : 'lv');
   }
 
   public ngAfterViewInit() {
@@ -100,7 +93,7 @@ export class Header implements AfterViewInit {
       // Curtain reveal
       .fromTo(
         menu,
-        { scaleY: 0, transformOrigin: 'top' },
+        { scaleY: 0, transformOrigin: 'top center' },
         {
           scaleY: 1,
           duration: 0.6,

@@ -10,7 +10,7 @@
   "HERO": {
     "TITLE": "Testi, Uzdevumi...",
     "SUBTITLE": "Veic IQ testus, personības testus un citus testus, lai pārbaudītu sevi un labi pavadītu laiku!",
-    "PARAGRAPH": "Vai kādreiz esi domājis, cik ass ir tavs prāts, vai ko par tevi stāsta tava personība? Izpildi mūsu testus un atklāj interesantus faktus par sevi, vienlaikus labi pavadot laiku.",
+    "PARAGRAPH": "Vai kādreiz esi domājis, cik ass ir tavs prāts, vai ko par tevi stāsta tava personība? Izpildi mūsu testus un atklāj interesantus faktus par sevi.",
     "CTA": "Pievienojies jautrībai"
   },
 
@@ -37,7 +37,7 @@
     "COMING_SOON_TITLE": "Drīzumā",
     "COMING_SOON_TEXT": "Jauni testi jau drīzumā — seko līdzi!",
 
-    "START_NOW": "Sāc tagad",
+    "START_NOW": "Sākt testu",
     "TAKE_AGAIN": "Pildīt vēlreiz pēc - "
   },
 
@@ -86,6 +86,7 @@
     "SCORE_TIMELINE": "IQ Rezultāta laika skala",
     "SCORE": "Rezultāts",
     "COMPLETION_TIME": "Izpildes laiks",
+    "COMPLETION_DATE": "Izpildes datums",
 
     "LAST_SCORE": "Pēdējais rezultāts",
     "HIGHEST_SCORE": "Labākais rezultāts",

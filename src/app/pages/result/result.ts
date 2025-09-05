@@ -2,6 +2,7 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
 type TResult = {
@@ -12,7 +13,7 @@ type TResult = {
 
 @Component({
   selector: 'app-result',
-  imports: [CommonModule, ButtonModule],
+  imports: [CommonModule, ButtonModule, TranslatePipe],
   templateUrl: './result.html',
   styleUrl: './result.scss',
 })
