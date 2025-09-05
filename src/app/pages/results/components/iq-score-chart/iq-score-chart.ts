@@ -1,19 +1,21 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { TTestResult } from '../../results';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-iq-score-chart',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, TranslatePipe],
   templateUrl: './iq-score-chart.html',
   styleUrl: './iq-score-chart.scss',
 })
-export class IqScoreChart {
+export class IqScoreChart implements OnInit {
   public results = input.required<TTestResult[]>();
   public lastScore = input<number>();
 
-  public lineData = computed<ChartConfiguration<'line'>['data']>(() => this.mapResultsToLineData());
+  // public lineData = computed<ChartConfiguration<'line'>['data']>(() => this.mapResultsToLineData());
+  public lineData = signal<ChartConfiguration<'line'>['data']>({} as any);
 
   public lineOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
@@ -32,7 +34,7 @@ export class IqScoreChart {
         position: 'left',
         title: {
           display: true,
-          text: 'Score',
+          text: 'IQ',
         },
         suggestedMin: 60,
         suggestedMax: 150,
@@ -44,15 +46,26 @@ export class IqScoreChart {
         grid: {
           drawOnChartArea: false,
         },
-        title: {
-          display: true,
-          text: 'Time (min)',
+        ticks: {
+          callback: function (value) {
+            return value + ' min';
+          },
         },
         suggestedMin: 5,
         suggestedMax: 30,
       },
     },
   };
+
+  constructor(private translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.lineData.set(this.mapResultsToLineData());
+    });
+  }
+
+  public ngOnInit(): void {
+    this.lineData.set(this.mapResultsToLineData());
+  }
 
   private mapResultsToLineData(): ChartConfiguration<'line'>['data'] {
     const labels = this.results().map((r) => new Date(r.date).toLocaleDateString());
@@ -63,13 +76,13 @@ export class IqScoreChart {
       labels: labels,
       datasets: [
         {
-          label: 'Score',
+          label: this.translate.instant('RESULTS_PAGE.SCORE'),
           data: score,
           borderColor: 'blue',
           yAxisID: 'y',
         },
         {
-          label: 'Completion Time (min)',
+          label: this.translate.instant('RESULTS_PAGE.COMPLETION_TIME'),
           data: time,
           borderColor: 'green',
           yAxisID: 'y1',

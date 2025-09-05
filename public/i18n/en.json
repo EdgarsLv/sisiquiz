@@ -81,6 +81,17 @@
     "GIFTS": "Receiving Gifts",
     "TOUCH": "Receiving Touch",
     "TIME": "Quality Time",
-    "WORDS": "Words of Affirmation"
+    "WORDS": "Words of Affirmation",
+
+    "SCORE_TIMELINE": "IQ Score timeline",
+    "SCORE": "Score",
+    "COMPLETION_TIME": "Completion time",
+
+    "LAST_SCORE": "Last score",
+    "HIGHEST_SCORE": "Higest score",
+    "LOVWEST_SCORE": "Lowest score",
+    "AVERAGE_SCORE": "Average score",
+    "TESTS_TAKEN": "Tests taken",
+    "AVERAGE_TIME": "Average (min)"
   }
 }

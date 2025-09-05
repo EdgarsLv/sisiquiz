@@ -81,6 +81,17 @@
     "GIFTS": "Dāvanu saņemšana",
     "TOUCH": "Fizisks pieskāriens",
     "TIME": "Kopā pavadīts laiks",
-    "WORDS": "Apliecinājuma vārdi"
+    "WORDS": "Apliecinājuma vārdi",
+
+    "SCORE_TIMELINE": "IQ Rezultāta laika skala",
+    "SCORE": "Rezultāts",
+    "COMPLETION_TIME": "Izpildes laiks",
+
+    "LAST_SCORE": "Pēdējais rezultāts",
+    "HIGHEST_SCORE": "Labākais rezultāts",
+    "LOVWEST_SCORE": "Zemākais rezultāts",
+    "AVERAGE_SCORE": "Vidējais rezultāts",
+    "TESTS_TAKEN": "Testi izpildīti",
+    "AVERAGE_TIME": "Vidēji (min)"
   }
 }
