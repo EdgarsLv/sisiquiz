@@ -120,5 +120,24 @@
     "SCORES": "IQ Scores",
     "SOCIOTYPES": "Sociotypes",
     "LOVE_LANGUAGES": "Love Languages"
+  },
+
+  "LOGIN_PAGE": {
+    "TITLE": "Welcome to SisiQuiz",
+    "TEXT": "No payment required. Your test results will be available instantly after completing the tests!",
+    "GOOGLE": "Sign in with Google"
+  },
+
+  "TEST_PAGES": {
+    "PROGRESS": "Progress",
+    "QUESTION": "Question",
+    "OF": "of",
+    "OVERVIEW": "Question overview",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "SUBMIT": "Submit",
+    "CURRENT": "Current",
+    "ANSWERED": "Answered",
+    "UNANSWERED": "Unanswered"
   }
 }

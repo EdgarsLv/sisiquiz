@@ -120,5 +120,24 @@
     "SCORES": "IQ Rezultāti",
     "SOCIOTYPES": "Sociotipi",
     "LOVE_LANGUAGES": "Mīlestības valodas"
+  },
+
+  "LOGIN_PAGE": {
+    "TITLE": "Laipni lūdzam SisiQuiz",
+    "TEXT": "Nav nepieciešams maksājums. Testa rezultāti būs pieejami uzreiz pēc testu pabeigšanas!",
+    "GOOGLE": "Pieslēgties ar Google"
+  },
+
+  "TEST_PAGES": {
+    "PROGRESS": "Progress",
+    "QUESTION": "Jautājums",
+    "OF": "no",
+    "OVERVIEW": "Jautājumu pārskats",
+    "PREVIOUS": "Iepriekšējais",
+    "NEXT": "Nākamais",
+    "SUBMIT": "Iesniegt",
+    "CURRENT": "Pašreizējais",
+    "ANSWERED": "Atbildēts",
+    "UNANSWERED": "Neatbildēts"
   }
 }

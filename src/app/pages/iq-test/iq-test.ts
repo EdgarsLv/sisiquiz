@@ -10,6 +10,7 @@ import { collection, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { StorageService } from '../../services/storage.service';
 import { gsap } from 'gsap';
+import { TranslatePipe } from '@ngx-translate/core';
 
 type Questions = {
   id: number;
@@ -28,7 +29,7 @@ type TestResult = {
 
 @Component({
   selector: 'app-iq-test',
-  imports: [ButtonModule, TagModule, ProgressBarModule],
+  imports: [ButtonModule, TagModule, ProgressBarModule, TranslatePipe],
   templateUrl: './iq-test.html',
   styleUrl: './iq-test.scss',
 })

@@ -1,11 +1,13 @@
 <div class="section">
   <div class="fancy">
     <div class="flex flex-col gap-y-2 md:flex-row justify-between items-center mb-2">
-      <h4 class="mb-0!">Progress</h4>
+      <h4 class="mb-0!">{{ 'TEST_PAGES.PROGRESS' | translate }}</h4>
       <div>
         <p-tag [value]="formattedTime()" severity="success" />
         <span class="text-muted-color-emphasis ml-2">
-          Question {{ currentQuestion() + 1 }} of {{ questions().length }}
+          {{ 'TEST_PAGES.QUESTION' | translate }} {{ currentQuestion() + 1 }}
+          {{ 'TEST_PAGES.OF' | translate }}
+          {{ questions().length }}
         </span>
       </div>
     </div>
@@ -53,7 +55,7 @@
 
     <div class="flex justify-center gap-16 mt-8 md:mt-4">
       <p-button
-        label="Previous"
+        [label]="'TEST_PAGES.PREVIOUS' | translate"
         variant="outlined"
         severity="contrast"
         (onClick)="prevQuestion()"
@@ -68,7 +70,7 @@
 
       @if (currentQuestion() < questions().length - 1) {
       <p-button
-        label="Next"
+        [label]="'TEST_PAGES.NEXT' | translate"
         variant="outlined"
         severity="contrast"
         (onClick)="nextQuestion()"
@@ -76,7 +78,7 @@
       />
       }@else {
       <p-button
-        label="Submit"
+        [label]="'TEST_PAGES.SUBMIT' | translate"
         severity="warn"
         (onClick)="handleSubmit()"
         [disabled]="submitDisabled() || isLoading()"
@@ -86,7 +88,9 @@
   </div>
 
   <div class="fancy">
-    <div><h4>Question overview</h4></div>
+    <div>
+      <h4>{{ 'TEST_PAGES.OVERVIEW' | translate }}</h4>
+    </div>
 
     <div class="grid grid-cols-10 mb-4 gap-4">
       @for (item of questions(); track $index) {
@@ -109,15 +113,15 @@
     <div class="mt-5 flex gap-4 justify-center">
       <div class="flex">
         <div class="w-5 h-5 bg-purple-500 mr-3 rounded-sm"></div>
-        <span class="text-muted-color-emphasis">Current</span>
+        <span class="text-muted-color-emphasis">{{ 'TEST_PAGES.CURRENT' | translate }}</span>
       </div>
       <div class="flex">
         <div class="w-5 h-5 bg-green-500 mr-3 rounded-sm"></div>
-        <span class="text-muted-color-emphasis">Answered</span>
+        <span class="text-muted-color-emphasis">{{ 'TEST_PAGES.ANSWERED' | translate }}</span>
       </div>
       <div class="flex">
         <div class="w-5 h-5 bg-gray-300 dark:bg-gray-500 mr-3 rounded-sm"></div>
-        <span class="text-muted-color-emphasis">Unanswered</span>
+        <span class="text-muted-color-emphasis">{{ 'TEST_PAGES.UNANSWERED' | translate }}</span>
       </div>
     </div>
   </div>
