@@ -50,6 +50,11 @@ export class IqTest implements OnInit {
 
     return total > 0 ? Math.round((answered / total) * 100) : 0;
   });
+  public answeredQuestions = computed(() => {
+    const answered = Object.keys(this.answers()).length - 1;
+    return Math.min(answered, this.questions().length - 1);
+  });
+
   public timeLeft = signal<number>(1500);
   public startTime = signal<number>(Date.now());
   public formattedTime = signal<string>('25:00');
