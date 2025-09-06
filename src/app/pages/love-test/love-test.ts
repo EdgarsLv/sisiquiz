@@ -9,6 +9,7 @@ import { collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { StorageService } from '../../services/storage.service';
 import { gsap } from 'gsap';
+import { TranslatePipe } from '@ngx-translate/core';
 
 type LoveLanguage = 'words' | 'acts' | 'gifts' | 'quality' | 'touch';
 interface Question {
@@ -28,7 +29,7 @@ export type LoveTestResults = {
 
 @Component({
   selector: 'app-love-test',
-  imports: [ButtonModule, TagModule, ProgressBarModule],
+  imports: [ButtonModule, TagModule, ProgressBarModule, TranslatePipe],
   templateUrl: './love-test.html',
   styleUrl: './love-test.scss',
 })

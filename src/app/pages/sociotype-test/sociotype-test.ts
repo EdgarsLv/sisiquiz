@@ -9,6 +9,7 @@ import { db } from '../../firebase.config';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { StorageService } from '../../services/storage.service';
 import { gsap } from 'gsap';
+import { TranslatePipe } from '@ngx-translate/core';
 
 type Dichotomy = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
 
@@ -37,7 +38,7 @@ interface TestResult {
 
 @Component({
   selector: 'app-sociotype-test',
-  imports: [ButtonModule, ProgressBarModule, TagModule],
+  imports: [ButtonModule, ProgressBarModule, TagModule, TranslatePipe],
   templateUrl: './sociotype-test.html',
   styleUrl: './sociotype-test.scss',
 })
