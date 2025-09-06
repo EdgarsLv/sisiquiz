@@ -70,6 +70,7 @@ export class LoveTest {
     }));
 
     this.justSelected = true;
+    if (this.currentQuestion() === this.questions().length - 1) return;
     this.animateSelection(this.currentQuestion() + 1);
   }
 
