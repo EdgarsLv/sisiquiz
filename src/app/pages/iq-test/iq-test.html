@@ -5,7 +5,7 @@
       <div>
         <p-tag [value]="formattedTime()" severity="success" />
         <span class="text-muted-color-emphasis ml-2">
-          {{ 'TEST_PAGES.QUESTION' | translate }} {{ answeredQuestions() + 1 }}
+          {{ 'TEST_PAGES.ANSWERED' | translate }} {{ answeredQuestions() }}
           {{ 'TEST_PAGES.OF' | translate }}
           {{ questions().length }}
         </span>

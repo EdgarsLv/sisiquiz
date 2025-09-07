@@ -71,7 +71,7 @@ export class LoveTest {
   });
   public answeredQuestions = computed(() => {
     const answered = Object.keys(this.answers()).length - 1;
-    return Math.min(answered, this.questions().length - 1);
+    return Math.min(answered, this.questions().length);
   });
 
   private selectedAnswers: (LoveLanguage | null)[] = Array(testQuestions.length).fill(null);

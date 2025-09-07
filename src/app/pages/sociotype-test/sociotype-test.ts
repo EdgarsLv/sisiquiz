@@ -81,7 +81,7 @@ export class SociotypeTest {
   });
   public answeredQuestions = computed(() => {
     const answered = Object.keys(this.answers()).length - 1;
-    return Math.min(answered, this.questions().length - 1);
+    return Math.min(answered, this.questions().length);
   });
   private selectedAnswers: (Dichotomy | null)[] = Array(testQuestions.length).fill(null);
   private profile = this.authService.profile;

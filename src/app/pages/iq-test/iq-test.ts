@@ -52,7 +52,7 @@ export class IqTest implements OnInit {
   });
   public answeredQuestions = computed(() => {
     const answered = Object.keys(this.answers()).length - 1;
-    return Math.min(answered, this.questions().length - 1);
+    return Math.min(answered, this.questions().length);
   });
 
   public timeLeft = signal<number>(1500);
