@@ -28,6 +28,18 @@ export type LoveTestResults = {
   topLanguages: LoveLanguage[];
 };
 
+function shuffle<T>(array: T[]): T[] {
+  return array
+    .map((item) => ({ item, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ item }) => item);
+}
+
+const randomizedQuestions = testQuestions.map((q) => ({
+  ...q,
+  options: shuffle([...q.options]),
+}));
+
 function mapQuestionsToLanguage(questions: TestQuestion[], lang: 'en' | 'lv'): Question[] {
   return questions.map((q) => ({
     id: q.id,
@@ -54,7 +66,7 @@ export class LoveTest {
 
   public currentLanguage = signal<'en' | 'lv'>('lv');
   public questions = computed<Question[]>(() =>
-    mapQuestionsToLanguage(testQuestions, this.currentLanguage())
+    mapQuestionsToLanguage(randomizedQuestions, this.currentLanguage())
   );
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
@@ -231,15 +243,3 @@ function calculateLoveLanguageResults(answers: (LoveLanguage | null)[]): LoveTes
     topLanguages, // could be multiple if tied
   };
 }
-
-// function shuffle<T>(array: T[]): T[] {
-//   return array
-//     .map((item) => ({ item, sort: Math.random() }))
-//     .sort((a, b) => a.sort - b.sort)
-//     .map(({ item }) => item);
-// }
-
-// const randomizedQuestions = questions.map((q) => ({
-//   ...q,
-//   options: shuffle([...q.options]),
-// }));

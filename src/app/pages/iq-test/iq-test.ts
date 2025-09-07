@@ -27,9 +27,17 @@ type TestResult = {
   date: string;
 };
 
+export function shuffle<T>(array: T[]): T[] {
+  return array
+    .map((item) => ({ item, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ item }) => item);
+}
+
 @Component({
   selector: 'app-iq-test',
   imports: [ButtonModule, TagModule, ProgressBarModule, TranslatePipe],
+
   templateUrl: './iq-test.html',
   styleUrl: './iq-test.scss',
 })
@@ -39,7 +47,7 @@ export class IqTest implements OnInit {
   private router = inject(Router);
   private storageService = inject(StorageService);
 
-  public questions = signal<Questions[]>(questions);
+  public questions = signal<Questions[]>(shuffle(questions));
   public currentQuestion = signal<number>(0);
   public question = computed<Questions>(() => this.questions()[this.currentQuestion()]);
   public questionOptions = computed(() => this.question().options);

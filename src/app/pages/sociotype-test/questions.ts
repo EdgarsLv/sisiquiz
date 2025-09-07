@@ -16,17 +16,17 @@ export const testQuestions: TestQuestion[] = [
     options: [
       {
         label: {
-          en: 'Talk to many people, including strangers',
-          lv: 'Runā ar daudziem cilvēkiem, arī svešiniekiem',
-        },
-        value: 'E',
-      },
-      {
-        label: {
           en: 'Stick with close friends or leave early',
           lv: 'Paliec ar tuviem draugiem vai aizej ātri',
         },
         value: 'I',
+      },
+      {
+        label: {
+          en: 'Talk to many people, including strangers',
+          lv: 'Runā ar daudziem cilvēkiem, arī svešiniekiem',
+        },
+        value: 'E',
       },
     ],
   },
@@ -62,7 +62,7 @@ export const testQuestions: TestQuestion[] = [
       {
         label: {
           en: 'Jump in and share your thoughts quickly',
-          lv: 'Ieslēdzies un ātri dalies ar savām domām',
+          lv: 'Pieslēdzies un ātri dalies ar savām domām',
         },
         value: 'E',
       },
@@ -79,7 +79,7 @@ export const testQuestions: TestQuestion[] = [
       lv: 'Satiekot jaunus cilvēkus, tu parasti jūties...',
     },
     options: [
-      { label: { en: 'Excited and curious', lv: 'Saturs un ziņkārīgs' }, value: 'E' },
+      { label: { en: 'Excited and curious', lv: 'Satraukts un ziņkārīgs' }, value: 'E' },
       { label: { en: 'Reserved or cautious', lv: 'Atturīgs vai piesardzīgs' }, value: 'I' },
     ],
   },
@@ -218,7 +218,7 @@ export const testQuestions: TestQuestion[] = [
     id: 15,
     text: {
       en: 'Your attention tends to go to...',
-      lv: 'Tava uzmanība parasti vēršas uz...',
+      lv: 'Tava uzmanība parasti vērsta uz...',
     },
     options: [
       { label: { en: 'Details and specifics', lv: 'Detaļām un konkrētām lietām' }, value: 'S' },

@@ -64,7 +64,7 @@ export class SociotypeTest {
 
   public currentLanguage = signal<'en' | 'lv'>('lv');
   public questions = computed<Question[]>(() =>
-    mapQuestionsToLanguage(testQuestions, this.currentLanguage())
+    mapQuestionsToLanguage(shuffle(testQuestions), this.currentLanguage())
   );
   public currentQuestion = signal<number>(0);
   public question = computed<Question>(() => this.questions()[this.currentQuestion()]);
